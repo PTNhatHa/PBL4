@@ -51,7 +51,7 @@
     display: block;
     text-align: center;
     top: 15px;
-    left: 400px;
+    left: 25%;
 }
 .button-head > input {
     width: 70px;
@@ -177,7 +177,7 @@
     font-size: 16px;
     font-weight: 800;
 }
-#Button-bl-or:hover {
+.Button-bl-or:hover {
     color: var(--darkblue);
     background-color: var(--darkorange);
 }
@@ -225,7 +225,7 @@
     font-size: 16px;
     font-weight: 800;
 }
-#Button-or-bl:hover{
+.Button-or-bl:hover{
     background-color: var(--darkblue) !important;
     color: var(--darkorange) !important;
 }
