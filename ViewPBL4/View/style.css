@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+:root {
+    --darkblue: #1B335B;
+    --lightblue: #89A1C9;
+    --darkblue50: rgba(27, 51, 91, 0.5);
+    --darkorange: #F1916D;
+}
+* {
+    font-family: 'Manrope', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.nav {
+    background-image: linear-gradient(180deg, #091B39, #122A52, #2C4B7D, #3E69B1);
+    height: 80px;
+    width: 100%;
+    position: fixed;
+}
+.nav-child {
+    position: absolute;
+    width: 1200px;
+    top: 25%;
+    bottom: 25%;
+    border-radius: 90px;
+}
+.logo {
+    background-color: white;
+    width: 150px;
+    height: 40px;
+    position: absolute;
+    border-radius: 90px;
+}
+.logo-text {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--darkblue);
+    position: absolute;
+    right: 24px;
+    top: 27%;
+    align-content: center;
+}
+.logo-img {
+    width: 25px;
+    position: absolute;
+    left: 24px;
+    object-fit: contain;
+}
+.button-head {
+    position: absolute;
+    width: 50%;
+    display: block;
+    text-align: center;
+    top: 15px;
+    left: 400px;
+}
+.button-head > input {
+    width: 70px;
+    height: 50px;
+    border-radius: 90px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    background-position: center;
+}
+.button-head-right {
+    position: absolute;
+    right: 120px;
+    width: 240px;
+    display: block;
+    text-align: right;
+    top: 15px;
+}
+.button-head-right > input {
+    width: 50px;
+    height: 50px;
+    border-radius: 90px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-color: white;
+    outline: none;
+    border: none;
+    background-position: center;
+}
+.button-head-hover {
+    background-color: var(--lightblue) !important;
+}
+#Home:hover {
+    outline: var(--lightblue) !important;
+    border: 3px solid var(--lightblue) !important;
+    background-image: url(../img/Home-Hover.png) !important;
+}
+#Home:active {
+    outline: none !important;
+    border: none !important;
+    background-color: var(--lightblue) !important;
+    background-image: url(../img/Home.png) !important;
+}
+#Profile:hover {
+    outline: var(--lightblue) !important;
+    border: 3px solid var(--lightblue) !important;
+    background-image: url(../img/Profile-Hover.png) !important;
+}
+#Profile:active {
+    outline: none !important;
+    border: none !important;
+    background-color: var(--lightblue) !important;
+    background-image: url(../img/Profile.png) !important;
+}
+#Notification:hover {
+    outline: var(--lightblue) !important;
+    border: 3px solid var(--lightblue) !important;
+    background-color: var(--lightblue) !important;
+    background-image: url(../img/Notification-Hover.png) !important;
+}
+#Notification:active {
+    outline: var(--lightblue) !important;
+    border: 3px solid var(--lightblue) !important;
+    background-color: var(--lightblue) !important;
+    background-image: url(../img/Notification-Hover.png) !important;
+}
+
+/* Signin */
+.signinform {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1030px;
+    height: 513px;
+    border-radius: 90px;
+    display: inline-block;
+    /* border: 3px solid var(--lightblue); */
+    box-shadow: 4px 4px 10px grey;
+    overflow: hidden;
+}
+.signinleft {
+    position: absolute;
+    width: 412px;
+    height: 513px;
+    background-image: linear-gradient(180deg, var(--darkblue), var(--darkorange));
+    display: flex;
+    justify-content: center;
+}
+.signinright {
+    position: absolute;
+    right: 0;
+    width: 618px;
+    height: 513px;
+    display: flex;
+    justify-content: center;
+}
+.imgsign {
+    position: absolute;
+    top: 141px;
+}
+.p-16 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--darkblue);
+    position: absolute;
+    align-content: center;
+}
+.signinleft > input {
+    display: inline-block;
+    position: absolute;
+    bottom: 62px;
+    width: 96px;
+    height: 44px;
+    border-radius: 90px;
+    background-color: var(--darkblue);
+    color: var(--darkorange);
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
+}
+#Button-bl-or:hover {
+    color: var(--darkblue);
+    background-color: var(--darkorange);
+}
+.p-30 {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--darkblue);
+    position: absolute;
+    align-content: center;
+}
+.p-14-50 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--darkblue50);
+    position: absolute;
+    align-content: center;
+}
+.content {
+    position: absolute;
+    left: 134px;
+}
+.content > input {
+    /* display: inline-block; */
+    position: absolute;
+    width: 350px;
+    height: 35px;
+    border-radius: 30px;
+    color: var(--darkblue50);
+    outline: var(--darkblue50);
+    border: solid 2px var(--darkblue50);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 0px 10px;
+}
+.signinright > input {
+    display: inline-block;
+    position: absolute;
+    bottom: 62px;
+    width: 96px;
+    height: 44px;
+    border-radius: 90px;
+    background-color: var(--darkorange);
+    color: var(--darkblue);
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
+}
+#Button-or-bl:hover{
+    background-color: var(--darkblue) !important;
+    color: var(--darkorange) !important;
+}
