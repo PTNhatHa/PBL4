@@ -179,9 +179,8 @@
 }
 .Button-bl-or {
     display: inline-block;
+    padding: 10px 20px;
     position: absolute;
-    width: 96px;
-    height: 44px;
     border-radius: 90px;
     background-color: var(--darkblue);
     color: var(--darkorange);
@@ -192,9 +191,8 @@
 }
 .Button-or-bl {
     display: inline-block;
+    padding: 10px 20px;
     position: absolute;
-    width: 96px;
-    height: 44px;
     border-radius: 90px;
     background-color: var(--darkorange);
     color: var(--darkblue);
@@ -238,6 +236,11 @@
     font-weight: 800;
     padding: 0px 10px;
 }
+.content > input:focus
+{
+    border-color: var(--darkblue);
+    color: var(--darkblue);
+}
 .signinright > input {
     display: inline-block;
     position: absolute;
@@ -275,4 +278,89 @@
 }
 #myModal {
     background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* OTP */
+.OTPall {
+    border: solid 2px var(--darkblue);
+    border-radius: 30px;
+    width: 515px;
+    height: 340px;
+    /* text-align: center; */
+    margin: 0px auto;
+    padding-bottom: 10px;
+    position: relative;
+    background-color: white;
+}
+.OTP {
+    position: relative;
+    margin: 0px auto;
+    padding: 10px;
+    border-radius: 30px;
+}
+.OTP > p {
+    position: relative;
+    text-align: center;
+}
+.entermail {
+    position: relative;
+    text-align: center;
+}
+.entermail > input {
+    position: relative;
+    padding: 5px 10px;
+    /* display: inline-block; */
+}
+.Button-bl-wh {
+    display: inline-block;
+    padding: 10px 20px;
+    position: relative;
+    border-radius: 90px;
+    background-color: var(--darkblue);
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
+    vertical-align: middle;
+}
+.Button-bl-wh:hover {
+    background-color: var(--darkorange);
+}
+.inputtext {
+    border-radius: 90px;
+    border: solid 2px var(--darkblue50);
+    position: absolute;
+    width: 350px;
+    height: 35px;
+    border-radius: 30px;
+    color: var(--darkblue50);
+    outline: var(--darkblue50);
+    border: solid 2px var(--darkblue50);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 0px 10px;
+}
+.inputtext:focus{
+    border-color: var(--darkblue);
+    color: var(--darkblue);
+}
+::placeholder{
+    color: var(--darkblue50);
+}
+.line {
+    position: relative;
+    width: 95%;
+    display: inline-block;
+}
+.line > hr {
+    position: relative;
+    height: 2px; 
+    background-color: var(--darkblue);
+    border-radius: 90px;
+    margin: 0px;
+}
+.modal-content {
+    background-color: transparent !important;
+    border: none !important;
 }
