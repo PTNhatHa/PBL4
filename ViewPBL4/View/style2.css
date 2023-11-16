@@ -1,0 +1,140 @@
+.topcenter {
+    position: relative;
+    top: 0px;
+    background-color: white;
+    width: 83.333%;
+    height: 295px;
+}
+.top {
+    position: relative;
+    top: 31px;
+}
+.ava {
+    position: relative;
+    top: 0px;
+    width: 163px;
+    height: 163px;
+}
+.ava > img {
+    position: absolute;
+    top: 0px;
+    width: 163px;
+    height: 163px;
+    border-radius: 90px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-color: white;
+    outline: none;
+    border: none;
+    background-position: center;
+}
+.line {
+    position: absolute;
+    bottom: 72px;
+    width: 100%;
+    height: 2px;
+}
+.line > hr {
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: var(--lightblue);
+    border-radius: 90px;
+}
+.menu-top {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background-color: white;
+}
+.menu-top > input {
+    width: fit-content;
+    height: 50px;
+    border-radius: 90px;
+    display: inline-block;
+    background-color: white;
+    outline: none;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--darkblue);
+    position: relative;
+    align-content: center;
+}
+.menu-top > input:hover {
+    background-color: var(--lightblue);
+}
+#Camera {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 90px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-color: var(--lightblue);
+    outline: none;
+    border: none;
+    background-position: center;
+}
+#Camera:hover {
+    background-color: var(--darkblue) !important;
+}
+.topcontent {
+    position: absolute;
+    left: 183px;
+    top: 67px;
+    width: 750px;
+    height: auto;
+}
+.p-name {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--darkblue);
+    position: absolute;
+    align-content: center;
+}
+.p-role {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--darkblue50);
+    position: absolute;
+    align-content: center;
+}
+.topcontent > p {
+    position: relative;
+}
+
+/* PERSONAL INFOR */
+
+.content {
+    border: solid 2px var(--darkblue);
+    border-radius: 30px;
+    width: 1200px;
+    height: 400px;
+    margin: 0px auto;
+    position: absolute;
+    background-color: white;
+    text-align: center;
+}
+.headform > p {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    margin: 20px auto auto 15px;
+}
+.lineform {
+    width: 90%;
+    height: 2px;
+    position: relative;
+    display: inline-block;
+    border-radius: 90px;
+    background-color: var(--darkblue50);
+}
+.bodyform {
+    
+}
