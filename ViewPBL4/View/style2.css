@@ -108,3 +108,33 @@
 .topcontent > p {
     position: relative;
 }
+
+/* PERSONAL INFOR */
+
+.content {
+    border: solid 2px var(--darkblue);
+    border-radius: 30px;
+    width: 1200px;
+    height: 400px;
+    margin: 0px auto;
+    position: absolute;
+    background-color: white;
+    text-align: center;
+}
+.headform > p {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    margin: 20px auto auto 15px;
+}
+.lineform {
+    width: 90%;
+    height: 2px;
+    position: relative;
+    display: inline-block;
+    border-radius: 90px;
+    background-color: var(--darkblue50);
+}
+.bodyform {
+    
+}
