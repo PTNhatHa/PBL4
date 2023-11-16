@@ -114,6 +114,10 @@ h1.hahywu {
     font-weight: 600;
     border-radius: 30px;
 }
+.signbutton:hover {
+    background-color: var(--darkblue);
+    color: var(--darkorange);
+}
 .section-content2 {
     margin-right: 5px;
 }
@@ -204,25 +208,43 @@ p.introtext {
     border: none;
     background-position: center;
 }
-.button-head-right {
-    position: absolute;
-    right: 120px;
-    width: 240px;
-    display: block;
+.child {
+    position: relative; 
     text-align: right;
     top: 15px;
 }
-.button-head-right > input {
+.acc {
+    /* width: 30%; */
+    position: relative;
+    /* float: left; */
+    display: inline-block;
+}
+.acc > input {
+    float: left;
+    position: relative;
     width: 50px;
     height: 50px;
     border-radius: 90px;
-    display: inline-block;
     background-repeat: no-repeat;
     background-color: white;
     outline: none;
     border: none;
     background-position: center;
+    margin-left: 15px;
 }
+#SLNoti {
+    position: absolute;
+    background-color: var(--darkorange);
+    border-radius: 90px;
+    padding: 7px;
+    text-align: center;
+    right: -15px;
+    top: -10px;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+} 
+
 .button-head-hover {
     background-color: var(--lightblue) !important;
 }
@@ -425,7 +447,7 @@ p.introtext {
     border: solid 2px var(--darkblue);
     border-radius: 30px;
     width: 515px;
-    height: 340px;
+    height: 360px;
     /* text-align: center; */
     margin: 0px auto;
     padding-bottom: 10px;
@@ -437,6 +459,7 @@ p.introtext {
     margin: 0px auto;
     padding: 10px;
     border-radius: 30px;
+    text-align: center;
 }
 .OTP > p {
     position: relative;
@@ -503,4 +526,12 @@ p.introtext {
 .modal-content {
     background-color: transparent !important;
     border: none !important;
+}
+.warning {
+    color: var(--darkorange);
+    font-size: 16px;
+    font-weight: 800;
+    position: relative;
+    text-align: center;
+    bottom: -5px;
 }

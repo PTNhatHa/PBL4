@@ -114,7 +114,7 @@
     position: relative;
     border: solid 2px var(--darkblue);
     border-radius: 30px;    
-    height: 400px;
+    height: 420px;
     text-align: center;
     padding: auto 0px !important;
 }
@@ -131,17 +131,21 @@
     display: inline-block;
     border-radius: 90px;
     background-color: var(--darkblue50);
+    margin: 15px 0px;
 }
 .bodyform {
     display: inline-block;
     width: 90%;
     position: relative;
-    color: black; 
     text-align: justify;
 }
 .info {
     width: 30%;
-    background-color: aqua;
+    position: relative;
+    float: left;
+}
+.info-h2 {
+    width: 65%;
     position: relative;
     float: left;
 }
@@ -164,6 +168,7 @@
     font-size: 16px;
     font-weight: 800;
     padding: 0px 10px;
+    margin-bottom: 20px;
 }
 .infotext:focus{
     border-color: var(--darkblue);
@@ -171,4 +176,15 @@
 }
 ::placeholder{
     color: var(--darkblue50);
+}
+.footerform {
+    display: inline-block;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    height: 36px;
+}
+.footerform > button {
+    position: relative;
+    margin: 0px 20px;
 }
