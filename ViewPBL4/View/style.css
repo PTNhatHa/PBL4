@@ -4,6 +4,8 @@
     --lightblue: #89A1C9;
     --darkblue50: rgba(27, 51, 91, 0.5);
     --darkorange: #F1916D;
+    --lightorgange: #FFCAB6;
+    --darkorange50: rgba(255, 202, 182, 0.5);
 }
 * {
     font-family: 'Manrope', sans-serif;
@@ -446,17 +448,16 @@ p.introtext {
     border: solid 2px var(--darkblue);
     border-radius: 30px;
     width: 515px;
-    height: 360px;
-    /* text-align: center; */
+    height: 400px;
     margin: 0px auto;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     position: relative;
     background-color: white;
 }
 .OTP {
     position: relative;
     margin: 0px auto;
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
     border-radius: 30px;
     text-align: center;
 }
@@ -533,4 +534,20 @@ p.introtext {
     position: relative;
     text-align: center;
     bottom: -5px;
+}
+.OTPAlert {
+    border-radius: 30px;
+    text-align: center;
+    padding-top: 10px;
+    position: relative;
+    left: 0px;
+    width: 100%;
+}
+.OTPAlert > p {
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--darkorange);
+    padding: 10px 5px !important;
+    margin: auto;
 }
