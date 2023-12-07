@@ -112,11 +112,13 @@
 /* PERSONAL INFOR */
 .child {
     position: relative;
-    border: solid 2px var(--darkblue);
+    box-shadow: 4px 4px 10px var(--darkblue);
     border-radius: 30px;    
     height: 400px;
     text-align: center;
     padding: auto 0px !important;
+    background-color: white;
+    
 }
 .headform > p {
     display: inline-block;
@@ -213,8 +215,8 @@
     height: 300px;
 }
 .carousel-item > img {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
     border-radius: 90px;
     display: inline-block;
     background-repeat: no-repeat;
@@ -244,3 +246,57 @@
 .rate {
     margin-bottom: 5px;
 }
+
+.bgbody {
+    background-color: var(--lightblue);
+}
+
+/* Change Ava */
+.changeAva {
+    width: 70vh;
+    height: 70vh;
+    border-radius: 90px;
+    background-color: white;
+    border: 4px solid var(--darkblue50);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.changeAva > p {
+    position: absolute;
+    top: 5%;
+}
+.changeAva .lineform {
+    position: absolute;
+    top: 13%;
+}
+.changeAva > img {
+    position: absolute;
+    top: 22%;   
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-color: white;
+    outline: none;
+    border: none;
+    background-position: center;
+}
+.custom-file-upload {
+    position: absolute;
+    top: 76%;
+    display: inline-block;
+    padding: 12px 10px;
+    cursor: pointer;
+    border-radius: 90px;
+    background-color:var(--darkorange);
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--darkblue);
+  }
+  input[type="file"] {
+    display: none;
+  }
