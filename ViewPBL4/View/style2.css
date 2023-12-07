@@ -297,6 +297,51 @@
     font-weight: bold;
     color: var(--darkblue);
   }
-  input[type="file"] {
+input[type="file"] {
     display: none;
-  }
+}
+
+  /* Reason */
+.reasonform {
+    border: solid 2px var(--darkblue);
+    border-radius: 30px;
+    width: 515px;
+    height: fit-content;
+    margin: 0px auto;
+    padding-bottom: 40px;
+    position: relative;
+    background-color: white;
+}
+.reason .bt {
+    margin: 0px auto;
+    padding: 10px 10px 0px 10px;
+    border-radius: 30px;
+    text-align: center;
+}
+.reason > p {
+    position: relative;
+    text-align: center;
+}
+.reason .Button-or-bl {
+    position: relative !important;
+}
+.rs {
+
+}
+.rstxt {
+    margin: 1vh 5vh;
+    display: flex;
+}
+.rstxt > p {
+    position: relative !important;
+    width: 100%;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+/* ViewAdmin */
+.viewadmin {
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px 10px 10px -10px rgba(0,0,0,0.5);
+}

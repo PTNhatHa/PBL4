@@ -560,7 +560,7 @@ p.introtext {
     background-color: transparent;
     color: var(--darkblue);
     border: 2px solid white;
-    margin: 12px 10px;
+    margin: 12px 10px 12px 0px;
     padding: 7px;
 }
 .taskbarbutton:hover {
