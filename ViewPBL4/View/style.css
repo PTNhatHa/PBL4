@@ -551,3 +551,60 @@ p.introtext {
     padding: 10px 5px !important;
     margin: auto;
 }
+
+/* Admin */
+.taskbarleft {
+    display: flex; 
+}
+.taskbarbutton {
+    background-color: transparent;
+    color: var(--darkblue);
+    border: 2px solid white;
+    margin: 12px 10px;
+    padding: 7px;
+}
+.taskbarbutton:hover {
+    border: 2px solid var(--darkblue);
+    border-radius: 30px;
+}
+.taskbarright {
+    height: 100%;
+    top: 25%;
+    bottom: 25%;
+    border-radius: 90px;
+    display: flex; 
+    justify-content: right; 
+    align-items: center;
+}
+.searchadmin {
+    height: 30%;
+    width: 50%;
+    background-color: transparent;
+    color: var(--darkblue);
+    border-radius: 30px;
+    border: 2px solid var(--darkblue);
+    padding: 10px;
+}
+.searchadminimg {
+    border: none;
+    background-image: url(../img/searchAdmin.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    width: 25px;
+    height: 20px;
+    position: absolute;
+    right: 9%;
+}
+.filter {
+    padding: 10px;
+    margin: auto 10px;
+    background-color: transparent;
+    border: 2px solid var(--darkblue);
+    border-radius: 30px;  
+    color: var(--darkblue); 
+}
+.filter:hover {
+    background-color: var(--darkblue);
+    color: white;
+}
