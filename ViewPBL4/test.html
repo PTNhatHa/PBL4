@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #subject{
+            width: 660px;
+            height: 100px;
+            background-color: aqua;
+        }
+        .test{
+            width: 30px;
+            height: 30px;
+            background-color: red;
+        }
+        .test2 {
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: pre;
+        }
+        #file-input {
+            border: 1px solid black;
+            margin: 10px;
+        }
+        #image-div {
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid black;            
+        }
+        #image-tag {
+            width: 100%;
+        }
+    </style>
+    <script lang="JavaScript">
+        function pGenerate() {
+            const arr = ["Banana", "Orange", "Apple", "Mango"];
+            var content = document.getElementById("subject");
+            for (i=0; i < arr.length; i++) {
+                var newP = arr[i];
+
+                content.append(newP);
+            }
+        }
+        
+        
+
+        // Add event listener for file input change
+        function setImg() {
+            var fileInput = document.getElementById("file-input");
+            var imageTag = document.getElementById("image-tag");
+            // Get the selected file
+            var file = fileInput.files[0];
+            // Check if the file is an image
+            if (file && file.type.match("image.*")) {
+                // Create a file reader object
+                var reader = new FileReader();
+                // Add event listener for file reader load
+                reader.addEventListener("load", function() {
+                // Set the src attribute of the img tag to the file data
+                imageTag.src = reader.result;
+                });
+                // Read the file as a data URL
+                reader.readAsDataURL(file);
+            }
+            
+        };
+        
+
+        function setText() {
+            var text = document.getElementById("text").value;
+            var show = document.getElementById("show");
+            show.append(text);
+            autoHeight(show);
+        }
+        function autoHeight(element) {
+            element.style.height = "auto";
+            element.style.height = element.scrollHeight + "px";
+        }
+        
+    </script>
+</head>
+<body>
+    <div style="width: 788px; height: 428px; padding: 24px 0; overflow: hidden; border: 1px solid red;">
+        <div id="image-div">
+            <img id="image-tag" src="" alt="">
+        </div>
+    </div>
+    
+    <input type="file" id="file-input" accept="image/*" onchange="setImg()">
+</body>
+</html>
