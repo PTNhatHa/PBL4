@@ -21,6 +21,7 @@
     top: 0;
     left: 0;
     right: 0;
+    z-index: 9999;
 }
 .nav-child {
     position: absolute;
@@ -42,7 +43,7 @@
     color: var(--darkblue);
     position: absolute;
     right: 24px;
-    top: 27%;
+    top: 21%;
     align-content: center;
 }
 .logo-img {
@@ -574,7 +575,7 @@ p.introtext {
     background-color: transparent;
     color: var(--darkblue);
     border: 2px solid white;
-    margin: 12px 10px 12px 0px;
+    margin: 12px 10px;
     padding: 7px;
 }
 .taskbarbutton:hover {
