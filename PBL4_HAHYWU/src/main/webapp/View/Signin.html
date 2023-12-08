@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="View/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <Script language="JavaScript">
+        function checkAccount() {
+        	var username = document.getElementById("username").value;
+        	var password = document.getElementById("password").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                    var idacc = document.getElementById("OTPAlertp").innerHTML;
+                    if(this.responseText.startsWith("US")) {
+                    	document.getElementById("OTPAlertp").innerHTML = "";
+                    	location.href = "GrabServlet?userprofile=1&idacc="+idacc;
+                    }
+                    else if(this.responseText.startsWith("AD")) {
+                    	document.getElementById("OTPAlertp").innerHTML = "";
+                    	location.href = "GrabServlet?adminprofile=1&idacc="+idacc;
+                    }
+                }
+            };
+            xmlhttp.open("GET", "?signinform=1&username="+username+"&password="+password, true);
+            xmlhttp.send();
+        }
+    </Script>
+</head>
+<body>
+        <!-- Button -->
+    <button class="Button-bl-or" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Sign in</button>
+    <form name="signin" action="">
+        <!-- Sign in -->
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="signinform">
+
+                    <div class="signinleft">
+                        <div class="logo" style="top: 62px;">
+                            <img class="logo-img" src="img/logo.png" alt="">
+                            <p class="logo-text">HAHYWU</p>
+                        </div>
+                        <img class="imgsign" src="img/signin.png" alt="image">
+                        <p class="p-16" style="top: 372px;">Don’t have an account yet?</p>
+                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style="bottom: 62px;">
+                            Sign up
+                        </button>
+                    </div>
+
+                    <div class="signinright">
+                        <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
+                        <p class="p-30" style="top: 116px;">Sign in</p>
+                        <p class="p-14-50" style="top: 164px;">- Welcome back -</p>
+                        <div class="content">
+                            <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 218px;" required="required">
+                            <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 268px;" required="required">
+                        </div>
+                        <span class="OTPAlert" style="position: absolute; bottom: 167px;">
+                            <p id="OTPAlertp">  </p>
+                        </span>
+                        <input class="Button-or-bl" type="button" value="Sign in" style="bottom: 116px;" onclick="checkAccount()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

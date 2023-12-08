@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +9,10 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="../View/style11.css">
+   	<link rel="stylesheet" href="../View/style22.css">
 </head>
-<body class="bgbody">
+<body class="bgbody" style="background-color: white;">
     <form action="">
         <div class="container-fluid mt-3">
             <div class="row">
@@ -41,7 +43,7 @@
                         </div>
                         <div class="info-h1">
                             <div class="info">
-                                <p class="p-12">Carier</p>
+                                <p class="p-12">Career</p>
                                 <input class="infotext" type="text" value="stdent">
                             </div>
                             <div class="info" style="margin: 0px 5%;">
@@ -81,5 +83,6 @@
         </div>
         
     </form>
+    
 </body>
 </html>
