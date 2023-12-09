@@ -38,8 +38,8 @@
             <div class="pure-u-2-24"></div>
         </div>
     </main>
-    <jsp:include page="UserTop.jsp" />
-    <jsp:include page="UserPI.jsp" />
+<%--     <jsp:include page="UserTop.jsp" />
+    <jsp:include page="UserPI.jsp" /> --%>
     <footer>
     </footer>
 </body>

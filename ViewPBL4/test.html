@@ -5,32 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #subject{
-            width: 660px;
-            height: 100px;
-            background-color: aqua;
-        }
-        .test{
-            width: 30px;
-            height: 30px;
-            background-color: red;
-        }
-        .test2 {
-            width: 100%;
-            text-overflow: ellipsis;
-            white-space: pre;
-        }
-        #file-input {
-            border: 1px solid black;
-            margin: 10px;
-        }
-        #image-div {
-            width: 100%;
-            overflow: hidden;
-            border: 1px solid black;            
-        }
-        #image-tag {
-            width: 100%;
+        #div {
+
         }
     </style>
     <script lang="JavaScript">
@@ -69,26 +45,24 @@
         
 
         function setText() {
-            var text = document.getElementById("text").value;
-            var show = document.getElementById("show");
+            var text = document.getElementById("input").value;
+            var show = document.getElementById("content-text");
             show.append(text);
-            autoHeight(show);
         }
-        function autoHeight(element) {
+        function autoHeight(id) {
+            var element = document.getElementById(id);
             element.style.height = "auto";
             element.style.height = element.scrollHeight + "px";
         }
-        
+        window.onload = function() {
+           autoHeight('content-text');
+        }
     </script>
 </head>
 <body>
-    <div style="width: 788px; height: 428px; padding: 24px 0; overflow: hidden; border: 1px solid red;">
-        <div id="image-div">
-            <img id="image-tag" src="" alt="">
-        </div>
-    </div>
-    
-    <input type="file" id="file-input" accept="image/*" onchange="setImg()">
+    <textarea name="" id="content-text" style="width: 50%;" cols="0" rows="1"></textarea> 
+    <br>
+    <textarea name="" id="input" style="width: 50%;" cols="0" rows="1" onblur="setText(); "></textarea> 
 
     
 </body>
