@@ -441,64 +441,6 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
   input[type="file"] {
     display: none;
   }
-  /* Feedback */
-.carousel-item {
-    position: relative;
-    height: 300px;
-    text-align: center;
-    padding: auto 0px !important;
-}
-.carousel-control-prev {
-    height: 80%;
-}
-.carousel-control-next {
-    height: 80%;
-}
-.carousel-control-prev-icon {
-    background-image: url(../img/arrow-left-circle.png);
-}
-.carousel-control-next-icon {
-    background-image: url(../img/arrow-right-circle.png);
-}
-.carousel {
-    height: 300px;
-}
-.carousel-item > img {
-    width: 60px;
-    height: 60px;
-    border-radius: 90px;
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    background-position: center;
-}
-.p-18 {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--darkblue);
-    align-content: center;
-    margin: 5px auto 0px auto;
-}
-.contentfeedback {
-    position: absolute;
-    text-align: justify;
-    left: 18%;
-    width: 64%;
-}
-.contentfeedback > p {
-    position: relative;
-    margin-bottom: 5px;
-    color: var(--darkblue50);
-}
-.rate {
-    margin-bottom: 5px;
-}
-
-.bgbody {
-    background-color: var(--lightblue);
-}
 
 /* Change Ava */
 .changeAva {
@@ -574,9 +516,6 @@ input[type="file"] {
 .reason .Button-or-bl {
     position: relative !important;
 }
-.rs {
-
-}
 .rstxt {
     margin: 1vh 5vh;
     display: flex;
@@ -618,4 +557,18 @@ input[type="file"] {
 .btUncensor:hover {
     background-color: var(--darkorange);
     color: white;
+}
+.otherreason {
+    border: none;
+    border-radius: 30px;
+    margin: 0px 10px !important;
+    padding: 0px 1px !important;
+    color: var(--darkblue);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--darkblue);
+    align-content: center;
+}
+*, ::after, ::before {
+    box-sizing: content-box;
 }

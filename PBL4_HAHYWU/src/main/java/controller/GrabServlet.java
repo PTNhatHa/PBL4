@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
@@ -24,7 +25,9 @@ import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
+import model.bean.Post;
 import model.bo.GrabBO;
+import model.dao.GrabDAO;
 
 @WebServlet("/GrabServlet")
 public class GrabServlet extends HttpServlet {
@@ -124,6 +127,27 @@ public class GrabServlet extends HttpServlet {
 		}
 		else if(request.getParameter("adminprofile") != null) {
 			destination = "/View/ViewerTop.html";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
+		}
+		else if(request.getParameter("Censoring") != null) {
+			ArrayList<Post> listpost = grabBO.getAllPost(0);
+			request.setAttribute("listpost", listpost);
+			destination = "/View/TaskCensoring.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
+		}
+		else if(request.getParameter("Censored") != null) {
+			ArrayList<Post> listpost = grabBO.getAllPost(1);
+			request.setAttribute("listpost", listpost);
+			destination = "/View/TaskCensored.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
+		}
+		else if(request.getParameter("Uncensored") != null) {
+			ArrayList<Post> listpost = grabBO.getAllPost(2);
+			request.setAttribute("listpost", listpost);
+			destination = "/View/TaskUncensored.jsp";
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}

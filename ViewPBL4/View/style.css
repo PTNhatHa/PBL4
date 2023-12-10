@@ -567,6 +567,14 @@ p.introtext {
 }
 
 /* Admin */
+.taskbar {
+	height: 60px; 
+	width: 100%;
+	margin-top: 80px; 
+	z-index: 9999;
+	position: fixed;
+	background-color: white;
+}
 .taskbarleft {
     display: flex; 
 }
@@ -586,7 +594,7 @@ p.introtext {
     top: 25%;
     bottom: 25%;
     border-radius: 90px;
-    display: flex; 
+    display: flex !important; 
     justify-content: right; 
     align-items: center;
 }
