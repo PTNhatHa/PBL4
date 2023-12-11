@@ -42,7 +42,7 @@
     color: var(--darkblue);
     position: absolute;
     right: 24px;
-    top: 27%;
+    top: 25%;
     align-content: center;
 }
 .logo-img {
@@ -50,6 +50,21 @@
     position: absolute;
     left: 24px;
     object-fit: contain;
+}
+.signbutton-nav {
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+    width: 10%;
+    height: 100%;
+    font-size: 16px;
+    float: right;
+}
+.signbutton-nav:hover {
+    color: var(--darkblue);
+    background-color: white;
 }
 input.searchtext {
     border: none;
@@ -106,6 +121,7 @@ h1.hahywu {
     margin-top: 5px;
     margin-bottom: 40px;
 }
+
 .signbutton {
     border: none;
     color: var(--darkblue);
@@ -126,12 +142,11 @@ h1.hahywu {
 .intro {
     background-color: #FFE4DA;
     width: 286px;
-    height: 249px;
+    height: 333px;
     padding: 21px 32px;
     box-shadow: 4px 4px 10px grey;
     text-align: center;
     color: var(--darkblue);
-    
 }
 h3.introtitle {
     font-size: 20px;
@@ -141,6 +156,7 @@ p.introtext {
     font-size: 14px;
     text-align: justify;
     margin-top: 10px;
+    line-height: 17px;
 }
 
 /* more infor */

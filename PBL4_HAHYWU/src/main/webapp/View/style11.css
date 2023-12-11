@@ -52,6 +52,17 @@
     left: 24px;
     object-fit: contain;
 }
+.signbutton-nav {
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+    width: 10%;
+    height: 100%;
+    font-size: 16px;
+    float: right;
+}
 input.searchtext {
     border: none;
     background-color: #89A1C9;

@@ -112,10 +112,7 @@
                         <img class="logo-img" src="img/logo.png" alt="">
                         <p class="logo-text">HAHYWU</p>
                     </div>
-                    <div class="search">
-                        <input class="searchtext" type="text" placeholder="Search" name="search" value="">
-                        <input class="searchbutton" type="button" name="searchbut" value="">
-                    </div>
+                    <button class="signbutton-nav" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Sign in</button>
                 </div>
             </div>
             <div class="pure-u-2-24"></div>
@@ -131,8 +128,8 @@
                             <h6 style="font-size: 23px; color: #335388;">- Website for answering all your wondering -</h6>
                         </div>
                         <div style="text-align: center; margin-top: 85px;">
-                          	<button class="signbutton changebg-or-bl" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" style="margin-right: 72px;">Sign up</button>
-                            <button class="signbutton changebg-or-bl" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" style="margin-left: 72px;">Sign in</button>
+                            <button class="signbutton" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" style="margin-right: 72px;">Sign up</button>
+                            <button class="signbutton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" style="margin-left: 72px;">Sign in</button>
                         </div>
                     </div>
                     <div class="pure-u-1-24"></div>
@@ -227,24 +224,22 @@
             </div>
         </section>
     </main>
-    
-    <form name="signin" action="">
-    
-    	<!-- Sign up -->
+
+    <!-- Sign up -->
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered popup">
-          <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered popup">
+            <div class="modal-content">
             <div class="signinform">
                 <div class="signinleft">
                     <div class="logo" style="top: 62px;">
                         <img class="logo-img" src="img/logo.png" alt="">
                         <p class="logo-text">HAHYWU</p>
                     </div>
-                      <img class="imgsign" src="img/signup.png" alt="image">
-                      <p class="p-16" style="top: 372px;">Already have an account?</p>
-                      <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" style="bottom: 62px;">
-                          Sign in
-                      </button>
+                        <img class="imgsign" src="img/signup.png" alt="image">
+                        <p class="p-16" style="top: 372px;">Already have an account?</p>
+                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" style="bottom: 62px;">
+                            Sign in
+                        </button>
                 </div>
                 <div class="signinright">
                     <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
@@ -259,16 +254,15 @@
                     <input class="Button-or-bl" type="submit" value="Sign up" style="bottom: 62px;">
                 </div>
             </div>
-          </div>
-		</div>
-	</div>
-      
-        <!-- Sign in -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign in -->
 	<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="signinform">
-
                     <div class="signinleft">
                         <div class="logo" style="top: 62px;">
                             <img class="logo-img" src="img/logo.png" alt="">
@@ -300,7 +294,7 @@
     </div>
     
     <!-- OTP -->
-      <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered popup">
           <div class="modal-content">
             <div class="OTPall">
@@ -326,9 +320,9 @@
         	</div>
           </div>
         </div>
-      </div>
-    </form>
+    </div>
     <footer>
     </footer>
+</body>
 </body>
 </html>

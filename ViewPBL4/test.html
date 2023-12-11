@@ -1,69 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        #div {
+	<title>Notification Example</title>
+	<style>
+		.notification {
+			background-color: #f2f2f2;
+			padding: 20px;
+			margin-bottom: 10px;
+			border: 1px solid #ddd;
+			cursor: pointer;
+		}
 
-        }
-    </style>
-    <script lang="JavaScript">
-        function pGenerate() {
-            const arr = ["Banana", "Orange", "Apple", "Mango"];
-            var content = document.getElementById("subject");
-            for (i=0; i < arr.length; i++) {
-                var newP = arr[i];
+		.notification.unseen {
+			background-color: #e6e6ff;
+		}
+	</style>
+	<script>
+		var notifications = [];
 
-                content.append(newP);
-            }
-        }
-        
-        
+		function createNotification() {
+			var notification = document.createElement("div");
+			notification.className = "notification";
+			notification.innerHTML = "This is a notification!";
+			notification.onclick = function() {
+				this.style.backgroundColor = "#d9d9d9";
+				this.classList.remove("unseen");
+			};
+			document.body.appendChild(notification);
+			notifications.push(notification);
+			updateUnseenCount();
+		}
 
-        // Add event listener for file input change
-        function setImg() {
-            var fileInput = document.getElementById("file-input");
-            var imageTag = document.getElementById("image-tag");
-            // Get the selected file
-            var file = fileInput.files[0];
-            // Check if the file is an image
-            if (file && file.type.match("image.*")) {
-                // Create a file reader object
-                var reader = new FileReader();
-                // Add event listener for file reader load
-                reader.addEventListener("load", function() {
-                // Set the src attribute of the img tag to the file data
-                imageTag.src = reader.result;
-                });
-                // Read the file as a data URL
-                reader.readAsDataURL(file);
-            }
-            
-        };
-        
-
-        function setText() {
-            var text = document.getElementById("input").value;
-            var show = document.getElementById("content-text");
-            show.append(text);
-        }
-        function autoHeight(id) {
-            var element = document.getElementById(id);
-            element.style.height = "auto";
-            element.style.height = element.scrollHeight + "px";
-        }
-        window.onload = function() {
-           autoHeight('content-text');
-        }
-    </script>
+		function updateUnseenCount() {
+			var count = 0;
+			for (var i = 0; i < notifications.length; i++) {
+				if (notifications[i].classList.contains("unseen")) {
+					count++;
+				}
+			}
+			document.title = "Notifications (" + count + ")";
+		}
+	</script>
 </head>
 <body>
-    <textarea name="" id="content-text" style="width: 50%;" cols="0" rows="1"></textarea> 
-    <br>
-    <textarea name="" id="input" style="width: 50%;" cols="0" rows="1" onblur="setText(); "></textarea> 
-
-    
+	<button onclick="createNotification()">Create Notification</button>
 </body>
 </html>

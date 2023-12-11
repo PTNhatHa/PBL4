@@ -63,7 +63,7 @@
 }
 
 /* SIGN OUT */
-#clickava-choice {
+#click-choice, #notification-box {
     display: block;
     position: absolute;
     right: 133px;
@@ -87,5 +87,63 @@
     padding-left: 55px;
     border-radius: 10px;
     border: none;
+}
+.signout:hover {
+    background-color: lightgray;
+    border: none;
+}
+
+/* NOTIFICATION */
+#notification-box {
+    height: 280px !important;
+    bottom: -251px !important;
+    right: 183px !important;
+    overflow: auto;
+    overflow-x: hidden;
+    text-align: left;
+}
+.notification-header {
+    border-bottom: 2px solid rgba(27, 51, 91, 0.5);
+    width: 240px;
+    height: 30px;
+    margin: 17px 0 0 11px;
+    font-size: 18px;
+    color: var(--darkblue);
+}
+.notification-content {
+    position: relative;
+    border-radius: 10px;
+    width: 245px;
+    margin:2px 0 2px 7px;
+    overflow: hidden;
+    padding: 2px 0 5px 2px;
+}
+.notification-content.unseen {
+    background-color: rgba(137,161,201,0.3);
+}
+.notification-ava {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url(../img/avata1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-radius: 90px;
+    width: 33px;
+    height: 33px;
+}
+.notification-text {
+    color: rgba(27, 51, 91, 0.9);
+    float: left;
+    width: 75%;
+    font-size: 14px;
+    height: auto;
+    line-height: 20px;
+    margin-left: 40px;
+}
+.notification-text > b {
+    color: #1B335B;
 }
 

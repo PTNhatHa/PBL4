@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="style3.css">
     <title>Header</title> 
     <script>
-        function show(id) {
-            var x = document.getElementById(id);
+        function show(id1, id2) {
+            var x = document.getElementById(id1);
+            var y = document.getElementById(id2);
+            y.style.display = "none";
             if (x.style.display === "none") {
                 x.style.display = "block";
             } else {
@@ -35,14 +37,27 @@
                         <input id="Home" type="button" value="" style="background-image: url(../img/Home.png);">
                     </div>
                     <div> 
-                        <input type="button" name="" class="leftbut" style="background-image: url(../img/Notification.png); right: 50px;">
+                        <input type="button" name="" class="leftbut" style="background-image: url(../img/Notification.png); right: 50px;" onclick="show('notification-box', 'click-choice')">
                         <span id="SLNoti" class="badge badge-light">22</span>
                     </div>
-                    <input type="button" name="" class="leftbut" style="background-image: url(../img/avata.jpg); background-size: 45px;" onclick="show('clickava-choice')">
+                    <input type="button" name="" class="leftbut" style="background-image: url(../img/avata.jpg); background-size: 45px;" onclick="show('click-choice', 'notification-box')">
                 </div>
-                <span id="clickava-choice" style="display: none;">
+                <span id="click-choice" style="display: none;">
                     <div>
                         <button class="signout">Sign out</button>
+                    </div>
+                </span>
+                <span id="notification-box" style="display: none;">
+                    <p class="notification-header">Notification</p>
+                    <!-- da doc -->
+                    <div class="notification-content" >
+                        <div class="notification-ava"></div>
+                        <p class="notification-text"><b>Duc Huy</b> has commented on your post <b>Giai cuu!!!</b></p>
+                    </div>
+                    <!-- chua doc -->
+                    <div class="notification-content unseen">
+                        <div class="notification-ava"></div>
+                        <p class="notification-text">Your post <b>Phim bede 2023</b> has been <b>approved</b></p>
                     </div>
                 </span>
             </div>

@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="View/style.css">
     <title>HAHYWU</title>
 </head>
@@ -20,10 +22,7 @@
                         <img class="logo-img" src="img/logo.png" alt="">
                         <p class="logo-text">HAHYWU</p>
                     </div>
-                    <div class="search">
-                        <input class="searchtext" type="text" placeholder="Search" name="search" value="">
-                        <input class="searchbutton" type="button" name="searchbut" value="">
-                    </div>
+                    <button class="signbutton-nav" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Sign in</button>
                 </div>
             </div>
             <div class="pure-u-2-24"></div>
@@ -39,8 +38,8 @@
                             <h6 style="font-size: 23px; color: #335388;">- Website for answering all your wondering -</h6>
                         </div>
                         <div style="text-align: center; margin-top: 85px;">
-                            <input class="signbutton changebg-or-bl" type="button" id="buttonSignup" value="Sign up" style="margin-right: 72px;">
-                            <input class="signbutton changebg-or-bl" type="button" id="buttonSignin" value="Sign in" style="margin-left: 72px;">
+                            <button class="signbutton" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" style="margin-right: 72px;">Sign up</button>
+                            <button class="signbutton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" style="margin-left: 72px;">Sign in</button>
                         </div>
                     </div>
                     <div class="pure-u-1-24"></div>
@@ -135,6 +134,103 @@
             </div>
         </section>
     </main>
+
+    <!-- Sign up -->
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered popup">
+            <div class="modal-content">
+            <div class="signinform">
+                <div class="signinleft">
+                    <div class="logo" style="top: 62px;">
+                        <img class="logo-img" src="img/logo.png" alt="">
+                        <p class="logo-text">HAHYWU</p>
+                    </div>
+                        <img class="imgsign" src="img/signup.png" alt="image">
+                        <p class="p-16" style="top: 372px;">Already have an account?</p>
+                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" style="bottom: 62px;">
+                            Sign in
+                        </button>
+                </div>
+                <div class="signinright">
+                    <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
+                    <p class="p-30" style="top: 62px;">Sign up</p>
+                    <p class="p-14-50" style="top: 110px;">- For free -</p>
+                    <div class="content">
+                        <input type="text" value="" placeholder="Name" style="top: 168px;">
+                        <input type="text" value="" placeholder="Username" style="top: 218px;">
+                        <input type="password" value="" placeholder="Password" style="top: 268px;">
+                        <input type="password" value="" placeholder="Confirm password" style="top: 318px;">
+                    </div>
+                    <input class="Button-or-bl" type="submit" value="Sign up" style="bottom: 62px;">
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign in -->
+	<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="signinform">
+                    <div class="signinleft">
+                        <div class="logo" style="top: 62px;">
+                            <img class="logo-img" src="img/logo.png" alt="">
+                            <p class="logo-text">HAHYWU</p>
+                        </div>
+                        <img class="imgsign" src="img/signin.png" alt="image">
+                        <p class="p-16" style="top: 372px;">Don’t have an account yet?</p>
+                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style="bottom: 62px;">
+                            Sign up
+                        </button>
+                    </div>
+
+                    <div class="signinright">
+                        <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
+                        <p class="p-30" style="top: 116px;">Sign in</p>
+                        <p class="p-14-50" style="top: 164px;">- Welcome back -</p>
+                        <div class="content">
+                            <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 218px;" required="required">
+                            <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 268px;" required="required">
+                        </div>
+                        <span class="OTPAlert" style="position: absolute; bottom: 167px;">
+                            <p id="OTPAlertsignin">  </p>
+                        </span>
+                        <input class="Button-or-bl" type="button" value="Sign in" style="bottom: 116px;" onclick="checkAccount()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- OTP -->
+    <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered popup">
+          <div class="modal-content">
+            <div class="OTPall">
+	            <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png); position: relative; top: 21px; right: -465px;">
+	            <div class="OTP">
+	                <p class="p-30">Enter your email</p>
+	                <div class="entermail">
+	                    <input style="width: 70%;" type="email" id="email" name="email" class="inputtext" placeholder="name@example.com" required="required">
+	                    <input type="button" name="sendOTP" class="Button-bl-wh" id="buttonSendOTP" value="Send OTP" onclick="checksend()">
+	                    
+	                    <span class="OTPAlert" id="OTPAlert"><p id="OTPAlertsignup"></p> </span>
+	                </div>
+	            </div>
+	            <div id="sendotp" class="OTP" hidden>
+	                <div class="line"><hr></div>
+	                <p class="p-30">Enter your OTP</p>  
+	                <div class="entermail" id="mail">
+	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
+	                    <button class="Button-bl-wh" data-bs-target="" data-bs-toggle="modal" onclick="checkOTPagain()">Send</button>
+	                </div>
+	                <span class="warning" id="warning" hidden> </span>
+	            </div>
+        	</div>
+          </div>
+        </div>
+    </div>
     <footer>
     </footer>
 </body>
