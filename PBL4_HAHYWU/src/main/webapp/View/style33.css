@@ -1,0 +1,63 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+:root {
+    --darkblue: #1B335B;
+    --lightblue: #89A1C9;
+    --darkblue50: rgba(27, 51, 91, 0.5);
+    --darkorange: #F1916D;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+/* CHANGE PASSWORD */
+.ChangePassword {
+    background-color: white;
+    padding-bottom: 24px;
+    border: 1px solid var(--darkblue);
+    border-radius: 30px;
+    box-shadow: 4px 4px 10px grey;
+    width: 437px;
+    overflow: hidden;
+    text-align: center;
+    color: rgba(27, 51, 91, 0.66);
+}
+.info-field {
+    position: relative;
+    padding: 0 95px;
+    margin-bottom: 10px;
+}
+.info-text {
+    font-size: 14px;
+    text-align: left;
+    margin: 0 10px 2px;
+}
+.info-enter {
+    width: 100%;
+    height: 30px;
+    border-radius: 30px;
+    padding-left: 10px;
+    font-size: 14px;
+    border: 2px solid  var(--darkblue);
+    color: #1B335B;
+}
+.showpw {
+    position: absolute;
+    right: 100px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    background-image: url(../img/noeye.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.showpw:active {
+    background-image: url(../img/eye.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.alertchangepw-content {
+	color: #F1916D;
+	font-size: 14px;
+}

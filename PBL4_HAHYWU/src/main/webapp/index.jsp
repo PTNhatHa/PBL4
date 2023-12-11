@@ -65,6 +65,12 @@
                     document.getElementById("warning").innerHTML = this.responseText;
                     if(this.responseText == "") {
                     	location.href = "GrabServlet?signupform=1&email="+email;
+                    	/* var a = document.getElementById("mail"); 
+                    	var signup = document.createElement("button");
+                    	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+                    	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
+                    	mail.appendChild(signup);  // thêm phần tử vào trang web
+                    	signup.click(); */
                     }
                 }
             };
@@ -104,7 +110,7 @@
                         </div>
                         <div style="text-align: center; margin-top: 85px;">
                           	<button class="signbutton changebg-or-bl" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" style="margin-right: 72px;">Sign up</button>
-                            <button class="signbutton changebg-or-bl" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" style="margin-left: 72px;">Sign in</button>
+                            <button class="signbutton changebg-or-bl" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" style="margin-left: 72px;" >Sign in</button>
                         </div>
                     </div>
                     <div class="pure-u-1-24"></div>
@@ -289,7 +295,7 @@
 	            <div id="sendotp" class="OTP" hidden>
 	                <div class="line"><hr></div>
 	                <p class="p-30">Enter your OTP</p>  
-	                <div class="entermail">
+	                <div class="entermail" id="mail">
 	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
 	                    <input type="button" class="Button-bl-wh" name="checkOTP" id="buttonSend" value="Send" onclick="checkOTPagain()">
 	                </div>

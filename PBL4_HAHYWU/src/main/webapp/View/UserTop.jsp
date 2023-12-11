@@ -1,5 +1,7 @@
+<%@page import="java.util.Base64"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page language="java" import="model.bean.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,14 +19,28 @@
 <body>
     <form name="UserTop" action="">
         <div class="pure-g">
-            <div class="pure-u-2-24"></div>
+            <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: fixed;"></div>
             <div class="pure-u-20-24 topcenter">
                 <div class="top">
                     <div class="ava">
-                        <img src="../img/avata.jpg" alt="ava">
-                        <input id="Camera" type="button" value="" style="background-image: url(../img/Camera.png);">
+                    <%
+						User user = (User)request.getAttribute("user");
+                    	if(user.getAvatar() != null){
+                    		byte[] imageBytes = user.getAvatar();
+    				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+    				%>
+    						<img src="data:image/png;base64,<%= base64Encoded %>" alt="ava">
+    				<%
+                    	}
+                    	else {
+					%>
+						<img src="img/defaultavatar.jpg" alt="ava">
+					<%
+                    	}
+					%> 
+                        <input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);">
                     </div>
-                    <input type="text" class="topcontent" value="Nhat Ha" readonly>
+                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
                 </div>
                 <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
                 <div class="menu-top">

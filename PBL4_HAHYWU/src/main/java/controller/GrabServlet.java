@@ -1,8 +1,11 @@
 package controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
+import model.bean.User;
 import model.bo.GrabBO;
 
 @WebServlet("/GrabServlet")
@@ -39,12 +43,7 @@ public class GrabServlet extends HttpServlet {
 		GrabBO grabBO = new GrabBO();
 		String destination = null;
 		
-		if(request.getParameter("signup") != null) {
-			destination = "/View/OTP.html";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
-		}
-		else if(request.getParameter("sendOTP") != null) {
+		if(request.getParameter("sendOTP") != null) {
 			String email = request.getParameter("email");
 			if(grabBO.checkCoincidentEmail(email)) {
 				if(sendOTP(email)) {
@@ -118,9 +117,53 @@ public class GrabServlet extends HttpServlet {
 			}
 		}
 		else if(request.getParameter("userprofile") != null) {
-			destination = "/View/User.html";
+			String idacc = request.getParameter("idacc");
+			User user = grabBO.getUserByIDUser(idacc);
+			request.setAttribute("user", user);
+			destination = "/View/UserPI.jsp";
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
+		}
+		else if(request.getParameter("updateuser") != null) {
+			User user = new User();
+			String idacc = request.getParameter("idacc");
+			try {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				user.setID_Account(idacc);
+				user.setDisplay_Name(request.getParameter("name"));
+				user.setEmail_Address(request.getParameter("email"));
+				user.setPhone_Number(request.getParameter("number"));
+				user.setBirthday(formatter.parse(request.getParameter("birthday")));
+				user.setGender(Integer.parseInt(request.getParameter("gender")));
+				user.setAddress(request.getParameter("address"));
+				user.setCareer(request.getParameter("career"));
+				user.setBio(request.getParameter("bio"));
+				grabBO.updateUser(user);
+				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(request.getParameter("changepw") != null) {
+			if(request.getParameter("username") != null && request.getParameter("password") != null) {
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+				if(grabBO.checkPassword(username, password) == false) {
+					response.getWriter().write("The password is incorrect!");
+				}
+				else {
+					response.getWriter().write("");
+				}
+			}
+			else if(request.getParameter("idacc") != null) {
+				String idacc = request.getParameter("idacc");
+				String npw = request.getParameter("npw");
+				String hashed = BCrypt.hashpw(npw, BCrypt.gensalt());
+				grabBO.changePassword(idacc, hashed);
+				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
+			}
 		}
 		else if(request.getParameter("adminprofile") != null) {
 			destination = "/View/ViewerTop.html";
