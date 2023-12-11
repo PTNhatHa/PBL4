@@ -283,6 +283,7 @@
                             <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 218px;" required="required">
                             <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 268px;" required="required">
                         </div>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModalToggle3" class="forgotpw">Forgot your password?</button>
                         <span class="OTPAlert" style="position: absolute; bottom: 167px;">
                             <p id="OTPAlertsignin">  </p>
                         </span>
@@ -295,7 +296,7 @@
     
     <!-- OTP -->
     <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered popup">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="OTPall">
 	            <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png); position: relative; top: 21px; right: -465px;">
@@ -314,6 +315,64 @@
 	                <div class="entermail" id="mail">
 	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
 	                    <button class="Button-bl-wh" data-bs-target="" data-bs-toggle="modal" onclick="checkOTPagain()">Send</button>
+	                </div>
+	                <span class="warning" id="warning" hidden> </span>
+	            </div>
+        	</div>
+          </div>
+        </div>
+    </div>
+    
+    <!-- Change Password -->
+    <div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="ChangePassword headform">
+                    <p style="margin: 24px 0 0; color: #1B335B; font-size: 30px; font-weight: bold;">- CHANGE PASSWORD -</p>
+                    <hr class="straightline" style="height: 3px; width: 62.37%; margin: 22px 18.76%; background-color: rgba(27, 51, 91, 0.9);">
+                    <div class="info-field">
+                        <p class="info-text">New password</p>
+                        <input class="info-enter" type="password" id="npw" placeholder="...">
+                        <button class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');"></button>
+                    </div>
+                    <div class="info-field">
+                        <p class="info-text">Confirm password</p>
+                        <input class="info-enter" type="password" id="cpw" placeholder="...">
+                        <button class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');"></button>
+                    </div>
+                    <div class="info-field">
+                        <span id="alertchangepw"><p class="alertchangepw-content"></p></span>
+                    </div>
+                    <div class="info-field" style="margin: 20px 0 0;">
+                        <button type="button" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>  <!-- THEM SU KIEN -->
+                        <button type="button" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- OTP CHANGE PASS -->
+    <div class="modal fade" id="exampleModalToggle5" aria-hidden="true" aria-labelledby="exampleModalToggleLabel5" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="OTPall">
+	            <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png); position: relative; top: 21px; right: -465px;">
+	            <div class="OTP">
+	                <p class="p-30">Enter your email</p>
+	                <div class="entermail">
+	                    <input style="width: 70%;" type="email" id="email" name="email" class="inputtext" placeholder="name@example.com" required="required">
+	                    <input type="button" name="sendOTP" class="Button-bl-wh" id="buttonSendOTP" value="Send OTP" onclick="checksend()">
+	                    
+	                    <span class="OTPAlert" id="OTPAlert"><p id="OTPAlertsignup"></p> </span>
+	                </div>
+	            </div>
+	            <div id="sendotp" class="OTP" hidden>
+	                <div class="line"><hr></div>
+	                <p class="p-30">Enter your OTP</p>  
+	                <div class="entermail" id="mail">
+	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
+	                    <button class="Button-bl-wh" data-bs-target="" data-bs-toggle="modal" onclick="">Send</button> <!-- THEM SU KIEN -->
 	                </div>
 	                <span class="warning" id="warning" hidden> </span>
 	            </div>
