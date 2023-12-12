@@ -64,17 +64,56 @@
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("warning").innerHTML = this.responseText;
                     if(this.responseText == "") {
-                    	/* location.href = "GrabServlet?signupform=1&email="+email; */
-                    	var a = document.getElementById("mail");
+//                     	location.href = "GrabServlet?signupform=1&email="+email;
+                    	var a = document.getElementById("mail"); 
                     	var signup = document.createElement("button");
                     	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                     	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
-                    	mail.appendChild(signup); // thêm phần tử vào trang web
+                    	mail.appendChild(signup);  // thêm phần tử vào trang web
                     	signup.click();
+                    	document.getElementById("emailsignup").value = email;
                     }
                 }
             };
-            xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp, true);
+            xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp+"&email="+email, true);
+            xmlhttp.send();
+		}
+		
+		function checkPassword() {
+        	var password = document.getElementById("pw").value;
+			var cfpassword = document.getElementById("cfpassword").value;
+			if(password != cfpassword) {
+				document.getElementById("OTPAlertp").innerHTML = "The confirm password does not match!";
+			}
+			else {
+				document.getElementById("OTPAlertp").innerHTML = "";
+			}
+        }
+        
+        function checkUsername() {
+        	var username = document.getElementById("usname").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?signupaccount=1&checkusername=1&username="+username, true);
+            xmlhttp.send();
+        }
+        
+        function signupAccount() {
+        	var email = document.getElementById("emailsignup").value;
+        	var name = document.getElementById("name").value;
+        	var username = document.getElementById("usname").value;
+        	var password = document.getElementById("pw").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
             xmlhttp.send();
 		}
 		function checkPassword() {
@@ -227,7 +266,7 @@
 
     <!-- Sign up -->
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered popup">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="signinform">
                 <div class="signinleft">
@@ -246,12 +285,16 @@
                     <p class="p-30" style="top: 62px;">Sign up</p>
                     <p class="p-14-50" style="top: 110px;">- For free -</p>
                     <div class="content">
-                        <input type="text" value="" placeholder="Name" style="top: 168px;">
-                        <input type="text" value="" placeholder="Username" style="top: 218px;">
-                        <input type="password" value="" placeholder="Password" style="top: 268px;">
-                        <input type="password" value="" placeholder="Confirm password" style="top: 318px;">
+                        <input type="email" value="" name="emailsignup" id="emailsignup" placeholder="Email" style="top: 150px;" readonly>
+                        <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
+                        <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
+                        <input type="password" value="" name="pw" id="pw" placeholder="Password" style="top: 285px;" required="required">
+                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword()">
                     </div>
-                    <input class="Button-or-bl" type="submit" value="Sign up" style="bottom: 62px;">
+                    <span class="OTPAlert" style="position: absolute; bottom: 108px;">
+                        <p id="OTPAlertp" > </p>
+                    </span>
+                    <input class="Button-or-bl" type="button" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
                 </div>
             </div>
             </div>
@@ -293,6 +336,7 @@
             </div>
         </div>
     </div>
+	
     
     <!-- OTP -->
     <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
