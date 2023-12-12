@@ -64,19 +64,58 @@
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("warning").innerHTML = this.responseText;
                     if(this.responseText == "") {
-                    	location.href = "GrabServlet?signupform=1&email="+email;
-                    	/* var a = document.getElementById("mail"); 
+//                     	location.href = "GrabServlet?signupform=1&email="+email;
+                    	var a = document.getElementById("mail"); 
                     	var signup = document.createElement("button");
                     	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                     	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
                     	mail.appendChild(signup);  // thêm phần tử vào trang web
-                    	signup.click(); */
+                    	signup.click();
+                    	document.getElementById("emailsignup").value = email;
                     }
                 }
             };
-            xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp, true);
+            xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp+"&email="+email, true);
             xmlhttp.send();
 		}
+		
+		function checkPassword() {
+        	var password = document.getElementById("pw").value;
+			var cfpassword = document.getElementById("cfpassword").value;
+			if(password != cfpassword) {
+				document.getElementById("OTPAlertp").innerHTML = "The confirm password does not match!";
+			}
+			else {
+				document.getElementById("OTPAlertp").innerHTML = "";
+			}
+        }
+        
+        function checkUsername() {
+        	var username = document.getElementById("usname").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?signupaccount=1&checkusername=1&username="+username, true);
+            xmlhttp.send();
+        }
+        
+        function signupAccount() {
+        	var email = document.getElementById("emailsignup").value;
+        	var name = document.getElementById("name").value;
+        	var username = document.getElementById("usname").value;
+        	var password = document.getElementById("pw").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
+            xmlhttp.send();
+        }
     </Script>
     <title>HAHYWU</title>
 </head>
@@ -206,11 +245,10 @@
         </section>
     </main>
     
-    <form name="signin" action="">
     
     	<!-- Sign up -->
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered popup">
+		<div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="signinform">
                 <div class="signinleft">
@@ -229,17 +267,64 @@
                     <p class="p-30" style="top: 62px;">Sign up</p>
                     <p class="p-14-50" style="top: 110px;">- For free -</p>
                     <div class="content">
-                        <input type="text" value="" placeholder="Name" style="top: 168px;">
-                        <input type="text" value="" placeholder="Username" style="top: 218px;">
-                        <input type="password" value="" placeholder="Password" style="top: 268px;">
-                        <input type="password" value="" placeholder="Confirm password" style="top: 318px;">
+                        <input type="email" value="" name="emailsignup" id="emailsignup" placeholder="Email" style="top: 150px;" readonly>
+                        <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
+                        <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
+                        <input type="password" value="" name="pw" id="pw" placeholder="Password" style="top: 285px;" required="required">
+                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword()">
                     </div>
-                    <input class="Button-or-bl" type="submit" value="Sign up" style="bottom: 62px;">
+                    <span class="OTPAlert" style="position: absolute; bottom: 108px;">
+                        <p id="OTPAlertp" > </p>
+                    </span>
+                    <input class="Button-or-bl" type="button" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
                 </div>
             </div>
           </div>
 		</div>
 	</div>
+
+<!-- 	<script> -->
+<!--  		var email = document.getElementById("email").value; -->
+<!--     </script> -->
+<%--     <form name="" action="GrabServlet?signupaccount=1&email=<script> email </script>" method="post"> --%>
+<!--     Sign up -->
+<!--     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1"> -->
+<!--         <div class="modal-dialog modal-dialog-centered popup"> -->
+<!--             <div class="modal-content"> -->
+<!--                 <div class="signinform"> -->
+
+<!--                     <div class="signinleft"> -->
+<!--                         <div class="logo" style="top: 62px;"> -->
+<!--                             <img class="logo-img" src="img/logo.png" alt=""> -->
+<!--                             <p class="logo-text">HAHYWU</p> -->
+<!--                         </div> -->
+<!--                             <img class="imgsign" src="img/signup.png" alt="image"> -->
+<!--                             <p class="p-16" style="top: 372px;">Already have an account?</p> -->
+<!--                             <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" style="bottom: 62px;"> -->
+<!--                                 Sign in -->
+<!--                             </button> -->
+<!--                     </div> -->
+
+<!--                     <div class="signinright"> -->
+<!--                         <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(img/Close.png);"> -->
+<!--                         <p class="p-30" style="top: 62px;">Sign up</p> -->
+<!--                         <p class="p-14-50" style="top: 110px;">- For <script> email </script> -</p> -->
+<!--                         <div class="content"> -->
+<!--                             <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 168px;" required="required"> -->
+<!--                             <input type="text" value="" name="username" id="username" placeholder="Username" style="top: 218px;" required="required" oninput="checkUsername()"> -->
+<!--                             <input type="password" value="" name="password" id="password" placeholder="Password" style="top: 268px;" required="required"> -->
+<!--                             <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 318px;" required="required" oninput="checkPassword()"> -->
+<!--                         </div>  -->
+<!--                        	<span class="OTPAlert" style="position: absolute; bottom: 120px;"> -->
+<!--                             <p id="OTPAlertp"> </p> -->
+<!--                         </span> -->
+<!--                         <input class="Button-or-bl" type="submit" name="butSignup" value="Sign up" style="bottom: 62px;"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     </form> -->
       
         <!-- Sign in -->
 	<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
@@ -276,6 +361,7 @@
             </div>
         </div>
     </div>
+	
     
     <!-- OTP -->
       <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
@@ -305,7 +391,33 @@
           </div>
         </div>
       </div>
-    </form>
+      
+      <!-- Change PW because u forgot -->
+      <div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+	        <div class="modal-dialog modal-dialog-centered">
+	            <div class="modal-content">
+	                <div class="ChangePassword headform">
+	                    <p style="margin: 24px 0 0; color: #1B335B; font-size: 30px; font-weight: bold;">- CHANGE PASSWORD -</p>
+	                    <hr class="straightline" style="height: 3px; width: 62.37%; margin: 22px 18.76%; background-color: rgba(27, 51, 91, 0.9);">
+	                    <div class="info-field">
+	                        <p class="info-text">New password</p>
+	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="...">
+	                        <button class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');"></button>
+	                    </div>
+	                    <div class="info-field">
+	                        <p class="info-text">Confirm password</p>
+	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="...">
+	                        <button class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');"></button>
+	                    </div>
+	                    <span class="warning" id="warning"> </span>
+	                    <div class="info-field" style="margin: 20px 0 0;">
+	                        <button type="submit" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
+	                        <button type="button" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
     <footer>
     </footer>
 </body>

@@ -91,9 +91,7 @@ public class GrabServlet extends HttpServlet {
 				account.setPassword(hashed);
 				grabBO.signupAccount(account);
 
-				destination = "/View/Signin.html";
-				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-				rd.forward(request, response);
+				response.getWriter().write("Sign up successfully!");
 			}
 		}
 		else if(request.getParameter("signin") != null) {
