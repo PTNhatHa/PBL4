@@ -65,11 +65,11 @@
                     document.getElementById("warning").innerHTML = this.responseText;
                     if(this.responseText == "") {
 //                     	location.href = "GrabServlet?signupform=1&email="+email;
-                    	var a = document.getElementById("mail"); 
+                    	var a = document.getElementById("sign-up"); 
                     	var signup = document.createElement("button");
                     	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                     	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
-                    	mail.appendChild(signup);  // thêm phần tử vào trang web
+                    	a.appendChild(signup);  // thêm phần tử vào trang web
                     	signup.click();
                     	document.getElementById("emailsignup").value = email;
                     }
@@ -111,6 +111,12 @@
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                    var a = document.getElementById("sign-in"); 
+                	var signin = document.createElement("button");
+                	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+                	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
+                	a.appendChild(signin);  // thêm phần tử vào trang web
+                	signin.click();
                 }
             };
             xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
@@ -135,7 +141,7 @@
                     document.getElementById("OTPAlertp").innerHTML = this.responseText;
                 }
             };
-            xmlhttp.open("GET", "?signupaccount=1&checkusername=1&username="+username, true);
+            xmlhttp.open("GET", "GrabServlet?signupaccount=1&checkusername=1&username="+username, true);
             xmlhttp.send();
         }
     </Script>
@@ -280,11 +286,11 @@
                             Sign in
                         </button>
                 </div>
-                <div class="signinright">
+                <div class="signinright"  >
                     <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
                     <p class="p-30" style="top: 62px;">Sign up</p>
                     <p class="p-14-50" style="top: 110px;">- For free -</p>
-                    <div class="content">
+                    <div class="content" id="sign-up">
                         <input type="email" value="" name="emailsignup" id="emailsignup" placeholder="Email" style="top: 150px;" readonly>
                         <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
                         <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
@@ -313,16 +319,16 @@
                         </div>
                         <img class="imgsign" src="img/signin.png" alt="image">
                         <p class="p-16" style="top: 372px;">Don’t have an account yet?</p>
-                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style="bottom: 62px;">
+                        <button type="button" class="Button-bl-or" data-bs-toggle="modal" data-bs-target="#exampleModalToggle3" style="bottom: 62px;">
                             Sign up
                         </button>
                     </div>
 
-                    <div class="signinright">
+                    <div class="signinright" >
                         <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
                         <p class="p-30" style="top: 116px;">Sign in</p>
                         <p class="p-14-50" style="top: 164px;">- Welcome back -</p>
-                        <div class="content">
+                        <div class="content" id="sign-in">
                             <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 218px;" required="required">
                             <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 268px;" required="required">
                         </div>

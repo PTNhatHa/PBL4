@@ -15,7 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>User Top</title>
-    <jsp:include page="Header.jsp"/>
 </head>
 <body>
     <form name="UserTop" action="">
@@ -52,6 +51,5 @@
             <div class="pure-u-2-24"></div>
         </div>
     </form>
-    <jsp:include page="UserPI.jsp" />
 </body>
 </html>
