@@ -10,9 +10,9 @@
     padding: 0;
 }
 .topcenter {
-    position: fixed;
+    position: relative;
     top: 80px;
-    left: 8.3333%;
+    left: 8.33333%;
     background-color: white;
     width: 83.333%;
     height: 260px;
@@ -117,11 +117,11 @@
     position: absolute;
     border: solid 2px var(--darkblue);
     border-radius: 30px;    
-    height: 400px;
+    height: 397px;
     text-align: center;
     padding: auto 0px !important;
     top: 340px;
-    left: 8.333%;
+    left: 8.3333%;
 }
 .headform > p {
     display: inline-block;

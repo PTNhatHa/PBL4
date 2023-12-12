@@ -12,9 +12,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" href="View/style11.css">
     <link rel="stylesheet" href="View/style22.css">
+    <link rel="stylesheet" href="View/style33.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>User Top</title>
+    <script>
+        function show(id1) {
+            var x = document.getElementById(id1);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <form name="UserTop" action="">
@@ -38,7 +49,7 @@
 					<%
                     	}
 					%> 
-                        <input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);">
+                        <input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);" onclick="show('camera-choice')">
                     </div>
                     <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
                 </div>
@@ -47,6 +58,12 @@
                     <input type="submit" value="Information">
                     <input type="submit" value="Post">
                 </div>
+                <span id="camera-choice" style="display: none;">
+                    <div>
+                        <button class="choice">Change avatar</button>
+                        <button class="choice">Delete avatar</button>
+                    </div>
+                </span>
             </div>
             <div class="pure-u-2-24"></div>
         </div>

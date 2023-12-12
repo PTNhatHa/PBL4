@@ -10,6 +10,7 @@
     margin: 0;
     padding: 0;
 }
+
 /* CHANGE PASSWORD */
 .ChangePassword {
     background-color: white;
@@ -58,6 +59,116 @@
     background-position: center;
 }
 .alertchangepw-content {
-	color: #F1916D;
-	font-size: 14px;
+    color: #F1916D;
+    font-size: 14px;
 }
+
+/* SIGN OUT */
+#click-choice, #notification-box, #camera-choice {
+    display: block;
+    position: absolute;
+    right: 14px;
+    bottom: -44px;
+    width: 230px;
+    height: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px grey;
+}
+.signout {
+    width: 220px;
+    height: 40px;
+    margin: 7px 0;
+    background-image: url(../img/signout.png);
+    background-position: left 21px bottom 7px;
+    background-repeat: no-repeat;
+    background-color: white;
+    text-align: left;
+    color: var(--darkblue);
+    padding-left: 60px;
+    border-radius: 10px;
+    border: none;
+}
+.signout:hover {
+    background-color: rgba(137,161,201,0.3);
+    border: none;
+}
+
+/* NOTIFICATION */
+#notification-box {
+    height: 280px !important;
+    bottom: -270px !important;
+    right: 85px !important;
+    overflow: auto;
+    overflow-x: hidden;
+    text-align: left;
+}
+.notification-header {
+    border-bottom: 2px solid rgba(27, 51, 91, 0.5);
+    width: 240px;
+    height: 30px;
+    margin: 17px 0 0 11px;
+    font-size: 18px;
+    color: var(--darkblue);
+}
+.notification-content {
+    position: relative;
+    border-radius: 10px;
+    width: 245px;
+    margin:2px 0 2px 7px;
+    overflow: hidden;
+    padding: 2px 0 5px 5px;
+}
+.notification-content.unseen {
+    background-color: rgba(137,161,201,0.3);
+}
+.notification-ava {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url(../img/avata1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-radius: 90px;
+    width: 33px;
+    height: 33px;
+}
+.notification-text {
+    color: rgba(27, 51, 91, 0.9);
+    float: left;
+    width: 75%;
+    font-size: 14px;
+    height: auto;
+    line-height: 20px;
+    margin-left: 40px;
+    margin-bottom: 0;
+}
+.notification-text > b {
+    color: #1B335B;
+}
+
+/* CAMERA CHOICE */
+#camera-choice {
+    width: 200px;
+    height: 110px;
+    top: 140px;
+    left: 110px;
+}
+.choice {
+    color: #1B335B;
+    font-size: 16px;
+    width: 90%;
+    height: 40px;
+    margin: 7px 0;
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+}
+.choice:hover {
+    background-color: rgba(137,161,201,0.3);
+}
+

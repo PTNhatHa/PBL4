@@ -259,7 +259,7 @@ p.introtext {
 }
 #SLNoti {
     position: absolute;
-    right: 40px;
+    right: 60px;
     top: -10px;
     text-align: center;
     background-color: var(--darkorange);
@@ -407,6 +407,7 @@ p.introtext {
     color: var(--darkblue50);
     position: absolute;
     align-content: center;
+    padding: 0;
 }
 .content {
     position: absolute;
