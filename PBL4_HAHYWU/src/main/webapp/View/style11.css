@@ -599,6 +599,14 @@ p.introtext {
 }
 
 /* Admin */
+.taskbar {
+	height: 60px; 
+	width: 100%;
+	margin-top: 80px; 
+	z-index: 9999;
+	position: fixed;
+	background-color: white;
+}
 .taskbarleft {
     display: flex; 
 }
@@ -606,8 +614,20 @@ p.introtext {
     background-color: transparent;
     color: var(--darkblue);
     border: 2px solid white;
-    margin: 12px 10px;
+    margin: 12px 10px 12px 0px;
     padding: 7px;
+    font-size: 16px;
+    font-weight: 800;
+}
+.taskbarchoice {
+	border: 2px solid var(--darkblue);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--darkblue);
+    margin: 12px 10px 12px 0px;
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 800;
 }
 .taskbarbutton:hover {
     border: 2px solid var(--darkblue);
@@ -618,7 +638,7 @@ p.introtext {
     top: 25%;
     bottom: 25%;
     border-radius: 90px;
-    display: flex; 
+    display: flex !important; 
     justify-content: right; 
     align-items: center;
 }
@@ -642,15 +662,12 @@ p.introtext {
     position: absolute;
     right: 9%;
 }
-.filter {
+.cbb {
     padding: 10px;
     margin: auto 10px;
     background-color: transparent;
     border: 2px solid var(--darkblue);
     border-radius: 30px;  
     color: var(--darkblue); 
-}
-.filter:hover {
-    background-color: var(--darkblue);
-    color: white;
+    width: 100px;
 }

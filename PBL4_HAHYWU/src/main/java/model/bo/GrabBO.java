@@ -1,8 +1,11 @@
 package model.bo;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.bean.Account;
+import model.bean.Field;
+import model.bean.Post;
 import model.bean.User;
 import model.dao.GrabDAO;
 
@@ -43,6 +46,14 @@ public class GrabBO {
 	
 	public void changePassword(String idacc, String npw) {
 		grabDAO.changePassword(idacc, npw);
+	}
+	
+	/* Admin */
+	public ArrayList<Post> getAllPost(int censor) {
+		return grabDAO.getAllPost(censor);
+	}
+	public ArrayList<Field> getAllField() throws Exception, Exception {
+		return grabDAO.getAllField();
 	}
 }
 

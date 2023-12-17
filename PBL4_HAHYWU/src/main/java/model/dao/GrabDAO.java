@@ -12,6 +12,9 @@ import org.mindrot.jbcrypt.BCrypt;
 
 
 import model.bean.Account;
+import model.bean.Field;
+import model.bean.Image;
+import model.bean.Post;
 import model.bean.User;
 
 public class GrabDAO {
@@ -266,6 +269,97 @@ public class GrabDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/* Admin */
+	public ArrayList<Post> getAllPost(int censor) {
+	    Post post = null;
+	    ArrayList<Post> listpost = new ArrayList<Post>();
+	    try {
+	        String sql = "SELECT * FROM post WHERE Censor = '" + censor + "'";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        ResultSet rs = preStmt.executeQuery();
+	        while(rs.next()) 
+	        {
+	        	post = new Post();
+	        	post.setID_Post(rs.getString(1));
+	        	post.setID_Author(rs.getString(2));
+	        	
+	        	sql = "SELECT * FROM account WHERE ID_Account = '" + post.getID_Author() + "'";
+		        preStmt = connectionMySQL(sql);
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        {
+		        	post.setName_Author(rs1.getString(2));
+		        	post.setAvatar_Author(rs1.getBytes(10));
+		        }
+	        	post.setTitle(rs.getString(3));
+	        	post.setDate_Post(rs.getDate(4));
+	        	post.setContent(rs.getString(5));
+	        	post.setHastag(rs.getString(6));
+	        	post.setComment_Quantity(rs.getInt(7));
+	        	post.setCensor(rs.getInt(8));
+	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
+	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+	        	listpost.add(post);
+            }
+	    } catch (Exception e) {
+	    }
+	    return listpost;
+	}
+	public ArrayList<Field> getFieldOfPost(String ID_Post) throws Exception, SQLException {
+		Field field = null;
+		ArrayList<Field> listFields = new ArrayList<Field>();
+		String sql = "SELECT * FROM post_field WHERE ID_Post = '" + ID_Post + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+    		field = new Field();
+    		field.setID_Field(rs.getString("ID_Field"));
+    		listFields.add(field);
+        }
+        for(int i=0; i<listFields.size(); i++)
+        {
+        	sql = "SELECT * FROM field WHERE ID_Field = '" + listFields.get(i).getID_Field() + "'";
+        	preStmt = connectionMySQL(sql);
+        	rs = preStmt.executeQuery();
+        	if(rs.next())
+        	{
+        		listFields.get(i).setName_Field(rs.getString("Name"));
+        	}
+        }
+        return listFields;
+	}
+	public ArrayList<Image> getImagesOfPost(String ID_Post) throws Exception, SQLException {
+		Image image = null;
+		ArrayList<Image> listImages = new ArrayList<Image>();
+		String sql = "SELECT * FROM post_images WHERE ID_Post = '" + ID_Post + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	image = new Image();
+        	image.setID_Image(rs.getString(2));
+        	image.setImage(rs.getBytes(3));
+        	listImages.add(image);
+        }
+		return listImages;
+	}
+	public ArrayList<Field> getAllField() throws Exception, SQLException {
+		Field field = null;
+		ArrayList<Field> listFields = new ArrayList<Field>();
+		String sql = "SELECT * FROM field";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	field = new Field();
+        	field.setID_Field(rs.getString(1));
+        	field.setName_Field(rs.getString(2));
+        	listFields.add(field);
+        }
+        return listFields;
 	}
 }
 
