@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -13,6 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import model.bean.Account;
 import model.bean.Field;
 import model.bean.Image;
+import model.bean.Notification;
 import model.bean.Post;
 
 public class GrabDAO {
@@ -158,7 +161,7 @@ public class GrabDAO {
 	}
 	
 	/* Admin */
-	public ArrayList<Post> getAllPost(int censor) {
+	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
@@ -185,10 +188,33 @@ public class GrabDAO {
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
 	        	post.setCensor(rs.getInt(8));
-	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
-	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
-	        	listpost.add(post);
-            }
+	        	Boolean check=false;
+	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
+	        	if(ID_Field.equals("0")) //All Fields
+	        	{
+	        		check = true;
+	        	}
+	        	else {
+					if(listfields.size() > 0)
+					{
+						int i;
+						for(i=0; i<listfields.size(); i++)
+						{
+							if(listfields.get(i).getID_Field().equals(ID_Field))
+							{
+								check=true;
+								break;
+							}
+						}
+					}
+				}
+	        	if(check)
+	        	{
+	        		post.setlistFields(listfields);
+		        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+		        	listpost.add(post);
+	        	}
+	        	            }
 	    } catch (Exception e) {
 	    }
 	    return listpost;
@@ -246,6 +272,31 @@ public class GrabDAO {
         	listFields.add(field);
         }
         return listFields;
+	}
+	public int updateCensor(String ID_Post, int censor) throws Exception {
+		String sql = "UPDATE post SET Censor='" + censor + "' WHERE ID_Post='" + ID_Post + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		return rs;
+	}
+	public ArrayList<Integer> findID_Noti_Max() throws Exception, SQLException {
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		String sql = "SELECT * FROM notification";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	l.add(Integer.parseInt(rs.getString("ID_Notification")));
+        }
+        Collections.sort(l, Collections.reverseOrder());
+        return l;
+	}
+	public int addNotification(Notification noti) throws Exception {
+		String sql = "INSERT INTO notification VALUE ('" + noti.getID_Notification() + "', '" + noti.getID_Commentator() + "', '" 
+						+ noti.getID_Post() + "', '" + noti.getMessage() + "', '" + noti.getDate_Time() + "', '" + noti.isStatus() + "')";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		return rs;
 	}
 }
 

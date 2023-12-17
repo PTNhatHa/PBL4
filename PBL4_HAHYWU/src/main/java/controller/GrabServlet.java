@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -25,6 +28,8 @@ import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
+import model.bean.Field;
+import model.bean.Notification;
 import model.bean.Post;
 import model.bo.GrabBO;
 import model.dao.GrabDAO;
@@ -131,25 +136,172 @@ public class GrabServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 		else if(request.getParameter("Censoring") != null) {
-			ArrayList<Post> listpost = grabBO.getAllPost(0);
-			request.setAttribute("listpost", listpost);
-			destination = "/View/TaskCensoring.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
+			if(request.getParameter("IDPost") != null)
+			{
+				if(request.getParameter("Censored") != null)
+				{
+					try {
+						boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 1);
+						if(check)
+						{
+							Notification noti = new Notification();
+							noti.setID_Post(request.getParameter("IDPost"));
+							noti.setMessage("Your post has been approved.");
+							LocalDate now = LocalDate.now();
+							Date nowDate = Date.valueOf(now);
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							boolean check2 = grabBO.addNotification(noti);
+							if(check2)
+							{
+								System.out.print(true);
+							}
+							else {
+								System.out.print(false);
+							}
+							ArrayList<Field> listFields = grabBO.getAllField();
+							request.setAttribute("listFields", listFields);
+							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+							request.setAttribute("listpost", listpost);
+							destination = "/View/TaskCensoring.jsp";
+							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+							rd.forward(request, response);
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (request.getParameter("AllReasons") != null) {
+					try {
+						boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 2);
+						if(check)
+						{
+							Notification noti = new Notification();
+							noti.setID_Post(request.getParameter("IDPost"));
+							noti.setMessage("Your post was not approved because: " + request.getParameter("AllReasons"));
+							LocalDate now = LocalDate.now();
+							Date nowDate = Date.valueOf(now);
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							boolean check2 = grabBO.addNotification(noti);
+							if(check2)
+							{
+								System.out.print(true);
+							}
+							else {
+								System.out.print(false);
+							}
+							ArrayList<Field> listFields = grabBO.getAllField();
+							request.setAttribute("listFields", listFields);
+							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+							request.setAttribute("listpost", listpost);
+							destination = "/View/TaskCensoring.jsp";
+							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+							rd.forward(request, response);
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			else if(request.getParameter("IDField") != null)
+			{
+				try {
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(0,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/TaskCensoring.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				try {
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+					request.setAttribute("listpost", listpost);
+					destination = "/View/TaskCensoring.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		else if(request.getParameter("Censored") != null) {
-			ArrayList<Post> listpost = grabBO.getAllPost(1);
-			request.setAttribute("listpost", listpost);
-			destination = "/View/TaskCensored.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/TaskCensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+					request.setAttribute("listpost", listpost);
+					destination = "/View/TaskCensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		else if(request.getParameter("Uncensored") != null) {
-			ArrayList<Post> listpost = grabBO.getAllPost(2);
-			request.setAttribute("listpost", listpost);
-			destination = "/View/TaskUncensored.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(2,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/TaskUncensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+					request.setAttribute("listpost", listpost);
+					destination = "/View/TaskUncensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	public boolean sendOTP(String email) {
