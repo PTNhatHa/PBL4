@@ -83,7 +83,10 @@
                             <div class="post-content">
                                 <textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.get(i).getTitle() %></textarea>
                                 <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
-                                <textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                                <% if(!listpost.get(i).getHastag().equals(""))
+                               	{%>
+                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                               	<%} %>
                                 <% if (lipost.size() != 0)
                                 	{
 	    								for(int k=0; k < lipost.size(); k++)
