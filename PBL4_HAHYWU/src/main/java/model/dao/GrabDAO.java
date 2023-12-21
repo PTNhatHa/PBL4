@@ -67,6 +67,8 @@ public class GrabDAO {
 	        String newId = "US" + (count + 1);
 	        int roleacc = 1;
 
+	        java.util.Date utilDate = account.getBirthday();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 	        // Thêm tài khoản mới vào bảng account
 	        String insertSql1 = "INSERT INTO account (ID_Account, Display_Name, Username, Password, Email_Address, Phone_Number, Birthday, Gender, Address, Avatar, Role_Account) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement insertStmt = connectionMySQL(insertSql1);
@@ -76,7 +78,7 @@ public class GrabDAO {
 	        insertStmt.setString(4, account.getPassword());
 	        insertStmt.setString(5, account.getEmail_Address());
 	        insertStmt.setString(6, account.getPhone_Number());
-	        insertStmt.setDate(7, account.getBirthday());
+	        insertStmt.setDate(7, sqlDate);
 	        insertStmt.setInt(8, account.getGender());
 	        insertStmt.setString(9, account.getAddress());
 	        insertStmt.setBytes(10, account.getAvatar());
@@ -275,6 +277,28 @@ public class GrabDAO {
 	}
 	
 	/* Admin */
+	public void updateAccount(Account user) {
+		try
+		{
+			java.util.Date utilDate = user.getBirthday();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	        // Update bang account
+	        String sql1 = "UPDATE account SET Display_Name = ?, Email_Address = ?, Phone_Number = ?, Birthday = ?, Gender = ?, Address = ? WHERE ID_Account = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql1);
+	        preStmt.setString(1, user.getDisplay_Name());
+	        preStmt.setString(2, user.getEmail_Address());
+	        preStmt.setString(3, user.getPhone_Number());
+	        preStmt.setDate(4, sqlDate);
+	        preStmt.setInt(5, user.getGender());
+	        preStmt.setString(6, user.getAddress());
+	        preStmt.setString(7, user.getID_Account());
+	        preStmt.execute();
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();

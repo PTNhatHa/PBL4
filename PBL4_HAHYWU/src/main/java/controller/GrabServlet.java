@@ -171,9 +171,53 @@ public class GrabServlet extends HttpServlet {
 			}
 		}
 		else if(request.getParameter("adminprofile") != null) {
-			destination = "/View/ViewerTop.html";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
+			if(request.getParameter("changepwA") != null) {
+				if(request.getParameter("username") != null && request.getParameter("password") != null) {
+					String username = request.getParameter("username");
+					String password = request.getParameter("password");
+					if(grabBO.checkPassword(username, password) == false) {
+						response.getWriter().write("The password is incorrect!");
+					}
+					else {
+						response.getWriter().write("");
+					}
+				}
+				else if(request.getParameter("idacc") != null) {
+					String idacc = request.getParameter("idacc");
+					String npw = request.getParameter("npw");
+					String hashed = BCrypt.hashpw(npw, BCrypt.gensalt());
+					grabBO.changePassword(idacc, hashed);
+					response.sendRedirect("GrabServlet?adminprofile=1&idacc="+idacc);
+				}
+			}
+			else {
+				String idacc = request.getParameter("idacc");
+				Account admin = grabBO.getAccountByIDAccount(idacc);
+				request.setAttribute("admin", admin);
+				destination = "/View/AdminPI.jsp";
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+				rd.forward(request, response);
+			}
+		}
+		else if(request.getParameter("updateadmin") != null) {
+			Account user = new Account();
+			String idacc = request.getParameter("idacc");
+			try {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				user.setID_Account(idacc);
+				user.setDisplay_Name(request.getParameter("name"));
+				user.setEmail_Address(request.getParameter("email"));
+				user.setPhone_Number(request.getParameter("number"));
+				user.setBirthday(formatter.parse(request.getParameter("birthday")));
+				user.setGender(Integer.parseInt(request.getParameter("gender")));
+				user.setAddress(request.getParameter("address"));
+				grabBO.updateAccount(user);
+				response.sendRedirect("GrabServlet?adminprofile=1&idacc="+idacc);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		else if(request.getParameter("Censoring") != null) {
 			if(request.getParameter("IDPost") != null)
@@ -192,13 +236,9 @@ public class GrabServlet extends HttpServlet {
 							noti.setDate_Time(nowDate);
 							noti.setStatus(0);
 							boolean check2 = grabBO.addNotification(noti);
-							if(check2)
-							{
-								System.out.print(true);
-							}
-							else {
-								System.out.print(false);
-							}
+							String idacc = request.getParameter("idacc");
+							Account admin = grabBO.getAccountByIDAccount(idacc);
+							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
 							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
@@ -225,13 +265,10 @@ public class GrabServlet extends HttpServlet {
 							noti.setDate_Time(nowDate);
 							noti.setStatus(0);
 							boolean check2 = grabBO.addNotification(noti);
-							if(check2)
-							{
-								System.out.print(true);
-							}
-							else {
-								System.out.print(false);
-							}
+							
+							String idacc = request.getParameter("idacc");
+							Account admin = grabBO.getAccountByIDAccount(idacc);
+							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
 							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
@@ -249,6 +286,9 @@ public class GrabServlet extends HttpServlet {
 			else if(request.getParameter("IDField") != null)
 			{
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(0,request.getParameter("IDField"));
@@ -264,6 +304,9 @@ public class GrabServlet extends HttpServlet {
 			}
 			else {
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
@@ -281,6 +324,9 @@ public class GrabServlet extends HttpServlet {
 			if(request.getParameter("IDField") != null)
 			{
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
@@ -297,6 +343,9 @@ public class GrabServlet extends HttpServlet {
 			else {
 				ArrayList<Field> listFields;
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
@@ -314,6 +363,9 @@ public class GrabServlet extends HttpServlet {
 			if(request.getParameter("IDField") != null)
 			{
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(2,request.getParameter("IDField"));
@@ -330,6 +382,9 @@ public class GrabServlet extends HttpServlet {
 			else {
 				ArrayList<Field> listFields;
 				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");

@@ -30,7 +30,7 @@
 <body>
     <form name="UserTop" action="">
         <div class="pure-g">
-            <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: relative;"></div>
+            <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: fixed;"></div>
             <div class="pure-u-20-24 topcenter">
                 <div class="top">
                     <div class="ava">
@@ -55,7 +55,7 @@
                 </div>
                 <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
                 <div class="menu-top">
-                    <input type="submit" value="Information">
+                    <input type="submit" value="Information" style="background-color: #89A1C9;">
                     <input type="submit" value="Post">
                 </div>
                 <span id="camera-choice" style="display: none;">

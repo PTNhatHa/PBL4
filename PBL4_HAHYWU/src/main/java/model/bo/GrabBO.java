@@ -51,6 +51,10 @@ public class GrabBO {
 	}
 	
 	/* Admin */
+	public void updateAccount(Account user) {
+		grabDAO.updateAccount(user);
+	}
+	
 	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
 		return grabDAO.getAllPost(censor, ID_Field);
 	}

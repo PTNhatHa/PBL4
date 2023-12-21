@@ -56,7 +56,7 @@
                 <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
                 <div class="menu-top">
                     <input type="submit" value="Information">
-                    <input type="submit" value="Post">
+                    <input type="submit" value="Post" style="background-color: #89A1C9;">
                 </div>
                 <span id="camera-choice" style="display: none;">
                     <div>

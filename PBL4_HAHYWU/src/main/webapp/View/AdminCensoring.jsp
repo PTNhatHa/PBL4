@@ -1,3 +1,4 @@
+<%@page import="model.bean.Account"%>
 <%@page import="model.bean.Field"%>
 <%@page import="model.bean.Post"%>
 <%@page import="java.util.ArrayList"%>
@@ -28,8 +29,7 @@
     </style>
     <script>
         function uncensored(id) {
-            var a = document.getElementById('saveReason');
-            a.setAttribute('href', 'GrabServlet?Censoring=1&IDPost=' + id);
+            document.getElementById("idp").value = id;
         }
         function txtReasons()
         {
@@ -61,7 +61,9 @@
             {
                 txt.value = document.getElementById('rs3txt').value;
             }
-            location = document.getElementById('saveReason').getAttribute('href') + "&AllReasons=" + txt.value;
+            var l = "GrabServlet?Censoring=1&IDPost=" + document.getElementById("idp").value + "&AllReasons=" + txt.value + "&idacc=" + document.getElementById("acc").value;
+            alert(l);
+            location = l;
         }
     </script>
 </head>
@@ -72,6 +74,7 @@
             <div class="pure-u-12-24">
                 <!-- Bỏ dô vòng for -->
                 <%
+                	Account acc = (Account) request.getAttribute("admin");
                     ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
                     for (int i=0; i < listpost.size(); i++)
                     {
@@ -150,7 +153,7 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censored=1"><input type="button" name="" class="btCensor" value="Censored"></a>
+                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censored=1&idacc=<%= acc.getID_Account() %>"><input type="button" name="" class="btCensor" value="Censored"></a>
                             <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
                         </div>
                     </div>
@@ -160,7 +163,7 @@
             </div>
             <div class="pure-u-6-24"></div>
         </div>
-
+        
         <!-- Reason -->
         <div class="modal" id="exampleModalToggle" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -187,11 +190,14 @@
                             </div>
                         </div>
                         <div class="bt">
+                        <%  %>
                             <a id="saveReason" href="" onclick="txtReasons()"><input type="submit" class="Button-or-bl" value="Save"></a>
                             <input type="reset" class="Button-or-bl" value="Reset">
                         </div>
                         <div hidden>
                             <input id="reasons" type="text" value="">
+                            <input id="acc" type="text" value="<%= acc.getID_Account() %>">
+                            <input id="idp" type="text" value="">
                         </div>
                     </div>
                 </div>

@@ -70,6 +70,7 @@
                     	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                     	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
                     	a.appendChild(signup);  // thêm phần tử vào trang web
+                    	signup.hidden = true;
                     	signup.click();
                     	document.getElementById("emailsignup").value = email;
                     }
@@ -115,6 +116,7 @@
                 	var signin = document.createElement("button");
                 	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                 	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
+                	signin.hidden = true;
                 	a.appendChild(signin);  // thêm phần tử vào trang web
                 	signin.click();
                 }
@@ -122,28 +124,6 @@
             xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
             xmlhttp.send();
 		}
-		function checkPassword() {
-        	var password = document.getElementById("password").value;
-			var cfpassword = document.getElementById("cfpassword").value;
-			if(password != cfpassword) {
-				document.getElementById("OTPAlertp").innerHTML = "The confirm password does not match!";
-			}
-			else {
-				document.getElementById("OTPAlertp").innerHTML = "";
-			}
-        }
-        
-        function checkUsername() {
-        	var username = document.getElementById("username").value;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
-                }
-            };
-            xmlhttp.open("GET", "GrabServlet?signupaccount=1&checkusername=1&username="+username, true);
-            xmlhttp.send();
-        }
     </Script>
     <title>HAHYWU</title>
 </head>
@@ -326,17 +306,17 @@
 
                     <div class="signinright" >
                         <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
-                        <p class="p-30" style="top: 116px;">Sign in</p>
-                        <p class="p-14-50" style="top: 164px;">- Welcome back -</p>
+                        <p class="p-30" style="top: 100px;">Sign in</p>
+                        <p class="p-14-50" style="top: 148px;">- Welcome back -</p>
                         <div class="content" id="sign-in">
-                            <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 218px;" required="required">
-                            <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 268px;" required="required">
+                            <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 210px;" required="required">
+                            <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 260px;" required="required">
                         </div>
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModalToggle3" class="forgotpw">Forgot your password?</button>
-                        <span class="OTPAlert" style="position: absolute; bottom: 167px;">
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModalToggle3" class="forgotpw" style="bottom: 185px;">Forgot your password?</button>
+                        <span class="OTPAlert" style="position: absolute; bottom: 145px;">
                             <p id="OTPAlertsignin">  </p>
                         </span>
-                        <input class="Button-or-bl" type="button" value="Sign in" style="bottom: 116px;" onclick="checkAccount()">
+                        <input class="Button-or-bl" type="button" value="Sign in" style="bottom: 100px;" onclick="checkAccount()">
                     </div>
                 </div>
             </div>

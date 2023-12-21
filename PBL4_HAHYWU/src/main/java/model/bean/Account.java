@@ -1,6 +1,6 @@
 package model.bean;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Account {
 	private String ID_Account ;
@@ -61,7 +61,7 @@ public class Account {
 		return Birthday;
 	}
 	public void setBirthday(Date birthday) {
-		Birthday = birthday;
+		this.Birthday = birthday;
 	}
 	
 	public int getGender() {

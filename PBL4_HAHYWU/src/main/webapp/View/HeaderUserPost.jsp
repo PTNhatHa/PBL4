@@ -10,20 +10,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="View/style11.css">
+    <link rel="stylesheet" href="View/style111.css">
     <link rel="stylesheet" href="View/style33.css">
     <title>Header</title>
     <script>
-        function show(id1, id2) {
-            var x = document.getElementById(id1);
-            var y = document.getElementById(id2);
-            y.style.display = "none";
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
+	    function show(id1) {
+	        var x = document.getElementById(id1);
+	        if (x.style.display === "none") {
+	            x.style.display = "block";
+	        } else {
+	            x.style.display = "none";
+	        }
+	    }
         function signout() {
             location.href = "index.jsp";
         }
@@ -40,8 +38,8 @@
                         <p class="logo-text">HAHYWU</p>
                     </div>
                     <div class="button-head">
-                        <input id="Profile" class="button-head-hover" type="button" value="" style="background-image: url(img/Profile.png);">
-                        <input id="Home" type="button" value="" style="background-image: url(img/Home.png);">
+                        <a><input id="Profile" type="button" value="" style="background-image: url(img/Profile.png);"></a>
+                        <a><input id="" class="button-head-hover" type="button" value="" style="background-image: url(img/Home.png);"></a>
                     </div>
                     <div> 
                         <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">
@@ -58,13 +56,13 @@
                     	}
                     	else {
 					%>
-						<input type="button" name="" class="leftbut" style="background-image: url(img/defaultavatar.jpg); background-size: 45px;">
+						<input type="button" name="" class="leftbut" style="background-image: url(img/defaultavatar.jpg); background-size: 45px;" onclick="show('click-choice', 'notification-box')">
 					<%
                     	}
 					%> 
 					<span id="click-choice" style="display: none;">
                     <div>
-                        <button class="signout">Sign out</button>
+                        <button class="signout" onclick="signout()">Sign out</button>
                     </div>
 	                </span>
 	                <span id="notification-box" style="display: none;">
