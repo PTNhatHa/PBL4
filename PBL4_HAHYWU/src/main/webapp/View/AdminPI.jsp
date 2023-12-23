@@ -145,22 +145,22 @@
 	                    <div class="info-field">
 	                        <p class="info-text">Password</p>
 	                        <input class="info-enter" type="password" name="pw" id="pw" placeholder="..." oninput="checkPW('<%= user.getUsername() %>')">
-	                        <button class="showpw" id="showpw" onmousedown="showPW('pw', 'showpw');" onmouseup="hidePW('pw', 'showpw')"></button>
+	                        <input class="showpw" type="button" id="showpw" onmousedown="showPW('pw', 'showpw');" onmouseup="hidePW('pw', 'showpw')">
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">New password</p>
 	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="...">
-	                        <button class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');"></button>
+	                        <input class="showpw" type="button" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');">
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">Confirm password</p>
 	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="..." oninput="checkcfPW()">
-	                        <button class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');"></button>
+	                        <input class="showpw" type="button" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');">
 	                    </div>
 	                    <span class="warning" id="warning"> </span>
 	                    <div class="info-field" style="margin: 20px 0 0;">
 	                        <button type="submit" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
-	                        <button type="button" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
+	                        <button class="Button-or-bl" data-bs-dismiss="modal" style="position: relative; margin-left: 15px;">Cancel</button>
 	                    </div>
 	                </div>
 	            </div>

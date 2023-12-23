@@ -61,7 +61,7 @@
                         <% }
                         	else{
                         %>
-                        		<div class="avapic" style="width: 60px; height: 60px;"></div>
+                        		<div class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"></div>
                         <%} %>
                             <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" readonly>
                             <input type="date" class="date" value="<%= listpost.get(i).getDate_Post() %>" readonly>
@@ -96,11 +96,6 @@
 	    									<%
 	    								}
     							} %>
-                            </div>
-                        </div>
-                        <div class="post-row">
-                            <div class="post-content">
-                                <a href=""><input type="button" name="" class="btCensor" value="Delete"></a>
                             </div>
                         </div>
                     </div>

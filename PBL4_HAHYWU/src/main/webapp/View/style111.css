@@ -671,3 +671,6 @@ p.introtext {
     color: var(--darkblue); 
     width: 100px;
 }
+.scroll::-webkit-scrollbar {
+    display: none;
+  }

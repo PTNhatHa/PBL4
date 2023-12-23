@@ -76,8 +76,6 @@ public class GrabBO {
 			id = "1";
 		}
 		else {
-			System.out.print(l.get(0).intValue() + "\n");
-			System.out.print(l.get(0).intValue() + 1);
 			id = String.valueOf(l.get(0).intValue() + 1);
 		}
 		noti.setID_Notification(id);
@@ -86,6 +84,11 @@ public class GrabBO {
 			return true;
 		}
 		return false;
+	}
+	
+	/* User Post */
+	public ArrayList<Post> getUserPost(String ID_User, int censor, String ID_Field) {
+		return grabDAO.getUserPost(ID_User, censor, ID_Field);
 	}
 }
 

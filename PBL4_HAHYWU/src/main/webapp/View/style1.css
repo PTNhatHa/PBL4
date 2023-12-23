@@ -603,7 +603,7 @@ p.introtext {
 	height: 60px; 
 	width: 100%;
 	margin-top: 80px; 
-	z-index: 9999;
+	z-index: 99;
 	position: fixed;
 	background-color: white;
 }
@@ -671,3 +671,6 @@ p.introtext {
     color: var(--darkblue); 
     width: 100px;
 }
+.scroll::-webkit-scrollbar {
+    display: none;
+  }

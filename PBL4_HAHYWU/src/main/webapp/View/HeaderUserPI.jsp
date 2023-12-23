@@ -31,6 +31,7 @@
 </head>
 <body>
 	<main>
+	<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
@@ -41,14 +42,13 @@
                     </div>
                     <div class="button-head">
                         <a><input id="" class="button-head-hover" type="button" value="" style="background-image: url(img/Profile.png);"></a>
-                        <a><input id="Home" type="button" value="" style="background-image: url(img/Home.png);"></a>
+                        <a href="GrabServlet?userhome=1&idacc=<%= user.getID_Account() %>"><input id="Home" type="button" value="" style="background-image: url(img/Home.png);"></a>
                     </div>
                     <div> 
                         <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">
                         <span id="SLNoti" class="badge badge-light">10</span>
                     </div>
                     <%
-						User user = (User)request.getAttribute("user");
                     	if(user.getAvatar() != null){
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);

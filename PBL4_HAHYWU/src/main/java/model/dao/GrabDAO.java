@@ -436,5 +436,69 @@ public class GrabDAO {
 		int rs = preStmt.executeUpdate();
 		return rs;
 	}
+	
+	/* User Post */
+	public ArrayList<Post> getUserPost(String ID_User, int censor, String ID_Field) {
+	    Post post = null;
+	    ArrayList<Post> listpost = new ArrayList<Post>();
+	    try {
+	        String sql = "SELECT * FROM post WHERE ID_Author = '" + ID_User + "'";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        ResultSet rs = preStmt.executeQuery();
+	        while(rs.next()) 
+	        {
+	        	if(censor != 5)
+	        	{
+	        		if(censor != rs.getInt(8)) continue;
+	        	}
+	        	post = new Post();
+	        	post.setID_Post(rs.getString(1));
+	        	post.setID_Author(rs.getString(2));
+	        	
+	        	sql = "SELECT * FROM account WHERE ID_Account = '" + post.getID_Author() + "'";
+		        preStmt = connectionMySQL(sql);
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        {
+		        	post.setName_Author(rs1.getString(2));
+		        	post.setAvatar_Author(rs1.getBytes(10));
+		        }
+	        	post.setTitle(rs.getString(3));
+	        	post.setDate_Post(rs.getDate(4));
+	        	post.setContent(rs.getString(5));
+	        	post.setHastag(rs.getString(6));
+	        	post.setComment_Quantity(rs.getInt(7));
+	        	post.setCensor(rs.getInt(8));
+	        	Boolean check=false;
+	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
+	        	if(ID_Field.equals("0")) //All Fields
+	        	{
+	        		check = true;
+	        	}
+	        	else {
+					if(listfields.size() > 0)
+					{
+						int i;
+						for(i=0; i<listfields.size(); i++)
+						{
+							if(listfields.get(i).getID_Field().equals(ID_Field))
+							{
+								check=true;
+								break;
+							}
+						}
+					}
+				}
+	        	if(check)
+	        	{
+	        		post.setlistFields(listfields);
+		        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+		        	listpost.add(post);
+	        	}
+	        	            }
+	    } catch (Exception e) {
+	    }
+	    return listpost;
+	}
 }
 

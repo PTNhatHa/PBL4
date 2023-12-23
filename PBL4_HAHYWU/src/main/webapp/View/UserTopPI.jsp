@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" href="View/style11.css">
-    <link rel="stylesheet" href="View/style22.css">
+    <link rel="stylesheet" href="View/style222.css">
     <link rel="stylesheet" href="View/style33.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-    <form name="UserTop" action="">
+    <form name="UserTop" action="" method="post">
         <div class="pure-g">
             <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: fixed;"></div>
             <div class="pure-u-20-24 topcenter">
@@ -55,8 +55,8 @@
                 </div>
                 <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
                 <div class="menu-top">
-                    <input type="submit" value="Information" style="background-color: #89A1C9;">
-                    <input type="submit" value="Post">
+                    <a href=""><input class="menu-top-button" type="button" value="Information" style="background-color: #89A1C9;"></a>
+                    <a href="GrabServlet?userpost=1&idacc=<%= user.getID_Account() %>"><input class="menu-top-button" type="button" value="Post"></a>
                 </div>
                 <span id="camera-choice" style="display: none;">
                     <div>

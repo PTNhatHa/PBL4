@@ -79,7 +79,7 @@ public class Post {
 		this.Comment_Quantity = Comment_Quantity;
 	}
 	
-	public int isCensor() {
+	public int getCensor() {
 		return Censor;
 	}
 	public void setCensor(int Censor) {

@@ -129,6 +129,7 @@ public class GrabServlet extends HttpServlet {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
+		
 		else if(request.getParameter("updateuser") != null) {
 			User user = new User();
 			String idacc = request.getParameter("idacc");
@@ -170,6 +171,94 @@ public class GrabServlet extends HttpServlet {
 				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
 			}
 		}
+		else if(request.getParameter("userhome") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/UserHome.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+					request.setAttribute("listpost", listpost);
+					destination = "/View/UserHome.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(request.getParameter("userpost") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("ID_Censor", request.getParameter("censor"));
+					destination = "/View/UserPost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, "0");
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Censor", 5);
+					destination = "/View/UserPost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		else if(request.getParameter("adminprofile") != null) {
 			if(request.getParameter("changepwA") != null) {
 				if(request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -199,6 +288,7 @@ public class GrabServlet extends HttpServlet {
 				rd.forward(request, response);
 			}
 		}
+		
 		else if(request.getParameter("updateadmin") != null) {
 			Account user = new Account();
 			String idacc = request.getParameter("idacc");
@@ -230,7 +320,7 @@ public class GrabServlet extends HttpServlet {
 						{
 							Notification noti = new Notification();
 							noti.setID_Post(request.getParameter("IDPost"));
-							noti.setMessage("Your post has been approved.");
+							noti.setMessage(" has been approved.");
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);
@@ -259,7 +349,7 @@ public class GrabServlet extends HttpServlet {
 						{
 							Notification noti = new Notification();
 							noti.setID_Post(request.getParameter("IDPost"));
-							noti.setMessage("Your post was not approved because: " + request.getParameter("AllReasons"));
+							noti.setMessage(" was not approved because: " + request.getParameter("AllReasons"));
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);

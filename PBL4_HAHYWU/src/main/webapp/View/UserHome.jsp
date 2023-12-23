@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="style22.css">
+    <link rel="stylesheet" href="style222.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
+    <jsp:include page="HeaderUserPost.jsp" />
+    <jsp:include page="TaskbarUser.jsp" />
 </head>
-<body class="viewadmin" style="background-color: #89A1C9;">
+<body class="viewuser" style="background-color: #89A1C9;">
     <form action="" method="post">
         <div class="view" style="heigth: 100%; top: 150px;">
                 <div class="pure-u-6-24"></div>
@@ -61,7 +63,7 @@
                         <% }
                         	else{
                         %>
-                        		<div class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"></div>
+                        		<div class="avapic" style="width: 60px; height: 60px;"></div>
                         <%} %>
                             <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" readonly>
                             <input type="date" class="date" value="<%= listpost.get(i).getDate_Post() %>" readonly>
