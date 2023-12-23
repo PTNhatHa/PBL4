@@ -40,9 +40,6 @@
 				document.getElementById("warning").innerHTML = "";
 			}
         }
-        function changePW() {
-        	
-        }
         function checkPW(username) {
         	var password = document.getElementById("pw").value;
         	var xmlhttp = new XMLHttpRequest();
@@ -157,23 +154,23 @@
 	                    <hr class="straightline" style="height: 3px; width: 62.37%; margin: 22px 18.76%; background-color: rgba(27, 51, 91, 0.9);">
 	                    <div class="info-field">
 	                        <p class="info-text">Password</p>
-	                        <input class="info-enter" type="password" name="pw" id="pw" placeholder="..." oninput="checkPW('<%= user.getUsername() %>')">
+	                        <input class="info-enter" type="password" name="pw" id="pw" placeholder="..." required="required" oninput="checkPW('<%= user.getUsername() %>')">
 	                        <button class="showpw" id="showpw" onmousedown="showPW('pw', 'showpw');" onmouseup="hidePW('pw', 'showpw')"></button>
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">New password</p>
-	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="...">
+	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="..." required="required">
 	                        <button class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');"></button>
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">Confirm password</p>
-	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="..." oninput="checkcfPW()">
+	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="..." required="required" oninput="checkcfPW()">
 	                        <button class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');"></button>
 	                    </div>
 	                    <span class="warning" id="warning"> </span>
 	                    <div class="info-field" style="margin: 20px 0 0;">
 	                        <button type="submit" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
-	                        <button type="button" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
+	                        <button class="Button-or-bl" data-bs-dismiss="modal" type="button" style="position: relative; margin-left: 15px;">Cancel</button>
 	                    </div>
 	                </div>
 	            </div>

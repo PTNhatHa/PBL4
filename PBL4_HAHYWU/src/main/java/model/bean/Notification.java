@@ -10,7 +10,7 @@ public class Notification {
 	private String Name_Post;
 	private String Message;
 	private Date Date_Time;
-	private int Status;
+	private int Status; // 0: unseen, 1: seen
 	
 	public String getID_Notification() {
 		return ID_Notification;

@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -272,6 +273,111 @@ public class GrabDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void forgotPassword(String email, String npw) {
+		try
+		{
+	        String sql = "UPDATE account SET Password = ? WHERE Email_Address = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setString(1, npw);
+	        preStmt.setString(2, email);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeAvatar(String idacc) {
+		try
+		{
+	        String sql1 = "UPDATE account SET Avatar = null WHERE ID_Account = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql1);
+	        preStmt.setString(1, idacc);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void changeAvatar(String idacc, byte[] newimg) {
+		try
+		{
+	        String sql1 = "UPDATE account SET Avatar = ? WHERE ID_Account = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql1);
+	        ByteArrayInputStream bais = new ByteArrayInputStream(newimg);
+	        preStmt.setBlob(1, bais);
+	        preStmt.setString(2, idacc);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Post> getPostByIDAuthor(String ID_Author) {
+		ArrayList<Post> result = new ArrayList<Post>();
+		try
+		{
+			String sql = "SELECT * FROM post WHERE ID_Author = ? ORDER BY ID_Post DESC";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setString(1, ID_Author);
+	        ResultSet rs = preStmt.executeQuery();
+		    while(rs.next())
+		    {
+		    	Post post = new Post();
+		    	post.setID_Post(rs.getString("ID_Post"));
+	        	post.setID_Author(rs.getString("ID_Author"));
+		        post.setTitle(rs.getString("Title"));
+		        post.setCensor(rs.getInt("Censor"));
+		        result.add(post);
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public ArrayList<Notification> showNotification(String ID_Author) {
+		ArrayList<Notification> result = new ArrayList<Notification>();
+		ArrayList<Post> posts = getPostByIDAuthor(ID_Author);
+		try
+		{
+			for (int i = 0; i < posts.size(); i++)
+			{
+				String sql = "SELECT * FROM notification WHERE ID_Post = ? ORDER BY ID_Notification DESC";
+				PreparedStatement preStmt = connectionMySQL(sql);
+		        preStmt.setString(1, posts.get(i).getID_Post());
+		        ResultSet rs = preStmt.executeQuery();
+		        while(rs.next())
+			    {
+			    	Notification notification = new Notification();
+			    	notification.setID_Notification(rs.getString("ID_Notification"));
+			    	String commentatorID = rs.getString("ID_Commentator");
+			    	if(commentatorID.equals("null") || commentatorID.trim().isEmpty()) {
+				    	notification.setID_Post(posts.get(i).getID_Post());
+				    	notification.setName_Post(posts.get(i).getTitle());
+				    	notification.setMessage(rs.getString("Message"));
+				    	notification.setDate_Time(rs.getDate("Date_Time"));
+				    	notification.setStatus(rs.getInt("Status"));
+				    	result.add(notification);
+			    	}
+			    	else {
+			    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
+			    		notification.setID_Commentator(rs.getString("ID_Commentator"));
+			    		notification.setName_Commentator(account.getDisplay_Name());
+			    		notification.setID_Post(posts.get(i).getID_Post());
+				    	notification.setName_Post(posts.get(i).getTitle());
+				    	notification.setMessage(rs.getString("Message"));
+				    	notification.setDate_Time(rs.getDate("Date_Time"));
+				    	notification.setStatus(rs.getInt("Status"));
+				    	result.add(notification);
+			    	}
+			    }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	/* Admin */

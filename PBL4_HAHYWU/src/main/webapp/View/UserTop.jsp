@@ -25,48 +25,85 @@
                 x.style.display = "none";
             }
         }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var idacc = document.body.getAttribute('data-jsp-var');
+                var file = input.files[0];
+                var form = new FormData();
+                form.append("idacc", idacc);
+                form.append("newimg", file);
+                fetch("GrabServlet", {
+                    method: 'POST',
+                    body: form
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+        }
     </script>
 </head>
-<body>
-    <form name="UserTop" action="">
+<body <% User user = (User)request.getAttribute("user"); %> data-jsp-var="<%= user.getID_Account() %>">
+<!--     <form name="UserTop" action=""> -->
         <div class="pure-g">
             <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: fixed;"></div>
             <div class="pure-u-20-24 topcenter">
                 <div class="top">
                     <div class="ava">
                     <%
-						User user = (User)request.getAttribute("user");
                     	if(user.getAvatar() != null){
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
     				%>
-    						<img src="data:image/png;base64,<%= base64Encoded %>" alt="ava">
+	   						<img src="data:image/png;base64,<%= base64Encoded %>" alt="ava">
+	   						<input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);" onclick="show('camera-choice')">
+	                        <input type='file' id="imgInp" style="display: none;" onchange="readURL(this);" />
+	                    </div>
+	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
+	                </div>
+	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
+	                <div class="menu-top">
+	                    <input type="submit" value="Information">
+	                    <input type="submit" value="Post">
+	                </div>
+	                <span id="camera-choice" style="display: none;">
+	                    <div>
+	                        <button class="choice" onclick="document.getElementById('imgInp').click();">Change avatar</button>
+	                        <button class="choice" onclick="location.href='GrabServlet?updateuser=1&deleteavatar=1&idacc=<%= user.getID_Account() %>'">Delete avatar</button>
+	                    </div>
+	                </span>
     				<%
                     	}
                     	else {
 					%>
-						<img src="img/defaultavatar.jpg" alt="ava">
+							<img src="img/defaultavatar.jpg" alt="ava">
+							<input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);" onclick="show('camera-choice')">
+	                        <input type='file' id="imgInp" style="display: none;" onchange="readURL(this);" />
+	                    </div>
+	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
+	                </div>
+	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
+	                <div class="menu-top">
+	                    <input type="submit" value="Information">
+	                    <input type="submit" value="Post">
+	                </div>
+	                <span id="camera-choice" style="display: none;">
+	                    <div>
+	                        <button class="choice" onclick="document.getElementById('imgInp').click();">Change avatar</button>
+	                    </div>
+	                </span>
 					<%
                     	}
 					%> 
-                        <input id="Camera" type="button" value="" style="background-image: url(img/Camera.png);" onclick="show('camera-choice')">
-                    </div>
-                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
-                </div>
-                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
-                <div class="menu-top">
-                    <input type="submit" value="Information">
-                    <input type="submit" value="Post">
-                </div>
-                <span id="camera-choice" style="display: none;">
-                    <div>
-                        <button class="choice">Change avatar</button>
-                        <button class="choice">Delete avatar</button>
-                    </div>
-                </span>
+                        
             </div>
             <div class="pure-u-2-24"></div>
         </div>
-    </form>
+<!--     </form> -->
 </body>
 </html>

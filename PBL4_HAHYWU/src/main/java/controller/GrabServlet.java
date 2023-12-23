@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.text.ParseException;
@@ -21,12 +22,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
@@ -38,6 +42,15 @@ import model.bo.GrabBO;
 import model.dao.GrabDAO;
 
 @WebServlet("/GrabServlet")
+@MultipartConfig(
+
+		  fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
+
+		  maxFileSize = 1024 * 1024 * 50,       // 50 MB
+
+		  maxRequestSize = 1024 * 1024 * 100    // 100 MB
+
+)
 public class GrabServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private int otp;
@@ -47,22 +60,36 @@ public class GrabServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		GrabBO grabBO = new GrabBO();
+		GrabBO grabBO = new GrabBO(); 
 		String destination = null;
 		
 		if(request.getParameter("sendOTP") != null) {
 			String email = request.getParameter("email");
-			if(grabBO.checkCoincidentEmail(email)) {
-				if(sendOTP(email)) {
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("OTP has already sent to your email! Please check it!");
+			if(request.getParameter("OTPforchange") != null) {
+				if(grabBO.checkCoincidentEmail(email) == false) {
+					if(sendOTP(email)) {
+						response.getWriter().write("OTP has already sent to your email! Please check it!");
+					}
+					else {
+						response.getWriter().write("Your email is invalid!");
+					}
 				}
 				else {
-					response.getWriter().write("Your email is invalid!");
+					response.getWriter().write("The email has not been registered!");
 				}
 			}
 			else {
-				response.getWriter().write("The email has already been used!");
+				if(grabBO.checkCoincidentEmail(email)) {
+					if(sendOTP(email)) {
+						response.getWriter().write("OTP has already sent to your email! Please check it!");
+					}
+					else {
+						response.getWriter().write("Your email is invalid!");
+					}
+				}
+				else {
+					response.getWriter().write("The email has already been used!");
+				}
 			}
 		}
 		else if(request.getParameter("checkOTP") != null) {
@@ -125,6 +152,10 @@ public class GrabServlet extends HttpServlet {
 			String idacc = request.getParameter("idacc");
 			User user = grabBO.getUserByIDUser(idacc);
 			request.setAttribute("user", user);
+			ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+			request.setAttribute("notifications", notifications);
+			int count = grabBO.countUnseenNoti(idacc);
+			request.setAttribute("count", count);
 			destination = "/View/UserPI.jsp";
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
@@ -132,25 +163,49 @@ public class GrabServlet extends HttpServlet {
 		else if(request.getParameter("updateuser") != null) {
 			User user = new User();
 			String idacc = request.getParameter("idacc");
-			try {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				user.setID_Account(idacc);
-				user.setDisplay_Name(request.getParameter("name"));
-				user.setEmail_Address(request.getParameter("email"));
-				user.setPhone_Number(request.getParameter("number"));
-				user.setBirthday(formatter.parse(request.getParameter("birthday")));
-				user.setGender(Integer.parseInt(request.getParameter("gender")));
-				user.setAddress(request.getParameter("address"));
-				user.setCareer(request.getParameter("career"));
-				user.setBio(request.getParameter("bio"));
-				grabBO.updateUser(user);
+			if(request.getParameter("deleteavatar") != null) {
+				grabBO.removeAvatar(idacc);
 				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
+			}
+			else {
+				try {
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					user.setID_Account(idacc);
+					user.setDisplay_Name(request.getParameter("name"));
+					user.setEmail_Address(request.getParameter("email"));
+					user.setPhone_Number(request.getParameter("number"));
+					user.setBirthday(formatter.parse(request.getParameter("birthday")));
+					user.setGender(Integer.parseInt(request.getParameter("gender")));
+					user.setAddress(request.getParameter("address"));
+					user.setCareer(request.getParameter("career"));
+					user.setBio(request.getParameter("bio"));
+					grabBO.updateUser(user);
+					response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		else if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+	        Part filePart = request.getPart("newimg");
+	        if (filePart != null) {
+	            InputStream fileContent = filePart.getInputStream();
+	            // Chuyển InputStream thành byte array để lưu trong database
+	            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	            byte[] buffer = new byte[1024];
+	            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+	                bos.write(buffer, 0, len);
+	            }
+	            byte[] fileBytes = bos.toByteArray();
+	            bos.close();
+	            fileContent.close();
+	            // Lấy id người dùng từ request
+	            String idacc = request.getParameter("idacc");
+	            grabBO.changeAvatar(idacc, fileBytes);
+	        }
+	    }
 		else if(request.getParameter("changepw") != null) {
 			if(request.getParameter("username") != null && request.getParameter("password") != null) {
 				String username = request.getParameter("username");
@@ -170,6 +225,13 @@ public class GrabServlet extends HttpServlet {
 				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
 			}
 		}
+		else if(request.getParameter("forgotpw") != null) {
+			String email = request.getParameter("email");
+			String npw = request.getParameter("npw");
+			String hashed = BCrypt.hashpw(npw, BCrypt.gensalt());
+			grabBO.forgotPassword(email, hashed);
+			response.getWriter().write("Change password successfully!");
+		}
 		else if(request.getParameter("adminprofile") != null) {
 			destination = "/View/ViewerTop.html";
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
@@ -186,7 +248,7 @@ public class GrabServlet extends HttpServlet {
 						{
 							Notification noti = new Notification();
 							noti.setID_Post(request.getParameter("IDPost"));
-							noti.setMessage("Your post has been approved.");
+							noti.setMessage("has been approved.");
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);
@@ -219,7 +281,7 @@ public class GrabServlet extends HttpServlet {
 						{
 							Notification noti = new Notification();
 							noti.setID_Post(request.getParameter("IDPost"));
-							noti.setMessage("Your post was not approved because: " + request.getParameter("AllReasons"));
+							noti.setMessage("has not been approved because: " + request.getParameter("AllReasons"));
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);

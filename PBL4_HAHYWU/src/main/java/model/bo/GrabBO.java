@@ -50,6 +50,34 @@ public class GrabBO {
 		grabDAO.changePassword(idacc, npw);
 	}
 	
+	public void forgotPassword(String email, String npw) {
+		grabDAO.forgotPassword(email, npw);
+	}
+	
+	public void removeAvatar(String idacc) {
+		grabDAO.removeAvatar(idacc);
+	}
+	
+	public void changeAvatar(String idacc, byte[] newimg) {
+		grabDAO.changeAvatar(idacc, newimg);
+	}
+	
+	public ArrayList<Notification> showNotication(String ID_Author) {
+		return grabDAO.showNotification(ID_Author);
+	}
+	
+	public int countUnseenNoti(String idacc) {
+		ArrayList<Notification> notifications = showNotication(idacc);
+		int count = 0;
+		for (int i = 0; i < notifications.size(); i++)
+		{
+			if(notifications.get(i).isStatus() == 0) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	/* Admin */
 	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
 		return grabDAO.getAllPost(censor, ID_Field);
