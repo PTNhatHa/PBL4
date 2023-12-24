@@ -12,6 +12,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <Script language="JavaScript">
+	    function showPW(id) {
+	        var x = document.getElementById(id);
+	        while (x.type === "password") {
+	            x.type = "text";
+	        }
+	    }
+	    function hidePW(id) {
+	        var x = document.getElementById(id);
+	        if (x.type === "text") {
+	            x.type = "password";
+	        }
+	    }
         function checkAccount() {
         	var username = document.getElementById("username").value;
         	var password = document.getElementById("password").value;
@@ -56,9 +68,9 @@
             xmlhttp.send();
         }
         
-		function checkOTPagain() {
-			var otp = document.getElementById("otp").value;
-			var email = document.getElementById("email").value;
+        function checkOTPagain() {
+            var otp = document.getElementById("otp").value;
+            var email = document.getElementById("email").value;
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -69,8 +81,8 @@
                     	var signup = document.createElement("button");
                     	signup.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
                     	signup.dataset.bsTarget = "#exampleModalToggle"; // gán giá trị cho data-bs-target
-                    	a.appendChild(signup);  // thêm phần tử vào trang web
                     	signup.hidden = true;
+                        a.appendChild(signup);  // thêm phần tử vào trang web
                     	signup.click();
                     	document.getElementById("emailsignup").value = email;
                     }
@@ -78,16 +90,17 @@
             };
             xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp+"&email="+email, true);
             xmlhttp.send();
-		}
+        }
+
 		
-		function checkPassword() {
-        	var password = document.getElementById("pw").value;
-			var cfpassword = document.getElementById("cfpassword").value;
+		function checkPassword(pw, cfpw, warning) {
+        	var password = document.getElementById(pw).value;
+			var cfpassword = document.getElementById(cfpw).value;
 			if(password != cfpassword) {
-				document.getElementById("OTPAlertp").innerHTML = "The confirm password does not match!";
+				document.getElementById(warning).innerHTML = "The confirm password does not match!";
 			}
 			else {
-				document.getElementById("OTPAlertp").innerHTML = "";
+				document.getElementById(warning).innerHTML = "";
 			}
         }
         
@@ -124,6 +137,70 @@
             xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
             xmlhttp.send();
 		}
+        function sendOTPforchange() {
+        	document.getElementById("OTPAlertchangepw").innerHTML = ""; 
+        	document.getElementById("warningOTPforchange").innerHTML = "";
+        	var email = document.getElementById("emailforchange").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                	document.getElementById("OTPAlertchangepw").innerHTML = this.responseText;
+                    if(this.responseText == "OTP has already sent to your email! Please check it!") {
+                    	document.getElementById("emailforchange").readOnly = true;
+                        document.getElementById("sendotpforchange").hidden = false;
+                        document.getElementById("otpforchange").value = "";
+                        document.getElementById("btSendOTPforchange").value = "Send OTP again";
+                        document.getElementById("warningOTPforchange").hidden = false;
+                        document.getElementById("warningOTPforchange").innerHTML = "Your otp code will be effective within only 2 minutes!";
+                    }
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?sendOTP=1&OTPforchange=1&email="+email, true);
+            xmlhttp.send();
+        }
+        function checkOTPforchange() {
+        	var otp = document.getElementById("otpforchange").value;
+			var email = document.getElementById("emailforchange").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("warningOTPforchange").innerHTML = this.responseText;
+                    if(this.responseText == "") {
+                        var a = document.getElementById("change-password"); 
+                        var change = document.createElement("button");
+                        change.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+                        change.dataset.bsTarget = "#exampleModalToggle4"; // gán giá trị cho data-bs-target
+                        change.hidden = true;
+                        a.appendChild(change);  // thêm phần tử vào trang web
+                        change.click();
+                        document.getElementById("changepw-email").value = email;
+                    }
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?checkOTP=1&otp="+otp+"&email="+email, true);
+            xmlhttp.send();
+        }
+        function forgotpw() {
+        	var email = document.getElementById("changepw-email").value;
+			var npw = document.getElementById("npw").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("alertpchangepw").innerHTML = this.responseText;
+                    if(this.responseText == "Change password successfully!") {
+                    	var a = document.getElementById("sign-in"); 
+                    	var signin = document.createElement("button");
+                    	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+                    	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
+                    	signin.hidden = true;
+                    	a.appendChild(signin);  // thêm phần tử vào trang web
+                    	signin.click();
+                    }
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?forgotpw=1&email="+email+"&npw="+npw, true);
+            xmlhttp.send();
+        }
     </Script>
     <title>HAHYWU</title>
 </head>
@@ -275,7 +352,7 @@
                         <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
                         <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
                         <input type="password" value="" name="pw" id="pw" placeholder="Password" style="top: 285px;" required="required">
-                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword()">
+                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword('pw','cfpassword','OTPAlertp')">
                     </div>
                     <span class="OTPAlert" style="position: absolute; bottom: 108px;">
                         <p id="OTPAlertp" > </p>
@@ -344,7 +421,7 @@
 	                <p class="p-30">Enter your OTP</p>  
 	                <div class="entermail" id="mail">
 	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
-	                    <button class="Button-bl-wh" data-bs-target="" data-bs-toggle="modal" onclick="checkOTPagain()">Send</button>
+	                    <button class="Button-bl-wh" onclick="checkOTPagain()">Send</button>
 	                </div>
 	                <span class="warning" id="warning" hidden> </span>
 	            </div>
@@ -354,6 +431,7 @@
     </div>
     
     <!-- Change Password -->
+    <div id="change-password"></div>
     <div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -361,21 +439,25 @@
                     <p style="margin: 24px 0 0; color: #1B335B; font-size: 30px; font-weight: bold;">- CHANGE PASSWORD -</p>
                     <hr class="straightline" style="height: 3px; width: 62.37%; margin: 22px 18.76%; background-color: rgba(27, 51, 91, 0.9);">
                     <div class="info-field">
+                        <p class="info-text">Email</p>
+                        <input class="info-enter" type="email" id="changepw-email" name="changepw-email" placeholder="email" readonly>
+                    </div>
+                    <div class="info-field">
                         <p class="info-text">New password</p>
-                        <input class="info-enter" type="password" id="npw" placeholder="...">
-                        <button class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');"></button>
+                        <input class="info-enter" type="password" id="npw" name="npw" placeholder="new password">
+                        <input type="button" class="showpw" id="shownpw" onmousedown="showPW('npw');" onmouseup="hidePW('npw');" required="required"></input>
                     </div>
                     <div class="info-field">
                         <p class="info-text">Confirm password</p>
-                        <input class="info-enter" type="password" id="cpw" placeholder="...">
-                        <button class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');"></button>
+                        <input class="info-enter" type="password" id="cpw" name="cpw" placeholder="confirm password" oninput="checkPassword('npw','cpw','alertpchangepw')">
+                        <input type="button" class="showpw" id="showcpw" onmousedown="showPW('cpw');" onmouseup="hidePW('cpw');" required="required"></input>
                     </div>
                     <div class="info-field">
-                        <span id="alertchangepw"><p class="alertchangepw-content"></p></span>
+                        <span id="alertchangepw"><p id="alertpchangepw" class="alertchangepw-content"></p></span>
                     </div>
-                    <div class="info-field" style="margin: 20px 0 0;">
-                        <button type="button" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>  <!-- THEM SU KIEN -->
-                        <button type="button" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
+                    <div class="info-field" style="margin: 25px 0 0;">
+                        <button type="button" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="forgotpw()">Save</button>  <!-- THEM SU KIEN -->
+                        <button type="button" data-bs-dismiss="modal" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -391,20 +473,20 @@
 	            <div class="OTP">
 	                <p class="p-30">Enter your email</p>
 	                <div class="entermail">
-	                    <input style="width: 70%;" type="email" id="email" name="email" class="inputtext" placeholder="name@example.com" required="required">
-	                    <input type="button" name="sendOTP" class="Button-bl-wh" id="buttonSendOTP" value="Send OTP" onclick="checksend()">
+	                    <input style="width: 70%;" type="email" id="emailforchange" name="email" class="inputtext" placeholder="name@example.com" required="required">
+	                    <input type="button" name="sendOTP" class="Button-bl-wh" id="btSendOTPforchange" value="Send OTP" onclick="sendOTPforchange()">
 	                    
-	                    <span class="OTPAlert" id="OTPAlert"><p id="OTPAlertsignup"></p> </span>
+	                    <span class="OTPAlert" id="OTPAlert"><p id="OTPAlertchangepw"></p> </span>
 	                </div>
 	            </div>
-	            <div id="sendotp" class="OTP" hidden>
+	            <div id="sendotpforchange" class="OTP" hidden>
 	                <div class="line"><hr></div>
 	                <p class="p-30">Enter your OTP</p>  
 	                <div class="entermail" id="mail">
-	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">
-	                    <button class="Button-bl-wh" data-bs-target="" data-bs-toggle="modal" onclick="">Send</button> <!-- THEM SU KIEN -->
+	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otpforchange" placeholder="Enter your OTP">
+	                    <button class="Button-bl-wh" onclick="checkOTPforchange()">Send</button> <!-- THEM SU KIEN -->
 	                </div>
-	                <span class="warning" id="warning" hidden> </span>
+	                <span class="warning" id="warningOTPforchange" hidden> </span>
 	            </div>
         	</div>
           </div>
