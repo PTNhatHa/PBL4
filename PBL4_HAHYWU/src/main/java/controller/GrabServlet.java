@@ -52,17 +52,31 @@ public class GrabServlet extends HttpServlet {
 		
 		if(request.getParameter("sendOTP") != null) {
 			String email = request.getParameter("email");
-			if(grabBO.checkCoincidentEmail(email)) {
-				if(sendOTP(email)) {
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("OTP has already sent to your email! Please check it!");
+			if(request.getParameter("OTPforchange") != null) {
+				if(grabBO.checkCoincidentEmail(email) == false) {
+					if(sendOTP(email)) {
+						response.getWriter().write("OTP has already sent to your email! Please check it!");
+					}
+					else {
+						response.getWriter().write("Your email is invalid!");
+					}
 				}
 				else {
-					response.getWriter().write("Your email is invalid!");
+					response.getWriter().write("The email has not been registered!");
 				}
 			}
 			else {
-				response.getWriter().write("The email has already been used!");
+				if(grabBO.checkCoincidentEmail(email)) {
+					if(sendOTP(email)) {
+						response.getWriter().write("OTP has already sent to your email! Please check it!");
+					}
+					else {
+						response.getWriter().write("Your email is invalid!");
+					}
+				}
+				else {
+					response.getWriter().write("The email has already been used!");
+				}
 			}
 		}
 		else if(request.getParameter("checkOTP") != null) {

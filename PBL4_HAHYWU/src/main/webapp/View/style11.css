@@ -63,6 +63,10 @@
     font-size: 16px;
     float: right;
 }
+.signbutton-nav:hover {
+	background-color: white;
+	color: var(--darkblue);
+}
 input.searchtext {
     border: none;
     background-color: #89A1C9;
@@ -671,3 +675,6 @@ p.introtext {
     color: var(--darkblue); 
     width: 100px;
 }
+.scroll::-webkit-scrollbar {
+    display: none;
+  }

@@ -17,7 +17,7 @@
 </head>
 <body class="viewadmin" style="background-color: #89A1C9;">
     <form action="" method="post">
-        <div class="view" style="heigth: 100%; top: 150px;">
+        <div class="view" style="height: 100%; top: 150px;">
                 <div class="pure-u-6-24"></div>
                 <div class="pure-u-12-24">
                     <!-- Bỏ dô vòng for -->

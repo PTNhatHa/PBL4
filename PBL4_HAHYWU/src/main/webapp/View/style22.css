@@ -316,6 +316,17 @@ frame{
     margin: 10px 0px;
     box-shadow: 4px 4px 10px grey;
 }
+.post-head {
+    color: var(--darkblue);
+    font-size: 30px;
+    font-weight: 800;
+    width: 625px;
+    padding: 0 0 24px;
+    margin-left: 35px;
+    margin-bottom: 24px;
+    text-align: center;
+    border-bottom: 2px solid rgba(27, 51, 91, 0.66);
+}
 .post-row {
     position: relative;
     padding: 0 35px;
@@ -388,7 +399,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
 #title {
     border: none;
     width: 100%;
-    heigth: fit-content;
+    height: fit-content;
     overflow: hidden;
     font-size: 16px;
     font-weight: bold;
@@ -399,12 +410,13 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
 #content-text {
     border: none;
     width: 100%;
-    heigth: fit-content;
+    height: fit-content;
     overflow: hidden;
     font-size: 14px;
     color: #1B335B;
     resize: none;
     pointer-events: none;
+    line-height: 20px;
 }
 #hastag {
     border: none;
@@ -414,6 +426,10 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--darkorange);
     resize: none;
     pointer-events: none;
+}
+.enterable {
+    pointer-events: fill !important;
+    outline: none;
 }
 #content-image {
     width: 100%;
@@ -437,55 +453,30 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 14px;
     color: #1B335B;
 }
-
-/* CHANGE PASSWORD */
-.ChangePassword {
-    background-color: white;
-    padding-bottom: 24px;
-    border: 1px solid var(--darkblue);
-    border-radius: 30px;
-    box-shadow: 4px 4px 10px grey;
-    width: 437px;
-    overflow: hidden;
-    text-align: center;
-    color: rgba(27, 51, 91, 0.66);
-}
-.info-field {
-    position: relative;
-    padding: 0 95px;
-    margin-bottom: 10px;
-}
-.info-text {
-    font-size: 14px;
-    text-align: left;
-    margin: 0 10px 2px;
-}
-.info-enter {
-    width: 100%;
-    height: 30px;
-    border-radius: 30px;
-    padding-left: 10px;
-    font-size: 14px;
-    border: 2px solid  var(--darkblue);
-    color: #1B335B;
-}
-.showpw {
-    position: absolute;
-    right: 100px;
-    width: 30px;
-    height: 30px;
+.more-function {
     border: none;
-    background-color: transparent;
-    background-image: url(../img/noeye.png);
+    position: relative;
+    width: 100%;
+    height: 25px;
+    margin: 10px 0;
+}
+.choose-more-button {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    background-image: url(../img/picture.png);
     background-repeat: no-repeat;
     background-position: center;
+    border: 2px solid var(--darkblue);
 }
-.showpw:active {
-    background-image: url(../img/eye.png);
-    background-repeat: no-repeat;
-    background-position: center;
+.button-field {
+    position: absolute;
+    right: 90px !important;
+    top: 0;
+    background-image: url(../img/filter.png) !important;
 }
-
 
 /* Change Ava */
 .changeAva {

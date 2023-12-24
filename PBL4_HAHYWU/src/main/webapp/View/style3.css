@@ -97,6 +97,7 @@
 
 /* NOTIFICATION */
 #notification-box {
+	width: 235px !important;
     height: 280px !important;
     bottom: -270px !important;
     right: 85px !important;
@@ -106,7 +107,7 @@
 }
 .notification-header {
     border-bottom: 2px solid rgba(27, 51, 91, 0.5);
-    width: 240px;
+    width: 208px;
     height: 30px;
     margin: 17px 0 0 11px;
     font-size: 18px;
@@ -115,10 +116,13 @@
 .notification-content {
     position: relative;
     border-radius: 10px;
-    width: 245px;
-    margin:2px 0 2px 7px;
+    width: 225px;
+    margin:2px 0 2px 5px;
     overflow: hidden;
     padding: 2px 0 5px 5px;
+}
+.notification-content:hover {
+    background-color: lightgray;
 }
 .notification-content.unseen {
     background-color: rgba(137,161,201,0.3);
@@ -172,3 +176,38 @@
     background-color: rgba(137,161,201,0.3);
 }
 
+/* Subject choices for new posts */
+.subject-choice {
+    width: 700px !important;
+    overflow: hidden;
+    padding: 45px 35px !important;
+    text-align: center;
+}
+.subject-content-set {
+    width: 20%;
+    overflow: hidden;
+    float: left;
+    text-align: right;
+}
+.subject-content-set > p {
+    color: var(--darkblue);
+    font-size: 20px;
+    font-weight: bold;
+}
+.hold-subject-content {
+    width: 23%; 
+    height: 31px; 
+    float: left; 
+    text-align: left;
+    font-size: 14px;
+    color: var(--darkblue);
+}
+.hold-subject-content > label {
+    vertical-align: middle;
+    font-weight: 400;
+}
+.hold-subject-content > input[type="checkbox"] {
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+}

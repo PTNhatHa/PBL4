@@ -11,18 +11,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" href="View/style11.css">
-    <link rel="stylesheet" href="View/style33.css">
+    <link rel="stylesheet" href="View/style333.css">
     <title>Header</title>
     <script>
-        function show(id1, id2) {
-            var x = document.getElementById(id1);
-            var y = document.getElementById(id2);
-            y.style.display = "none";
+        function show(id) {
+            var x = document.getElementById(id);
             if (x.style.display === "none") {
-                x.style.display = "block";
+                x.style.display = "block";  
             } else {
                 x.style.display = "none";
             }
+        }
+        function hidespan(id) {
+            var y = document.getElementById(id);
+            y.style.display = "none";
+        }
+        function choose() {
+            alert("Dc r");
         }
     </script>
 </head>
@@ -41,7 +46,7 @@
                         <input id="Home" type="button" value="" style="background-image: url(img/Home.png);">
                     </div>
                     <div> 
-                        <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">
+                        <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box'), hidespan('click-choice')">
                         <span id="SLNoti" class="badge badge-light">10</span>
                     </div>
                     <%
@@ -50,12 +55,12 @@
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
     				%>
-    						<input type="button" name="" class="leftbut" style="background-image: url(data:image/png;base64,<%= base64Encoded %>); background-size: 45px;" onclick="show('click-choice', 'notification-box')">
+    						<input type="button" name="" class="leftbut" style="background-image: url(data:image/png;base64,<%= base64Encoded %>); background-size: 45px;" onclick="show('click-choice'), hidespan('notification-box')">
     				<%
                     	}
                     	else {
 					%>
-						<input type="button" name="" class="leftbut" style="background-image: url(img/defaultavatar.jpg); background-size: 45px;">
+						<input type="button" name="" class="leftbut" style="background-image: url(img/defaultavatar.jpg); background-size: 45px;" onclick="show('click-choice'),  hidespan('notification-box')">
 					<%
                     	}
 					%> 
@@ -67,10 +72,10 @@
 	                <span id="notification-box" style="display: none;">
 	                    <p class="notification-header">Notification</p>
 	                    <!-- da doc -->
-	                    <div class="notification-content" >
+	                    <div class="notification-content" onclick="choose()">
 	                        <div class="notification-ava"></div>
 	                        <p class="notification-text"><b>Duc Huy</b> has commented on your post <b>Giai cuu!!!</b></p>
-	                    </div>
+                        </div>
 	                    <!-- chua doc -->
 	                    <div class="notification-content unseen">
 	                        <div class="notification-ava"></div>
