@@ -650,3 +650,30 @@ input[type="file"] {
     color: white;
     background-color: #1B335B;
 }
+
+/* Field */
+.field-admin {
+    border: 2px solid var(--darkblue);
+    padding: 10px;
+    background-color: white;
+}
+.field-cap {
+    text-align: center;
+    background-color: white;
+    color: white;
+}
+.field-admin > a > input{
+    display: inline-block;
+    padding: 5px 10px;
+    position: relative;
+    border-radius: 90px;
+    background-color: white;
+    color: var(--darkblue);
+    border: 2px solid var(--darkblue);
+    font-size: 16px;
+    vertical-align: middle;
+}
+.field-admin > a > input:hover {
+    background-color: var(--darkblue);
+    color: white;
+}

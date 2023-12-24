@@ -21,6 +21,7 @@
     top: 0;
     left: 0;
     right: 0;
+    z-index: 9999;
 }
 .nav-child {
     position: absolute;
@@ -42,7 +43,7 @@
     color: var(--darkblue);
     position: absolute;
     right: 24px;
-    top: 25%;
+    top: 21%;
     align-content: center;
 }
 .logo-img {
@@ -61,10 +62,6 @@
     height: 100%;
     font-size: 16px;
     float: right;
-}
-.signbutton-nav:hover {
-    color: var(--darkblue);
-    background-color: white;
 }
 input.searchtext {
     border: none;
@@ -121,7 +118,6 @@ h1.hahywu {
     margin-top: 5px;
     margin-bottom: 40px;
 }
-
 .signbutton {
     border: none;
     color: var(--darkblue);
@@ -214,7 +210,7 @@ p.introtext {
     width: 20%;
     text-align: center;
 }
-.button-head > input {
+.button-head > a > input {
     width: 70px;
     height: 50px;
     border-radius: 90px;
@@ -263,7 +259,7 @@ p.introtext {
 }
 #SLNoti {
     position: absolute;
-    right: 40px;
+    right: 60px;
     top: -10px;
     text-align: center;
     background-color: var(--darkorange);
@@ -411,6 +407,7 @@ p.introtext {
     color: var(--darkblue50);
     position: absolute;
     align-content: center;
+    padding: 0;
 }
 .content {
     position: absolute;
@@ -462,11 +459,20 @@ p.introtext {
     background-position: center;
     right: 21px;
     top: 21px;
+    border-radius: 50%;
+}
+.btn-close:hover{
+	border-radius: 50%;
+}
+.popup {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 #myModal {
     background-color: rgba(0, 0, 0, 0.3);
 }
-
 .forgotpw {
     border: none;
     position: absolute;
@@ -477,7 +483,7 @@ p.introtext {
     font-size: 14px;
     color: var(--darkblue);
     text-decoration: underline;
-    font-style: italic; 
+    font-style: italic;
 }
 .forgotpw:hover {
     color: var(--darkorange);
@@ -575,7 +581,6 @@ p.introtext {
     text-align: center;
     bottom: -5px;
 }
-
 .OTPAlert {
     border-radius: 30px;
     text-align: center;
@@ -598,7 +603,7 @@ p.introtext {
 	height: 60px; 
 	width: 100%;
 	margin-top: 80px; 
-	z-index: 9999;
+	z-index: 99;
 	position: fixed;
 	background-color: white;
 }
@@ -611,6 +616,18 @@ p.introtext {
     border: 2px solid white;
     margin: 12px 10px 12px 0px;
     padding: 7px;
+    font-size: 16px;
+    font-weight: 800;
+}
+.taskbarchoice {
+	border: 2px solid var(--darkblue);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--darkblue);
+    margin: 12px 10px 12px 0px;
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 800;
 }
 .taskbarbutton:hover {
     border: 2px solid var(--darkblue);
@@ -645,15 +662,15 @@ p.introtext {
     position: absolute;
     right: 9%;
 }
-.filter {
+.cbb {
     padding: 10px;
     margin: auto 10px;
     background-color: transparent;
     border: 2px solid var(--darkblue);
     border-radius: 30px;  
     color: var(--darkblue); 
+    width: 100px;
 }
-.filter:hover {
-    background-color: var(--darkblue);
-    color: white;
-}
+.scroll::-webkit-scrollbar {
+    display: none;
+  }

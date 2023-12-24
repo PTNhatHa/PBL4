@@ -249,6 +249,7 @@ public class GrabServlet extends HttpServlet {
 					
 					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, "0");
 					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
@@ -401,6 +402,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
 					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensoring.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -440,6 +442,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
 					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -479,6 +482,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
 					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskUncensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);

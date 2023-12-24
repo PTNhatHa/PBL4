@@ -267,7 +267,7 @@
                         </button>
                 </div>
                 <div class="signinright"  >
-                    <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
+                    <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close.png);">
                     <p class="p-30" style="top: 62px;">Sign up</p>
                     <p class="p-14-50" style="top: 110px;">- For free -</p>
                     <div class="content" id="sign-up">

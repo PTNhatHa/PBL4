@@ -17,11 +17,8 @@
     <link rel="stylesheet" href="style1.css">
     <script>
     	document.addEventListener("DOMContentLoaded", function() {
-            var i = <%= request.getAttribute("ID_Censor") %>;
-//             alert(i);
-            if(i == 5) document.getElementById("mySelectCensor").selectedIndex = 0;
-        	if(i != 5) document.getElementById("mySelectCensor").selectedIndex = i+1;
-        	document.getElementById("mySelectField").selectedIndex = <%= request.getAttribute("ID_Field") %>;
+        	document.getElementById("mySelectCensor").value = <%= request.getAttribute("ID_Censor") %>;
+        	document.getElementById("mySelectField").value = <%= request.getAttribute("ID_Field") %>;
         	
         	var censoring = 0;
         	var censored = 0;
