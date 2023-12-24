@@ -3,7 +3,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 public class Post {
 
-	private String ID_Post ;
+	private int ID_Post ;
 	private String ID_Author;
 	private String Name_Author;
 	private byte[] Avatar_Author;
@@ -16,10 +16,10 @@ public class Post {
 	private ArrayList<Field> listFields;
 	private ArrayList<Image> listImages;
 	
-	public String getID_Post() {
+	public int getID_Post() {
 		return ID_Post;
 	}
-	public void setID_Post(String ID_Post) {
+	public void setID_Post(int ID_Post) {
 		this.ID_Post = ID_Post;
 	}
 	

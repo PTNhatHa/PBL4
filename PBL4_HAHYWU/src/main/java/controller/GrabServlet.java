@@ -244,7 +244,12 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					
-					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/UserHome.jsp";
@@ -265,8 +270,14 @@ public class GrabServlet extends HttpServlet {
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					
-					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getAllPost(1,0);
 					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
 					destination = "/View/UserHome.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -287,7 +298,12 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), request.getParameter("IDField"));
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					request.setAttribute("ID_Censor", request.getParameter("censor"));
@@ -309,7 +325,12 @@ public class GrabServlet extends HttpServlet {
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, "0");
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
@@ -381,7 +402,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
+					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/TaskCensored.jsp";
@@ -406,7 +427,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(1,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensored.jsp";
@@ -430,7 +451,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(1,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensored.jsp";
@@ -450,7 +471,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+					ArrayList<Post> listpost = grabBO.getAllPost(1,0);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensored.jsp";
@@ -471,7 +492,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,request.getParameter("IDField"));
+					ArrayList<Post> listpost = grabBO.getAllPost(2,Integer.parseInt(request.getParameter("IDField")));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/TaskUncensored.jsp";
@@ -496,7 +517,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(2,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskUncensored.jsp";
@@ -520,7 +541,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(2,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskUncensored.jsp";
@@ -540,7 +561,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+					ArrayList<Post> listpost = grabBO.getAllPost(2,0);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskUncensored.jsp";
@@ -555,14 +576,14 @@ public class GrabServlet extends HttpServlet {
 		else if(request.getParameter("Censoring") != null) {
 			if(request.getParameter("IDPost") != null)
 			{
-				if(request.getParameter("Censored") != null)
+				if(request.getParameter("Censoreding") != null)
 				{
 					try {
 						boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 1);
 						if(check)
 						{
 							Notification noti = new Notification();
-							noti.setID_Post(request.getParameter("IDPost"));
+							noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
 							noti.setMessage("has been approved.");
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
@@ -574,7 +595,8 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+							ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+							
 							request.setAttribute("listpost", listpost);
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
@@ -591,7 +613,7 @@ public class GrabServlet extends HttpServlet {
 						if(check)
 						{
 							Notification noti = new Notification();
-							noti.setID_Post(request.getParameter("IDPost"));
+							noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
 							noti.setMessage("has not been approved because: " + request.getParameter("AllReasons"));
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
@@ -604,7 +626,7 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+							ArrayList<Post> listpost = grabBO.getAllPost(0,0);
 							request.setAttribute("listpost", listpost);
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
@@ -624,7 +646,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(0,request.getParameter("IDField"));
+					ArrayList<Post> listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/TaskCensoring.jsp";
@@ -649,7 +671,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(0,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensoring.jsp";
@@ -673,7 +695,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+						ArrayList<Post> listpost = grabBO.getAllPost(0,0);
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensoring.jsp";
@@ -692,7 +714,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+					ArrayList<Post> listpost = grabBO.getAllPost(0,0);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensoring.jsp";

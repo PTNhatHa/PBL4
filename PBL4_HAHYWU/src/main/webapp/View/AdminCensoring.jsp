@@ -39,10 +39,10 @@
             var txt = document.getElementById('reasons');
             if(r1)
             {
-                txt.value = "Thể loại không đúng";
+                txt.value = "this content does not match the field";
                 if(r2)
                 {
-                    txt.value = txt.value + ", nội dung không phù hợp";
+                    txt.value = txt.value + ", this content is inappropriate";
                 }
                 if(r3)
                 {
@@ -51,7 +51,7 @@
             }
             else if(r2)
             {
-                txt.value = "Nội dung không phù hợp";
+                txt.value = "this content is inappropriate";
                 if(r3)
                 {
                     txt.value = txt.value + ", " + document.getElementById('rs3txt').value;
@@ -153,8 +153,8 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censored=1&idacc=<%= acc.getID_Account() %>"><input type="button" name="" class="btCensor" value="Censored"></a>
-                            <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
+                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>"><input type="button" name="" class="btCensor" value="Censored"></a>
+                            <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
         </div>
         
         <!-- Reason -->
-        <div class="modal" id="exampleModalToggle" tabindex="-1">
+        <div class="modal" id="exampleModalToggle1" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="reasonform">
@@ -175,15 +175,15 @@
                         <div class="rs">
                             <div class="rstxt">
                                 <input id="rs1" type="checkbox" class="checkbox">
-                                <p class="p-16">Thể loại không đúng</p>
+                                <p class="p-16">this content does not match the field</p>
                             </div>
                             <div class="rstxt">
                                 <input id="rs2" type="checkbox" class="checkbox">
-                                <p class="p-16">Nội dung không phù hợp</p>
+                                <p class="p-16">this content is inappropriate</p>
                             </div>
                             <div class="rstxt">
                                 <input id="rs3" type="checkbox" class="checkbox" onchange="document.getElementById('otherrs').hidden = !this.checked;">
-                                <p class="p-16">Khác</p>
+                                <p class="p-16">Other</p>
                             </div>
                             <div id="otherrs" class="rstxt" hidden style="padding: 0px 13px !important;">
                                 <input id="rs3txt" type="text" class="otherreason" placeholder="Khác" style="border: none; padding: 1px;" required>

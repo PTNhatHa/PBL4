@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="View/style11.css">
-    <link rel="stylesheet" href="View/style333.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style33.css">
     <title>Header</title>
     <script>
         function show(id1, id2) {
@@ -77,7 +78,7 @@
                         <button class="signout" onclick="signout()">Sign out</button>
                     </div>
 	                </span>
-	                <span id="notification-box" style="display: none;">
+	                <span id="notification-box" style="display: none; overflow-y: hidden;">
 	                    <p class="notification-header">Notification</p>
 	                    <%
 	                    	ArrayList<Notification> notifications = (ArrayList<Notification>)request.getAttribute("notifications");
@@ -123,16 +124,6 @@
 	                    		}
 		            		}
 	                    %>
-<!-- 	                    da doc -->
-<!-- 	                    <div class="notification-content"> -->
-<!-- 	                        <div class="notification-ava"></div> -->
-<!-- 	                        <p class="notification-text"><b>Duc Huy</b> has commented on your post <b>Giai cuu!!!</b></p> -->
-<!-- 	                    </div> -->
-<!-- 	                    chua doc -->
-<!-- 	                    <div class="notification-content unseen"> -->
-<!-- 	                        <div class="notification-ava"></div> -->
-<!-- 	                        <p class="notification-text">Your post <b>Phim bede 2023</b> has been <b>approved</b></p> -->
-<!-- 	                    </div> -->
 	                </span>
                 </div>
             </div>

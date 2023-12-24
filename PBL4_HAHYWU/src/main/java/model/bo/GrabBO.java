@@ -84,7 +84,7 @@ public class GrabBO {
 		grabDAO.updateAccount(user);
 	}
 	
-	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
+	public ArrayList<Post> getAllPost(int censor, int ID_Field) {
 		return grabDAO.getAllPost(censor, ID_Field);
 	}
 	public ArrayList<Field> getAllField() throws Exception, Exception {
@@ -99,13 +99,13 @@ public class GrabBO {
 	}
 	public boolean addNotification(Notification noti) throws Exception {
 		ArrayList<Integer> l = grabDAO.findID_Noti_Max();
-		String id;
+		int id;
 		if(l.size() == 0)
 		{
-			id = "1";
+			id = 1;
 		}
 		else {
-			id = String.valueOf(l.get(0).intValue() + 1);
+			id = l.get(0).intValue() + 1;
 		}
 		noti.setID_Notification(id);
 		if(grabDAO.addNotification(noti) != 0)
@@ -116,18 +116,18 @@ public class GrabBO {
 	}
 	
 	/* User Post */
-	public ArrayList<Post> getUserPost(String ID_User, int censor, String ID_Field) {
+	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field) {
 		return grabDAO.getUserPost(ID_User, censor, ID_Field);
 	}
 	public boolean addField(Field field) throws Exception {
 		ArrayList<Integer> l = grabDAO.findID_Field_Max();
-		String id;
+		int id;
 		if(l.size() == 0)
 		{
-			id = "1";
+			id = 1;
 		}
 		else {
-			id = String.valueOf(l.get(0).intValue() + 1);
+			id = l.get(0).intValue() + 1;
 		}
 		field.setID_Field(id);
 		if(grabDAO.addField(field) != 0)

@@ -674,7 +674,6 @@ p.introtext {
 .scroll::-webkit-scrollbar {
     display: none;
   }
-
 .taskbarfield {
 	border: 2px solid var(--darkblue);
     border-radius: 30px;

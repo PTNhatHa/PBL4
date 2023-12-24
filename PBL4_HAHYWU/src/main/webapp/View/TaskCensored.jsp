@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="style111.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <jsp:include page="HeaderAdminPost.jsp" />
@@ -30,7 +29,7 @@
         	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
         });
         function selectchoice(choice) {
-            var l = "GrabServlet?Censored=1&IDField=" + choice + "&idacc=<%= user.getID_Account() %>";
+            var l = "GrabServlet?Censored=1&IDField=" + choice + "&idacc=" + document.getElementById("acc").value;
             location = l;
         }
         function editfield()

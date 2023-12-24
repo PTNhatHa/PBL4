@@ -1,13 +1,13 @@
 package model.bean;
 
 public class Field {
-	private String ID_Field;
+	private int ID_Field;
 	private String Name_Field;
 	
-	public String getID_Field() {
+	public int getID_Field() {
 		return ID_Field;
 	}
-	public void setID_Field(String ID_Field) {
+	public void setID_Field(int ID_Field) {
 		this.ID_Field = ID_Field;
 	}
 	public String getName_Field() {

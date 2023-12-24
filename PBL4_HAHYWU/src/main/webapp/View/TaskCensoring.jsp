@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="style1.css">
-    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +30,7 @@
         	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
         });
         function selectchoice(choice) {
-            var l = "GrabServlet?Censoring=1&IDField=" + choice + "&idacc=<%= user.getID_Account() %>";
+            var l = "GrabServlet?Censoring=1&IDField=" + choice + "&idacc=" + document.getElementById("acc").value;
             location = l;
         }
         function editfield()
@@ -128,7 +126,6 @@
                         <div class="pure-u-2-24"></div>
                         <div hidden>
                             <input id="acc" type="text" value="<%= user.getID_Account() %>">
-                            <input id="addfinish" type="text" value="0">
                         </div>
                     </div>
                 </div>

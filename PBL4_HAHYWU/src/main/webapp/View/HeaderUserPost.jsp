@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="model.bean.User" %>
+<%@ page language="java" import="java.util.ArrayList" %>
+<%@ page language="java" import="model.bean.Notification" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" href="View/style1.css">
-    <link rel="stylesheet" href="View/style33.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <title>Header</title>
     <script>
 	    function show(id1) {
@@ -27,7 +29,7 @@
         }
     </script>
 </head>
-<body>
+<body class="scroll">
 	<main>
 		<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav">
@@ -44,7 +46,15 @@
                     </div>
                     <div> 
                         <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">
-                        <span id="SLNoti" class="badge badge-light">10</span>
+                    <%
+                    	int count = (int)request.getAttribute("count");
+                    	if(count != 0)
+                    	{
+                    %>		
+                    		<span id="SLNoti" class="badge badge-light"><%=count%></span>
+                    <%		
+                    	}
+                    %>
                     </div>
                     <%
                     	if(user.getAvatar() != null){
@@ -67,16 +77,50 @@
 	                </span>
 	                <span id="notification-box" style="display: none;">
 	                    <p class="notification-header">Notification</p>
-	                    <!-- da doc -->
-	                    <div class="notification-content" >
-	                        <div class="notification-ava"></div>
-	                        <p class="notification-text"><b>Duc Huy</b> has commented on your post <b>Giai cuu!!!</b></p>
-	                    </div>
-	                    <!-- chua doc -->
-	                    <div class="notification-content unseen">
-	                        <div class="notification-ava"></div>
-	                        <p class="notification-text">Your post <b>Phim bede 2023</b> has been <b>approved</b></p>
-	                    </div>
+	                    <%
+	                    	ArrayList<Notification> notifications = (ArrayList<Notification>)request.getAttribute("notifications");
+		                    for (int i = 0; i < notifications.size(); i++)
+		            		{
+		                    	if(notifications.get(i).isStatus() == 0) {
+		                    		if(notifications.get(i).getID_Commentator() == null) {
+		                %>
+		                				<!-- chua doc -->
+					                    <div class="notification-content unseen">
+					                        <div class="notification-ava"></div>
+					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
+					                    </div>
+		                <%	
+		                    		}
+		                    		else {
+		                %>    			
+		                    			<div class="notification-content unseen">
+					                        <div class="notification-ava"></div>
+	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> <%=notifications.get(i).getMessage()%> <b><%=notifications.get(i).getName_Post()%></b></p>
+					                    </div>
+		                <%    			
+		                    		}
+		                    	}
+		                    	else {
+		                    		if(notifications.get(i).getID_Commentator() == null) {
+   		                %>
+   		                				<!-- da doc -->
+   					                    <div class="notification-content">
+   					                        <div class="notification-ava"></div>
+   					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
+   					                    </div>
+   		                <%	
+   		                    		}
+   		                    		else {
+   		                %>    			
+   		                    			<div class="notification-content">
+   					                        <div class="notification-ava"></div>
+   	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> has commented on your post <b><%=notifications.get(i).getName_Post()%></b></p>
+   					                    </div>
+   		                <%    			
+   		                    		}
+	                    		}
+		            		}
+	                    %>
 	                </span>
                 </div>
             </div>

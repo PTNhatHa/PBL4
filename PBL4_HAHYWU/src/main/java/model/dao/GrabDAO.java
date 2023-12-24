@@ -325,7 +325,7 @@ public class GrabDAO {
 		    while(rs.next())
 		    {
 		    	Post post = new Post();
-		    	post.setID_Post(rs.getString("ID_Post"));
+		    	post.setID_Post(rs.getInt("ID_Post"));
 	        	post.setID_Author(rs.getString("ID_Author"));
 		        post.setTitle(rs.getString("Title"));
 		        post.setCensor(rs.getInt("Censor"));
@@ -346,12 +346,12 @@ public class GrabDAO {
 			{
 				String sql = "SELECT * FROM notification WHERE ID_Post = ? ORDER BY ID_Notification DESC";
 				PreparedStatement preStmt = connectionMySQL(sql);
-		        preStmt.setString(1, posts.get(i).getID_Post());
+		        preStmt.setInt(1, posts.get(i).getID_Post());
 		        ResultSet rs = preStmt.executeQuery();
 		        while(rs.next())
 			    {
 			    	Notification notification = new Notification();
-			    	notification.setID_Notification(rs.getString("ID_Notification"));
+			    	notification.setID_Notification(rs.getInt("ID_Notification"));
 			    	String commentatorID = rs.getString("ID_Commentator");
 			    	if(commentatorID.equals("null") || commentatorID.trim().isEmpty()) {
 				    	notification.setID_Post(posts.get(i).getID_Post());
@@ -403,7 +403,7 @@ public class GrabDAO {
 		}
 	}
 	
-	public ArrayList<Post> getAllPost(int censor, String ID_Field) {
+	public ArrayList<Post> getAllPost(int censor, int ID_Field) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
@@ -413,7 +413,7 @@ public class GrabDAO {
 	        while(rs.next()) 
 	        {
 	        	post = new Post();
-	        	post.setID_Post(rs.getString(1));
+	        	post.setID_Post(rs.getInt(1));
 	        	post.setID_Author(rs.getString(2));
 	        	
 	        	sql = "SELECT * FROM account WHERE ID_Account = '" + post.getID_Author() + "'";
@@ -432,7 +432,7 @@ public class GrabDAO {
 	        	post.setCensor(rs.getInt(8));
 	        	Boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
-	        	if(ID_Field.equals("0")) //All Fields
+	        	if(ID_Field == 0) //All Fields
 	        	{
 	        		check = true;
 	        	}
@@ -442,7 +442,7 @@ public class GrabDAO {
 						int i;
 						for(i=0; i<listfields.size(); i++)
 						{
-							if(listfields.get(i).getID_Field().equals(ID_Field))
+							if(listfields.get(i).getID_Field() == ID_Field)
 							{
 								check=true;
 								break;
@@ -461,7 +461,7 @@ public class GrabDAO {
 	    }
 	    return listpost;
 	}
-	public ArrayList<Field> getFieldOfPost(String ID_Post) throws Exception, SQLException {
+	public ArrayList<Field> getFieldOfPost(int ID_Post) throws Exception, SQLException {
 		Field field = null;
 		ArrayList<Field> listFields = new ArrayList<Field>();
 		String sql = "SELECT * FROM post_field WHERE ID_Post = '" + ID_Post + "'";
@@ -470,7 +470,7 @@ public class GrabDAO {
         while(rs.next()) 
         {
     		field = new Field();
-    		field.setID_Field(rs.getString("ID_Field"));
+    		field.setID_Field(rs.getInt("ID_Field"));
     		listFields.add(field);
         }
         for(int i=0; i<listFields.size(); i++)
@@ -485,7 +485,7 @@ public class GrabDAO {
         }
         return listFields;
 	}
-	public ArrayList<Image> getImagesOfPost(String ID_Post) throws Exception, SQLException {
+	public ArrayList<Image> getImagesOfPost(int ID_Post) throws Exception, SQLException {
 		Image image = null;
 		ArrayList<Image> listImages = new ArrayList<Image>();
 		String sql = "SELECT * FROM post_images WHERE ID_Post = '" + ID_Post + "'";
@@ -494,7 +494,7 @@ public class GrabDAO {
         while(rs.next()) 
         {
         	image = new Image();
-        	image.setID_Image(rs.getString(2));
+        	image.setID_Image(rs.getInt(2));
         	image.setImage(rs.getBytes(3));
         	listImages.add(image);
         }
@@ -509,7 +509,7 @@ public class GrabDAO {
         while(rs.next()) 
         {
         	field = new Field();
-        	field.setID_Field(rs.getString(1));
+        	field.setID_Field(rs.getInt(1));
         	field.setName_Field(rs.getString(2));
         	listFields.add(field);
         }
@@ -542,7 +542,7 @@ public class GrabDAO {
 	}
 	
 	/* User Post */
-	public ArrayList<Post> getUserPost(String ID_User, int censor, String ID_Field) {
+	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
@@ -556,7 +556,7 @@ public class GrabDAO {
 	        		if(censor != rs.getInt(8)) continue;
 	        	}
 	        	post = new Post();
-	        	post.setID_Post(rs.getString(1));
+	        	post.setID_Post(rs.getInt(1));
 	        	post.setID_Author(rs.getString(2));
 	        	
 	        	sql = "SELECT * FROM account WHERE ID_Account = '" + post.getID_Author() + "'";
@@ -575,7 +575,7 @@ public class GrabDAO {
 	        	post.setCensor(rs.getInt(8));
 	        	Boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
-	        	if(ID_Field.equals("0")) //All Fields
+	        	if(ID_Field == 0) //All Fields
 	        	{
 	        		check = true;
 	        	}
@@ -585,7 +585,7 @@ public class GrabDAO {
 						int i;
 						for(i=0; i<listfields.size(); i++)
 						{
-							if(listfields.get(i).getID_Field().equals(ID_Field))
+							if(listfields.get(i).getID_Field() == ID_Field)
 							{
 								check=true;
 								break;

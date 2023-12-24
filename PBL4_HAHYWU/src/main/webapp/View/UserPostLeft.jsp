@@ -13,38 +13,12 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <link rel="stylesheet" href="style2.css">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
     <script>
     	document.addEventListener("DOMContentLoaded", function() {
         	document.getElementById("mySelectCensor").value = <%= request.getAttribute("ID_Censor") %>;
         	document.getElementById("mySelectField").value = <%= request.getAttribute("ID_Field") %>;
-        	
-        	var censoring = 0;
-        	var censored = 0;
-        	var uncensored = 0;
-        	<%
-        	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
-			for (int i=0; i < listpost.size(); i++)
-			{
-				if(listpost.get(i).getCensor() == 0)
-				{%>
-					censoring = censoring + 1;
-				<%}
-				if(listpost.get(i).getCensor() == 1)
-				{%>
-					censored = censored + 1;
-				<%}
-				if(listpost.get(i).getCensor() == 2)
-				{%>
-					uncensored = uncensored + 1;
-				<%}
-			}
-			%>
-			document.getElementById("total").value = <%= listpost.size() %>;
-            document.getElementById("censoring").value = censoring;
-            document.getElementById("censored").value = censored;
-            document.getElementById("uncensored").value = uncensored;
         });
     
         function btsearch()
@@ -68,6 +42,25 @@
     </style>
 </head>
 <body class="scroll">
+<%
+     	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
+		int censoring=0, censored=0, uncensored=0;
+		for (int i=0; i < listpost.size(); i++)
+		{
+			if(listpost.get(i).getCensor() == 0)
+			{
+				censoring = censoring + 1;
+			}
+			if(listpost.get(i).getCensor() == 1)
+			{
+				censored = censored + 1;
+			}
+			if(listpost.get(i).getCensor() == 2)
+			{
+				uncensored = uncensored + 1;
+			}
+		}
+%>
     <form name="UserMoreInfo" action="">
         <section class="pure-g section4" style="padding: 10px 0 93px; position: absolute;">
             <div class="pure-u-2-24"></div>
@@ -138,13 +131,13 @@
                         <div class="pure-u-2-24"></div>
                         <div class="pure-u-20-24" style="position: relative; ">
                             <div style="color: rgba(27, 51, 91, 0.66); font-size: 16px;">
-                                <p class="first-column">Total: <input type="text" id="total" value="" class="second-column" readonly></p>
+                                <p class="first-column">Total: <input type="text" id="total" value="<%= listpost.size() %>" class="second-column" readonly></p>
                                 <hr class="straightline" style="margin: 0;">
-                                <p class="first-column">Censoring: <input type="text" id="censoring" value="" class="second-column" readonly></p>
+                                <p class="first-column">Censoring: <input type="text" id="censoring" value="<%=censoring %>" class="second-column" readonly></p>
                                 <hr class="straightline" style="margin: 0;">
-                                <p class="first-column">Censored: <input type="text" id="censored" value="" class="second-column" readonly></p>
+                                <p class="first-column">Censored: <input type="text" id="censored" value="<%= censored %>" class="second-column" readonly></p>
                                 <hr class="straightline" style="margin: 0;">
-                                <p class="first-column">Uncensored: <input type="text" id="uncensored" value="" class="second-column" readonly></p>
+                                <p class="first-column">Uncensored: <input type="text" id="uncensored" value="<%= uncensored %>" class="second-column" readonly></p>
                                 <hr class="straightline" style="margin: 0;">
                             </div>
                         </div>
