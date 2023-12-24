@@ -27,18 +27,20 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
+        	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
         });
         function selectchoice(choice) {
-            if(choice == "edit")
-            {
-                document.getElementById("clickField").click();
-            }
-            else
-            {
-            	var l = "GrabServlet?Censored=1&IDField=" + choice + "&idacc=<%= user.getID_Account() %>";
-                location = l;
-            }
+            var l = "GrabServlet?Censored=1&IDField=" + choice + "&idacc=<%= user.getID_Account() %>";
+            location = l;
+        }
+        function editfield()
+        {
+            document.getElementById("clickField").click();
+        }
+        function add() {
+        	var n = document.getElementById("namefield").value;
+            var l = "GrabServlet?Censored=1&addField=1&idacc=" + document.getElementById("acc").value + "&newfield=" + n;
+            location = l;
         }
 	</script>
 </head>
@@ -52,8 +54,8 @@
                 <a href="GrabServlet?Uncensored=1&idacc=<%= user.getID_Account() %>"><input class="taskbarbutton" type="submit" value="Uncensored"></a>
             </div>
             <div class="pure-u-10-24 taskbarright">
+            	<input class="taskbarfield" type="button" name="" id="" value="Edit Field" onclick="editfield()">
                 <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="selectchoice(this.value)">
-                    <option value="edit">Edit...</option>
                     <option value="0">All</option>
                     <!-- loop -->
                     <% ArrayList<Field> listFields = (ArrayList<Field>) request.getAttribute("listFields");
@@ -70,12 +72,13 @@
             <div class="pure-u-2-24"></div>
         </div>
         
-        <!-- Manage Field -->
+        <form action="" method="post">
+            <!-- Manage Field -->
         <input hidden class="Button-bl-or" value="field" type="button" name="" id="clickField" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="background-color: white !important;">
-                    <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="position: absolute;">
+                    <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="position: absolute;">
                     <div class="view">
                         <div class="pure-u-2-24"></div>
                         <div class="pure-u-20-24">
@@ -92,33 +95,42 @@
                                     <td class="field-admin" style="width: 20%; font-weight: bolder;">Action</td>
                                 </tr>
                                 <!-- Bỏ dô vòng for -->
+                                <% 	ArrayList<Field> listFields1 = (ArrayList<Field>) request.getAttribute("listFields");
+                            		for(int i=0; i<listFields.size(); i++)
+                            	{ %>
                                 <tr>
                                     <td class="field-admin" style="width: 30%; font-weight: bolder;">
-                                        <p class="noidung" style="white-space: pre-wrap; min-height: 1em;">stt</p>
+                                        <p class="noidung" style="white-space: pre-wrap; min-height: 1em;"><%= i + 1 %></p>
                                     </td>
                                     <td class="field-admin" style="width: 50%; font-weight: bolder;">
-                                        <p class="noidung" style="white-space: pre-wrap; min-height: 1em;">nd</p>
+                                        <p class="noidung" style="white-space: pre-wrap; min-height: 1em;"><%= listFields1.get(i).getName_Field() %></p>
                                     </td>
                                     <td class="field-admin" style="width: 20%; font-weight: bolder;">
-                                        <a href=""><input type="button" value="Delete"></a>
+                                        <a href="GrabServlet?Censored=1&deleteID_Field=<%= listFields.get(i).getID_Field() %>&idacc=<%= user.getID_Account() %>"><input type="button" value="Delete"></a>
                                     </td>
                                 </tr>
+                                <%} %>
                                 <!--  -->
                                 <tr>
                                     <td colspan="2" class="field-admin" style="font-weight: bolder;">
-                                        <input maxlength="10" type="text" placeholder="New field" style="border: none; width: 100%; padding: 5px 0px;">
+                                        <input id="namefield" name="namefield" maxlength="20" type="text" placeholder="New field" style="border: none; width: 100%; padding: 5px 0px;">
                                     </td>
                                     <td class="field-admin" style="width: 20%; font-weight: bolder;">
-                                        <a href=""><input type="button" value="Add"></a>
+                                        <a href=""><input type="button" value="Add" onclick="add()"></a>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <div class="pure-u-2-24"></div>
+                        <div hidden>
+                            <input id="acc" type="text" value="<%= user.getID_Account() %>">
+                            <input id="addfinish" type="text" value="0">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
         
     </main>
     <jsp:include page="AdminCensored.jsp" />

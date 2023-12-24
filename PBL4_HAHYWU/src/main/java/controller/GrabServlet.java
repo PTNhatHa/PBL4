@@ -310,6 +310,186 @@ public class GrabServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if(request.getParameter("Censored") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/TaskCensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("addField") != null)
+			{
+				try {
+					Field field = new Field();
+					field.setName_Field(request.getParameter("newfield"));
+					boolean check = grabBO.addField(field);
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskCensored.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("deleteID_Field") != null)
+			{
+				try {
+					boolean check = grabBO.deleteField(request.getParameter("deleteID_Field"));
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskCensored.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
+					destination = "/View/TaskCensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(request.getParameter("Uncensored") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(2,request.getParameter("IDField"));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/TaskUncensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("addField") != null)
+			{
+				try {
+					Field field = new Field();
+					field.setName_Field(request.getParameter("newfield"));
+					boolean check = grabBO.addField(field);
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskUncensored.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("deleteID_Field") != null)
+			{
+				try {
+					boolean check = grabBO.deleteField(request.getParameter("deleteID_Field"));
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskUncensored.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				ArrayList<Field> listFields;
+				try {
+					String idacc = request.getParameter("idacc");
+					Account admin = grabBO.getAccountByIDAccount(idacc);
+					request.setAttribute("admin", admin);
+					listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
+					destination = "/View/TaskUncensored.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		else if(request.getParameter("Censoring") != null) {
 			if(request.getParameter("IDPost") != null)
 			{
@@ -393,6 +573,56 @@ public class GrabServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			else if(request.getParameter("addField") != null)
+			{
+				try {
+					Field field = new Field();
+					field.setName_Field(request.getParameter("newfield"));
+					boolean check = grabBO.addField(field);
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskCensoring.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("deleteID_Field") != null)
+			{
+				try {
+					boolean check = grabBO.deleteField(request.getParameter("deleteID_Field"));
+					if(check)
+					{
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = grabBO.getAllPost(0,"0");
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", 0);
+						destination = "/View/TaskCensoring.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			else {
 				try {
 					String idacc = request.getParameter("idacc");
@@ -412,86 +642,7 @@ public class GrabServlet extends HttpServlet {
 				}
 			}
 		}
-		else if(request.getParameter("Censored") != null) {
-			if(request.getParameter("IDField") != null)
-			{
-				try {
-					String idacc = request.getParameter("idacc");
-					Account admin = grabBO.getAccountByIDAccount(idacc);
-					request.setAttribute("admin", admin);
-					ArrayList<Field> listFields = grabBO.getAllField();
-					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,request.getParameter("IDField"));
-					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", request.getParameter("IDField"));
-					destination = "/View/TaskCensored.jsp";
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-					rd.forward(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else {
-				ArrayList<Field> listFields;
-				try {
-					String idacc = request.getParameter("idacc");
-					Account admin = grabBO.getAccountByIDAccount(idacc);
-					request.setAttribute("admin", admin);
-					listFields = grabBO.getAllField();
-					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,"0");
-					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", 0);
-					destination = "/View/TaskCensored.jsp";
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-					rd.forward(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		else if(request.getParameter("Uncensored") != null) {
-			if(request.getParameter("IDField") != null)
-			{
-				try {
-					String idacc = request.getParameter("idacc");
-					Account admin = grabBO.getAccountByIDAccount(idacc);
-					request.setAttribute("admin", admin);
-					ArrayList<Field> listFields = grabBO.getAllField();
-					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,request.getParameter("IDField"));
-					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", request.getParameter("IDField"));
-					destination = "/View/TaskUncensored.jsp";
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-					rd.forward(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else {
-				ArrayList<Field> listFields;
-				try {
-					String idacc = request.getParameter("idacc");
-					Account admin = grabBO.getAccountByIDAccount(idacc);
-					request.setAttribute("admin", admin);
-					listFields = grabBO.getAllField();
-					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,"0");
-					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", 0);
-					destination = "/View/TaskUncensored.jsp";
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-					rd.forward(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+		
 	}
 	public boolean sendOTP(String email) {
         final String username = "hahywucenter1711@gmail.com";

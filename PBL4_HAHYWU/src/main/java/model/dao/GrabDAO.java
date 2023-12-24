@@ -500,5 +500,37 @@ public class GrabDAO {
 	    }
 	    return listpost;
 	}
+	
+//	Manage Fields
+	public ArrayList<Integer> findID_Field_Max() throws Exception, SQLException {
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		String sql = "SELECT * FROM field";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	l.add(Integer.parseInt(rs.getString("ID_Field")));
+        }
+        Collections.sort(l, Collections.reverseOrder());
+        return l;
+	}
+	public int addField(Field field) throws Exception {
+		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "', '" + 0 + "')";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		return rs;
+	}
+	public int deletePost_Field(String ID_Field) throws Exception {
+		String sql = "DELETE FROM post_field WHERE ID_Field='" + ID_Field + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		return rs;
+	}
+	public int deleteField(String ID_Field) throws Exception {
+		String sql = "DELETE FROM field WHERE ID_Field='" + ID_Field + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		return rs;
+	}
 }
 

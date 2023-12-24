@@ -674,3 +674,20 @@ p.introtext {
 .scroll::-webkit-scrollbar {
     display: none;
   }
+
+.taskbarfield {
+	border: 2px solid var(--darkblue);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--darkblue);
+    margin: 12px 10px 12px 0px;
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 800;
+}
+.taskbarfield:hover {
+    border: 2px solid var(--darkblue);
+    background-color: var(--darkblue);
+    color: white;
+    border-radius: 30px;
+}

@@ -33,7 +33,7 @@
     <form action="" method="post">
 
         <select name="" id="mySelect" onchange="selectchoice(this.value)">
-            <option value="edit">edit...</option>
+            <option value="edit" onclick>edit...</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -43,7 +43,7 @@
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="background-color: white !important;">
-                    <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="background-image: url(../img/Close.png); position: absolute;">
+                    <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(../img/Close.png); position: absolute;" onclick="btclose()">
                     <div class="view">
                         <div class="pure-u-2-24"></div>
                         <div class="pure-u-20-24">

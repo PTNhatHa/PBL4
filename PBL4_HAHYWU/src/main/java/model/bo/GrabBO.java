@@ -19,6 +19,7 @@ public class GrabBO {
 	}
 	
 	public void signupAccount(Account account) {
+		
 		grabDAO.signupAccount(account);
 	}
 	
@@ -89,6 +90,31 @@ public class GrabBO {
 	/* User Post */
 	public ArrayList<Post> getUserPost(String ID_User, int censor, String ID_Field) {
 		return grabDAO.getUserPost(ID_User, censor, ID_Field);
+	}
+	public boolean addField(Field field) throws Exception {
+		ArrayList<Integer> l = grabDAO.findID_Field_Max();
+		String id;
+		if(l.size() == 0)
+		{
+			id = "1";
+		}
+		else {
+			id = String.valueOf(l.get(0).intValue() + 1);
+		}
+		field.setID_Field(id);
+		if(grabDAO.addField(field) != 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean deleteField(String ID_Field) throws Exception {
+		int pf = grabDAO.deletePost_Field(ID_Field);
+		if(grabDAO.deleteField(ID_Field) != 0)
+		{
+			return true;
+		}
+		return false;
 	}
 }
 
