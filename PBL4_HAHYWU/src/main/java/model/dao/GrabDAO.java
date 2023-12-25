@@ -337,6 +337,7 @@ public class GrabDAO {
 		return result;
 	}
 
+	/* User's Notification */
 	public ArrayList<Notification> showNotification(String ID_Author) {
 		ArrayList<Notification> result = new ArrayList<Notification>();
 		ArrayList<Post> posts = getPostByIDAuthor(ID_Author);
@@ -378,6 +379,55 @@ public class GrabDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public Post PostgetPostByIDPost(int ID_Post) {
+		Post post = new Post();
+		try
+		{
+			String sql = "SELECT * FROM post WHERE ID_Post = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Post);
+	        ResultSet rs = preStmt.executeQuery();
+	        if(rs.next())
+		    {
+	        	post.setID_Post(rs.getInt(1));
+	        	post.setID_Author(rs.getString(2));
+	        	sql = "SELECT * FROM account WHERE ID_Account = ?";
+		        preStmt = connectionMySQL(sql);
+		        preStmt.setString(1, post.getID_Author());
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        { 
+		        	post.setName_Author(rs1.getString(2));
+		        	post.setAvatar_Author(rs1.getBytes(10));
+		        }
+	        	post.setTitle(rs.getString(3));
+	        	post.setDate_Post(rs.getDate(4));
+	        	post.setContent(rs.getString(5));
+	        	post.setHastag(rs.getString(6));
+	        	post.setComment_Quantity(rs.getInt(7));
+	        	post.setCensor(rs.getInt(8));
+	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
+	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return post;
+	}
+	
+	public void seenNoti(int ID_Notification) {
+		try
+		{
+	        String sql = "UPDATE notification SET Status = ? WHERE ID_Notification = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, 1);
+	        preStmt.setInt(2, ID_Notification);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/* Admin */

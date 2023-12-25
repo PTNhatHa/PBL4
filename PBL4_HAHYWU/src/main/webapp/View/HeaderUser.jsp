@@ -16,16 +16,16 @@
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <title>Header</title>
     <script>
-	    function show(id1, id2) {
-	        var x = document.getElementById(id1);
-	        var y = document.getElementById(id2);
-	        y.style.display = "none";
-	        if (x.style.display === "none") {
-	            x.style.display = "block";
-	        } else {
-	            x.style.display = "none";
-	        }
-	    }
+        function show(id1, id2) {
+            var x = document.getElementById(id1);
+            var y = document.getElementById(id2);
+            y.style.display = "none";
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         function signout() {
             location.href = "index.jsp";
         }
@@ -33,7 +33,7 @@
 </head>
 <body class="scroll">
 	<main>
-		<% User user = (User)request.getAttribute("user"); %>
+	<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="button-head">
                         <a href="GrabServlet?userprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" type="button" value="" style="background-image: url(img/Profile.png);"></a>
-                        <a><input id="" class="button-head-hover" type="button" value="" style="background-image: url(img/Home.png);"></a>
+                        <a href="GrabServlet?userhome=1&idacc=<%= user.getID_Account() %>"><input id="Home" type="button" value="" style="background-image: url(img/Home.png);"></a>
                     </div>
                     <div> 
                         <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">

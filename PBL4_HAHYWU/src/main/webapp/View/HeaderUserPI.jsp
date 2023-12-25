@@ -83,11 +83,14 @@
 	                    	ArrayList<Notification> notifications = (ArrayList<Notification>)request.getAttribute("notifications");
 		                    for (int i = 0; i < notifications.size(); i++)
 		            		{
-		                    	if(notifications.get(i).isStatus() == 0) {
+		                    	int idpost = notifications.get(i).getID_Post();
+		                    	int status = notifications.get(i).isStatus();
+		                    	int idnoti = notifications.get(i).getID_Notification();
+		                    	if(status == 0) {
 		                    		if(notifications.get(i).getID_Commentator() == null) {
 		                %>
 		                				<!-- chua doc -->
-					                    <div class="notification-content unseen">
+					                    <div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
 					                        <div class="notification-ava"></div>
 					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
 					                    </div>
@@ -95,7 +98,7 @@
 		                    		}
 		                    		else {
 		                %>    			
-		                    			<div class="notification-content unseen">
+		                    			<div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
 					                        <div class="notification-ava"></div>
 	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> <%=notifications.get(i).getMessage()%> <b><%=notifications.get(i).getName_Post()%></b></p>
 					                    </div>
@@ -106,7 +109,7 @@
 		                    		if(notifications.get(i).getID_Commentator() == null) {
    		                %>
    		                				<!-- da doc -->
-   					                    <div class="notification-content">
+   					                    <div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
    					                        <div class="notification-ava"></div>
    					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
    					                    </div>
@@ -114,7 +117,7 @@
    		                    		}
    		                    		else {
    		                %>    			
-   		                    			<div class="notification-content">
+   		                    			<div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
    					                        <div class="notification-ava"></div>
    	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> has commented on your post <b><%=notifications.get(i).getName_Post()%></b></p>
    					                    </div>

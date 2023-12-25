@@ -166,7 +166,8 @@ public class GrabServlet extends HttpServlet {
 			String idacc = request.getParameter("idacc");
 			if(request.getParameter("deleteavatar") != null) {
 				grabBO.removeAvatar(idacc);
-				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
+				response.getWriter().write("Delete avatar successfully!");
+
 			}
 			else {
 				try {
@@ -232,6 +233,26 @@ public class GrabServlet extends HttpServlet {
 			String hashed = BCrypt.hashpw(npw, BCrypt.gensalt());
 			grabBO.forgotPassword(email, hashed);
 			response.getWriter().write("Change password successfully!");
+		}
+		else if(request.getParameter("showdetailpost") != null) {
+			int idnoti = Integer.parseInt(request.getParameter("idnoti"));
+			int status = Integer.parseInt(request.getParameter("status"));
+			if(status == 0) {
+				grabBO.seenNoti(idnoti);
+			}
+			int idpost = Integer.parseInt(request.getParameter("idpost"));
+			Post post = grabBO.getPostByIDPost(idpost);
+			String idacc = request.getParameter("idacc");
+			User user = grabBO.getUserByIDUser(idacc);
+			request.setAttribute("user", user);
+			ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+			request.setAttribute("notifications", notifications);
+			int count = grabBO.countUnseenNoti(idacc);
+			request.setAttribute("count", count);
+			request.setAttribute("post", post);
+			destination = "/View/DetailPost.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
 		}
 		else if(request.getParameter("userhome") != null) {
 			if(request.getParameter("IDField") != null)

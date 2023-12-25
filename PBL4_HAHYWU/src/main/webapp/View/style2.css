@@ -41,6 +41,7 @@
     outline: none;
     border: none;
     background-position: center;
+    object-fit: cover;
 }
 .line {
     position: absolute;
@@ -235,7 +236,7 @@ frame{
     border-radius: 90px;
     width: 36px;
     height: 36px;
-    background-image: url(../img/avatar.jpg);
+    background-image: url(../img/defaultavatar.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

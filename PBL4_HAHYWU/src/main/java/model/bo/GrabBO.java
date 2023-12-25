@@ -63,6 +63,7 @@ public class GrabBO {
 		grabDAO.changeAvatar(idacc, newimg);
 	}
 	
+	/* User's Notification */
 	public ArrayList<Notification> showNotication(String ID_Author) {
 		return grabDAO.showNotification(ID_Author);
 	}
@@ -77,6 +78,14 @@ public class GrabBO {
 			}
 		}
 		return count;
+	}
+	
+	public Post getPostByIDPost(int ID_Post) {
+		return grabDAO.PostgetPostByIDPost(ID_Post);
+	}
+	
+	public void seenNoti(int ID_Notification) {
+		grabDAO.seenNoti(ID_Notification);
 	}
 	
 	/* Admin */
