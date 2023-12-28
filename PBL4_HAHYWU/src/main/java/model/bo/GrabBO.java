@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import model.bean.Account;
 import model.bean.Field;
 import model.bean.Notification;
+import model.bean.NumberCensor;
 import model.bean.Post;
 import model.bean.User;
 import model.dao.GrabDAO;
@@ -78,6 +79,9 @@ public class GrabBO {
 		}
 		return count;
 	}
+	public Post getPostByIDPost(int ID_Post) {
+		return grabDAO.getPostByIDPost(ID_Post);
+	}
 	
 	/* Admin */
 	public void updateAccount(Account user) {
@@ -143,6 +147,76 @@ public class GrabBO {
 			return true;
 		}
 		return false;
+	}
+	public boolean newPost(Post p) throws Exception, SQLException {
+		ArrayList<Integer> l = grabDAO.findID_Max("post", 1);
+		int id;
+		if(l.size() == 0)
+		{
+			id = 1;
+		}
+		else {
+			id = l.get(0).intValue() + 1;
+		}
+		p.setID_Post(id);
+		p.setComment_Quantity(0);
+		p.setCensor(0);
+		if(grabDAO.newPost(p) != 0)
+		{
+			if(p.getlistImages().size() != 0)
+			{
+				ArrayList<Integer> li = grabDAO.findID_Max("post_images", 2);
+				
+				int idi;
+				if(li.size() == 0)
+				{
+					idi = 1;
+				}
+				else {
+					idi = l.get(0).intValue() + 1;
+				}
+				
+				for(int j=0; j < p.getlistImages().size(); j++)
+				{
+					p.getlistImages().get(j).setID_Image(idi);
+					idi++;
+					
+				}
+				int img = grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
+				if(img == 0 ) return false;
+			}
+			if(p.getlistFields().size() != 0)
+			{
+				int f = grabDAO.addPost_Field(p.getID_Post(), p.getlistFields());
+				if(f == 0 ) return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	public void updatePost(Post p) throws Exception {
+		grabDAO.updatePost(p);
+		grabDAO.deleteFieldOfPost(p.getID_Post());
+		if(p.getlistFields() != null)
+		{
+			grabDAO.addPost_Field(p.getID_Post(), p.getlistFields());
+		}
+		grabDAO.deleteImageOfPost(p.getID_Post());
+		if(p.getlistImages() != null)
+		{
+			grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
+		}
+	}
+	public void deleteImageOfPost(int ID_Post) throws Exception {
+		grabDAO.deleteImageOfPost(ID_Post);
+	}
+	public NumberCensor getNumberCensor(String ID_Acc) {
+		NumberCensor nbCensor = new NumberCensor();
+		nbCensor.setTotal(grabDAO.getUserPost(ID_Acc, 5, 0).size());
+		nbCensor.setCensoring(grabDAO.getUserPost(ID_Acc, 0, 0).size());
+		nbCensor.setCensored(grabDAO.getUserPost(ID_Acc, 1, 0).size());
+		nbCensor.setUncensored(grabDAO.getUserPost(ID_Acc, 2, 0).size());
+		return nbCensor;
 	}
 }
 

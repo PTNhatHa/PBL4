@@ -22,11 +22,11 @@ import model.bean.Post;
 import model.bean.User;
 
 public class GrabDAO {
+	Connection connect;
 	public PreparedStatement connectionMySQL(String sql) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/pbl4", "root", "");
+		connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/pbl4", "root", "");
 		PreparedStatement preparedStmt = connect.prepareStatement(sql);
-		
 		return preparedStmt; 
 	}
 	
@@ -42,6 +42,8 @@ public class GrabDAO {
 			    	break;
 			    }
 			}
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			
 		}
@@ -91,6 +93,11 @@ public class GrabDAO {
 	        insertStmt2.setString(2, null);
 	        insertStmt2.setString(3, null);
 	        insertStmt2.execute();
+	        
+	        if(connect != null) connect.close();
+	        if(countStmt != null) countStmt.close();
+	        if(insertStmt != null) insertStmt.close();
+	        if(insertStmt2 != null) insertStmt2.close();
 		} catch (Exception e) {
 			
 		}
@@ -108,6 +115,8 @@ public class GrabDAO {
 			    	break;
 			    }
 			}
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			
 		}
@@ -130,6 +139,8 @@ public class GrabDAO {
 			    	check = true;
 			    }
 			}
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			
 		}
@@ -165,6 +176,8 @@ public class GrabDAO {
 	                account.setRole_Account(rs.getInt("Role_Account"));
 	            }
 	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
 	    return account;
@@ -191,6 +204,8 @@ public class GrabDAO {
                 account.setAvatar(rs.getBytes("Avatar"));
                 account.setRole_Account(rs.getInt("Role_Account"));
 	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
 	    return account;
@@ -227,6 +242,8 @@ public class GrabDAO {
 	        	user.setCareer(rs.getString("Career"));
 	        	user.setBio(rs.getString("Bio"));
 	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
 	    return user;
@@ -257,6 +274,9 @@ public class GrabDAO {
 	        preStmt2.setString(3, user.getID_Account());
 	        preStmt2.execute();
 	        
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
+	        if(preStmt2 != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -270,6 +290,8 @@ public class GrabDAO {
 	        preStmt.setString(1, npw);
 	        preStmt.setString(2, idacc);
 	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -283,6 +305,8 @@ public class GrabDAO {
 	        preStmt.setString(1, npw);
 	        preStmt.setString(2, email);
 	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -295,6 +319,8 @@ public class GrabDAO {
 	        PreparedStatement preStmt = connectionMySQL(sql1);
 	        preStmt.setString(1, idacc);
 	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -309,6 +335,8 @@ public class GrabDAO {
 	        preStmt.setBlob(1, bais);
 	        preStmt.setString(2, idacc);
 	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -331,6 +359,8 @@ public class GrabDAO {
 		        post.setCensor(rs.getInt("Censor"));
 		        result.add(post);
 		    }
+		    if(connect != null) connect.close();
+		    if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -373,6 +403,8 @@ public class GrabDAO {
 				    	result.add(notification);
 			    	}
 			    }
+		        if(connect != null) connect.close();
+		        if(preStmt != null) preStmt.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -397,7 +429,8 @@ public class GrabDAO {
 	        preStmt.setString(6, user.getAddress());
 	        preStmt.setString(7, user.getID_Account());
 	        preStmt.execute();
-	        
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -430,7 +463,7 @@ public class GrabDAO {
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
 	        	post.setCensor(rs.getInt(8));
-	        	Boolean check=false;
+	        	boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
 	        	if(ID_Field == 0) //All Fields
 	        	{
@@ -456,7 +489,9 @@ public class GrabDAO {
 		        	post.setlistImages(getImagesOfPost(post.getID_Post()));
 		        	listpost.add(post);
 	        	}
-	        	            }
+	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
 	    return listpost;
@@ -483,6 +518,8 @@ public class GrabDAO {
         		listFields.get(i).setName_Field(rs.getString("Name"));
         	}
         }
+        if(connect != null) connect.close();
+        if(preStmt != null) preStmt.close();
         return listFields;
 	}
 	public ArrayList<Image> getImagesOfPost(int ID_Post) throws Exception, SQLException {
@@ -498,6 +535,8 @@ public class GrabDAO {
         	image.setImage(rs.getBytes(3));
         	listImages.add(image);
         }
+        if(connect != null) connect.close();
+        if(preStmt != null) preStmt.close();
 		return listImages;
 	}
 	public ArrayList<Field> getAllField() throws Exception, SQLException {
@@ -513,12 +552,16 @@ public class GrabDAO {
         	field.setName_Field(rs.getString(2));
         	listFields.add(field);
         }
+        if(connect != null) connect.close();
+        if(preStmt != null) preStmt.close();
         return listFields;
 	}
 	public int updateCensor(String ID_Post, int censor) throws Exception {
 		String sql = "UPDATE post SET Censor='" + censor + "' WHERE ID_Post='" + ID_Post + "'";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		if(preStmt != null) preStmt.close();
 		return rs;
 	}
 	public ArrayList<Integer> findID_Noti_Max() throws Exception, SQLException {
@@ -531,6 +574,8 @@ public class GrabDAO {
         	l.add(Integer.parseInt(rs.getString("ID_Notification")));
         }
         Collections.sort(l, Collections.reverseOrder());
+        if(connect != null) connect.close();
+        if(preStmt != null) preStmt.close();
         return l;
 	}
 	public int addNotification(Notification noti) throws Exception {
@@ -538,6 +583,8 @@ public class GrabDAO {
 						+ noti.getID_Post() + "', '" + noti.getMessage() + "', '" + noti.getDate_Time() + "', '" + noti.isStatus() + "')";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		if(preStmt != null) preStmt.close();
 		return rs;
 	}
 	
@@ -554,6 +601,10 @@ public class GrabDAO {
 	        	if(censor != 5)
 	        	{
 	        		if(censor != rs.getInt(8)) continue;
+	        	}
+	        	if(censor != 4)
+	        	{
+	        		if(rs.getInt(8) == 4) continue;
 	        	}
 	        	post = new Post();
 	        	post.setID_Post(rs.getInt(1));
@@ -573,7 +624,7 @@ public class GrabDAO {
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
 	        	post.setCensor(rs.getInt(8));
-	        	Boolean check=false;
+	        	boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
 	        	if(ID_Field == 0) //All Fields
 	        	{
@@ -599,10 +650,136 @@ public class GrabDAO {
 		        	post.setlistImages(getImagesOfPost(post.getID_Post()));
 		        	listpost.add(post);
 	        	}
-	        	            }
+	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
 	    return listpost;
+	}
+	
+	public int newPost(Post p) throws Exception, SQLException {
+		String sql = "INSERT INTO post VALUE ('" + p.getID_Post() + "', '" + p.getID_Author() + "', '" + p.getTitle() + "', '" 
+				+ p.getDate_Post() + "', '" + p.getContent() + "', '" + p.getHastag() + "', '" + p.getComment_Quantity() + "', '" + p.getCensor() + "')";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		if(preStmt != null) preStmt.close();
+		return rs;
+	}
+	public int addPost_Images(int ID_Post, ArrayList<Image> l) throws Exception, SQLException {
+		String sql;
+		PreparedStatement preStmt = null;
+		int rs = 0;
+		for(int i=0; i<l.size(); i++)
+		{
+			sql = "INSERT INTO post_images (ID_Post, ID_Image, Image) VALUES (?, ?, ?)";
+	        preStmt = connectionMySQL(sql);
+	        ByteArrayInputStream bais = new ByteArrayInputStream(l.get(i).getImage());
+	        preStmt.setInt(1, ID_Post);
+	        preStmt.setInt(2, l.get(i).getID_Image());
+	        preStmt.setBlob(3, bais);
+	        preStmt.execute();
+		}
+		if(connect != null) connect.close();
+		if(preStmt != null) preStmt.close();
+		return rs;
+	}
+	public int addPost_Field(int ID_Post, ArrayList<Field> l) throws Exception, SQLException {
+		String sql;
+		PreparedStatement preStmt = null;
+		int rs = 0;
+		for(int i=0; i<l.size(); i++)
+		{
+			sql = "INSERT INTO post_field VALUE ('" + l.get(i).getID_Field() + "', '" + ID_Post + "')";
+			preStmt = connectionMySQL(sql);
+			rs = preStmt.executeUpdate();
+		}
+		if(connect != null) connect.close();
+		if(preStmt != null) preStmt.close();
+		return rs;
+	}
+	public ArrayList<Integer> findID_Max(String tablename, int index) throws Exception, SQLException {
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		String sql = "SELECT * FROM " + tablename;
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	l.add(Integer.parseInt(rs.getString(index)));
+        }
+        Collections.sort(l, Collections.reverseOrder());
+        if(connect != null) connect.close();
+        preStmt.close();
+        return l;
+	}
+	public Post getPostByIDPost(int ID_Post) {
+		Post post = new Post();
+		try
+		{
+			String sql = "SELECT * FROM post WHERE ID_Post = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Post);
+	        ResultSet rs = preStmt.executeQuery();
+	        if(rs.next())
+		    {
+	        	post.setID_Post(rs.getInt(1));
+	        	post.setID_Author(rs.getString(2));
+	        	sql = "SELECT * FROM account WHERE ID_Account = ?";
+		        preStmt = connectionMySQL(sql);
+		        preStmt.setString(1, post.getID_Author());
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        { 
+		        	post.setName_Author(rs1.getString(2));
+		        	post.setAvatar_Author(rs1.getBytes(10));
+		        }
+	        	post.setTitle(rs.getString(3));
+	        	post.setDate_Post(rs.getDate(4));
+	        	post.setContent(rs.getString(5));
+	        	post.setHastag(rs.getString(6));
+	        	post.setComment_Quantity(rs.getInt(7));
+	        	post.setCensor(rs.getInt(8));
+	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
+	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return post;
+	}
+	public void updatePost(Post p) {
+		try
+		{
+	        String sql1 = "UPDATE post SET Title = ?, Date = ?, Content = ?, Hastag = ? WHERE ID_Post = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql1);
+	        preStmt.setString(1, p.getTitle());
+	        preStmt.setDate(2, p.getDate_Post());
+	        preStmt.setString(3, p.getContent());
+	        preStmt.setString(4, p.getHastag());
+	        preStmt.setInt(5, p.getID_Post());
+	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public int deleteFieldOfPost(Integer ID_Post) throws Exception {
+		String sql = "DELETE FROM post_field WHERE ID_Post='" + ID_Post + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
+		return rs;
+	}
+	public int deleteImageOfPost(Integer ID_Post) throws Exception {
+		String sql = "DELETE FROM post_images WHERE ID_Post='" + ID_Post + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
+		return rs;
 	}
 	
 //	Manage Fields
@@ -616,25 +793,34 @@ public class GrabDAO {
         	l.add(Integer.parseInt(rs.getString("ID_Field")));
         }
         Collections.sort(l, Collections.reverseOrder());
+        if(connect != null) connect.close();
+        preStmt.close();
         return l;
 	}
 	public int addField(Field field) throws Exception {
 		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "', '" + 0 + "')";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
 		return rs;
 	}
 	public int deletePost_Field(String ID_Field) throws Exception {
 		String sql = "DELETE FROM post_field WHERE ID_Field='" + ID_Field + "'";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
 		return rs;
 	}
 	public int deleteField(String ID_Field) throws Exception {
 		String sql = "DELETE FROM field WHERE ID_Field='" + ID_Field + "'";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
 		return rs;
 	}
+	
 }
 

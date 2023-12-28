@@ -29,6 +29,7 @@
             if (input.files && input.files[0]) {
                 var idacc = document.body.getAttribute('data-jsp-var');
                 var file = input.files[0];
+                alert(file);
                 var form = new FormData();
                 form.append("idacc", idacc);
                 form.append("newimg", file);

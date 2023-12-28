@@ -64,7 +64,7 @@
 }
 
 /* SIGN OUT */
-#click-choice, #notification-box, #camera-choice {
+#click-choice, #notification-box, #camera-choice{
     display: block;
     position: absolute;
     right: 14px;

@@ -35,7 +35,9 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
 import model.bean.Field;
+import model.bean.Image;
 import model.bean.Notification;
+import model.bean.NumberCensor;
 import model.bean.Post;
 import model.bean.User;
 import model.bo.GrabBO;
@@ -189,24 +191,26 @@ public class GrabServlet extends HttpServlet {
 				}
 			}
 		}
-		else if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
-	        Part filePart = request.getPart("newimg");
-	        if (filePart != null) {
-	            InputStream fileContent = filePart.getInputStream();
-	            // Chuyển InputStream thành byte array để lưu trong database
-	            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	            byte[] buffer = new byte[1024];
-	            for (int len; (len = fileContent.read(buffer)) != -1; ) {
-	                bos.write(buffer, 0, len);
-	            }
-	            byte[] fileBytes = bos.toByteArray();
-	            bos.close();
-	            fileContent.close();
-	            // Lấy id người dùng từ request
-	            String idacc = request.getParameter("idacc");
-	            grabBO.changeAvatar(idacc, fileBytes);
-	        }
-	    }
+		else if(request.getParameter("changeava") != null) {
+			if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+		        Part filePart = request.getPart("newimg");
+		        if (filePart != null) {
+		            InputStream fileContent = filePart.getInputStream();
+		            // Chuyển InputStream thành byte array để lưu trong database
+		            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[1024];
+		            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+		                bos.write(buffer, 0, len);
+		            }
+		            byte[] fileBytes = bos.toByteArray();
+		            bos.close();
+		            fileContent.close();
+		            // Lấy id người dùng từ request
+		            String idacc = request.getParameter("idacc");
+		            grabBO.changeAvatar(idacc, fileBytes);
+		        }
+		    }
+		}
 		else if(request.getParameter("changepw") != null) {
 			if(request.getParameter("username") != null && request.getParameter("password") != null) {
 				String username = request.getParameter("username");
@@ -307,6 +311,9 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					request.setAttribute("ID_Censor", request.getParameter("censor"));
+					
+					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
+					request.setAttribute("nbCensor", nbCensor);
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -315,14 +322,16 @@ public class GrabServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else {
-				ArrayList<Field> listFields;
+			else if(request.getParameter("IDPost") != null)
+			{
 				try {
+					boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 4);
+					
 					String idacc = request.getParameter("idacc");
 					User user = grabBO.getUserByIDUser(idacc);
 					request.setAttribute("user", user);
 					
-					listFields = grabBO.getAllField();
+					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
@@ -334,6 +343,10 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
+					
+					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
+					request.setAttribute("nbCensor", nbCensor);
+					
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -342,6 +355,185 @@ public class GrabServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			else {
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0);
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
+					request.setAttribute("ID_Censor", 5);
+					
+					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
+					request.setAttribute("nbCensor", nbCensor);
+					
+					destination = "/View/UserPost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(request.getParameter("newpost") != null) {
+			Post post = new Post();
+			post.setID_Author(request.getParameter("idacc"));
+			post.setTitle(request.getParameter("title"));
+			post.setDate_Post(Date.valueOf(request.getParameter("datepost")));
+			post.setContent(request.getParameter("content"));
+			post.setHastag(request.getParameter("hastag"));
+			
+			Field field = null;
+			ArrayList<Field> listFields = new ArrayList<Field>();
+			String idf;
+			for(int i=1; i <= Integer.parseInt(request.getParameter("numberfields")); i++)
+			{
+				idf = "idfield" + i;
+				if(request.getParameter(idf) != null)
+				{
+					field = new Field();
+					field.setID_Field(i);
+					listFields.add(field);
+				}
+			}
+			post.setlistFields(listFields);
+			
+			Image image = null;
+			ArrayList<Image> listImages = new ArrayList<Image>();
+			String idimg;
+			for(int i=0; i < Integer.parseInt(request.getParameter("numberimg")); i++)
+			{
+				idimg = "img" + i;
+				Part filePart = request.getPart(idimg);
+		        if (filePart != null) 
+		        {
+		            InputStream fileContent = filePart.getInputStream();
+		            // Chuyển InputStream thành byte array để lưu trong database
+		            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[1024];
+		            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+		                bos.write(buffer, 0, len);
+		            }
+		            byte[] fileBytes = bos.toByteArray();
+		            bos.close();
+		            fileContent.close();
+		            image = new Image();
+				    image.setImage(fileBytes);
+				    listImages.add(image);
+		        }    
+			}
+			post.setlistImages(listImages);
+			
+			
+			try {
+				boolean check = grabBO.newPost(post);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(request.getParameter("deletepostimg") != null) {
+			try {
+				grabBO.deleteImageOfPost(Integer.parseInt(request.getParameter("deletepostimg")));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(request.getParameter("idupdate") != null) {
+				
+				Post post = new Post();
+				post.setID_Post(Integer.parseInt(request.getParameter("idupdate")));
+				post.setID_Author(request.getParameter("idacc"));
+				post.setTitle(request.getParameter("title"));
+				post.setDate_Post(Date.valueOf(request.getParameter("datepost")));
+				post.setContent(request.getParameter("content"));
+				post.setHastag(request.getParameter("hastag"));
+				
+				Field field = null;
+				ArrayList<Field> listFields = new ArrayList<Field>();
+				String idf;
+				for(int i=1; i <= Integer.parseInt(request.getParameter("numberfields")); i++)
+				{
+					idf = "idfield" + i;
+					if(request.getParameter(idf) != null)
+					{
+						field = new Field();
+						field.setID_Field(i);
+						listFields.add(field);
+					}
+				}
+				post.setlistFields(listFields);
+				
+				Image image = null;
+				ArrayList<Image> listImages = new ArrayList<Image>();
+				String idimg;
+				for(int i=0; i < Integer.parseInt(request.getParameter("numberimg")); i++)
+				{
+					idimg = "img" + i;
+					Part filePart = request.getPart(idimg);
+			        if (filePart != null) 
+			        {
+			            InputStream fileContent = filePart.getInputStream();
+			            // Chuyển InputStream thành byte array để lưu trong database
+			            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			            byte[] buffer = new byte[1024];
+			            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+			                bos.write(buffer, 0, len);
+			            }
+			            byte[] fileBytes = bos.toByteArray();
+			            bos.close();
+			            fileContent.close();
+			            image = new Image();
+					    image.setImage(fileBytes);
+					    listImages.add(image);
+			        }    
+				}
+				post.setlistImages(listImages);
+				try {
+					grabBO.updatePost(post);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		else if(request.getParameter("updatepost") != null) {
+			
+				try {
+					String idacc = request.getParameter("idacc");
+					User user = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("user", user);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idacc);
+					request.setAttribute("count", count);
+					
+					Post post = grabBO.getPostByIDPost(Integer.parseInt(request.getParameter("updatepost")));
+					request.setAttribute("post", post);
+					
+					destination = "/View/UserPostUpdate.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 		}
 		else if(request.getParameter("adminprofile") != null) {
 			if(request.getParameter("changepwA") != null) {

@@ -84,7 +84,7 @@
                                 <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
-                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
                                	<%} %>
                                 <% if (lipost.size() != 0)
                                 	{

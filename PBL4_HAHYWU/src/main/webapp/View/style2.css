@@ -41,6 +41,7 @@
     outline: none;
     border: none;
     background-position: center;
+    object-fit: cover;
 }
 .line {
     position: absolute;
@@ -208,7 +209,7 @@ frame{
     border: 2px solid rgba(27, 51, 91, 0.66);
     background-color: white;
     border-radius: 30px;
-    width: 360px;
+    width: 100%;
     height: 165px;
     text-align: center;
     margin-bottom: 45px;
@@ -254,7 +255,7 @@ frame{
     border: 2px solid rgba(27, 51, 91, 0.66);
     background-color: white;
     border-radius: 30px;
-    width: 360px;
+    width: 100%;
     overflow: hidden;
     text-align: center;
     position: relative;
@@ -315,6 +316,18 @@ frame{
     margin: 10px 0px;
     box-shadow: 4px 4px 10px grey;
 }
+.post-head {
+    background-color: white;
+    color: var(--darkblue);
+    font-size: 30px;
+    font-weight: 800;
+    width: 625px;
+    padding: 0 0 24px;
+    margin-left: 35px;
+    margin-bottom: 24px;
+    text-align: center;
+    border-bottom: 2px solid rgba(27, 51, 91, 0.66);
+}
 .post-row {
     position: relative;
     padding: 0 35px;
@@ -363,7 +376,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
 .more {
     font-size: 18px;
     padding-left: 4px;
-    padding-top: 2px;
+    padding-bottom: 4px;
     position: absolute;
     top: 0;
     right: 35px;
@@ -389,7 +402,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     heigth: fit-content;
     overflow: hidden;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: #1B335B;
     pointer-events: none;
@@ -400,7 +413,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     heigth: fit-content;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
     color: #1B335B;
     resize: none;
     pointer-events: none;
@@ -409,14 +422,35 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     border: none;
     width: 100%;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--darkorange);
     resize: none;
     pointer-events: none;
 }
+.enterable {
+    pointer-events: fill !important;
+    outline: none;
+}
 #content-image {
     width: 100%;
     margin: 20px 0;
+}
+.close-image {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background-image: url(../img/Close2.png);
+    background-color: rgb(211, 211, 211, 0.3);
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 90px;
+}
+.close-image:hover {
+    border: 3px solid rgba(27, 51, 91, 0.5);
 }
 .status-icon {
     width: 22px;
@@ -433,7 +467,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     left: 70px;
     top: 6px;
-    font-size: 14px;
+    font-size: 16px;
     color: #1B335B;
 }
 .post-censor {
@@ -445,6 +479,29 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     padding: 3px;
     width: fit-content;
 }
+.more-function {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+}
+.choose-more-button {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    background-image: url(../img/picture.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 2px solid var(--darkblue);
+}
+.button-field {
+    position: absolute;
+    right: 90px !important;
+    top: 0;
+    background-image: url(../img/filter.png) !important;
+}
+
 /* CHANGE PASSWORD */
 .ChangePassword {
     background-color: white;
@@ -569,14 +626,16 @@ input[type="file"] {
     position: relative !important;
 }
 .rstxt {
+    position: relative;
     margin: 1vh 5vh;
     display: flex;
 }
-.rstxt > p {
-    position: relative !important;
+.rstxt > input {
+    margin: 5px;
+}
+.rstxt > label {
     width: 100%;
-    margin-bottom: 0px;
-    margin-left: 10px;
+    margin: 0px 0px 0px 25px;
 }
 
 /* ViewAdmin */

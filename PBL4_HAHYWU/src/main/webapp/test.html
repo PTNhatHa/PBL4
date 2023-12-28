@@ -21,8 +21,8 @@
     </style>
     </head>
     <body>
-        <form action="">
-            <div class="post-all">
+        <!-- <form action=""> -->
+            <!-- <div class="post-all">
                 <div class="post" style="align-items: center; width: 700px; margin-left: -100px">
                     <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="position: absolute; background-image: url(img/Close.png);">
                     <div class="post-head">-NEW POST-</div>
@@ -46,7 +46,87 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <!-- NEW POST -->
+            <div class="modal fade" id="exampleModalToggle6" aria-hidden="true" aria-labelledby="exampleModalToggleLabel6" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="post" style="align-items: center; width: 700px; margin-left: -100px; z-index: 9999;">
+                            <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="position: absolute; background-image: url(img/Close.png);">
+                            <div class="post-head">-NEW POST-</div>
+                            <div class="post-row">
+                            
+                            <%
+                                if(user.getAvatar() != null){
+                                    byte[] imageBytes = user.getAvatar();
+                                    String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+                            %>
+                                    <div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= base64Encoded %>);"></div>
+                            <%
+                                }
+                                else {
+                            %>
+                                <div class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"></div>
+                            <%
+                                }
+                            %> 
+                                
+                                <input type="text" name="" class="user" value="<%= user.getDisplay_Name() %>">
+                                <input type="date" class="date" value="<%= new java.util.Date().toInstant().toString().substring(0, 10) %>">
+                                <div id="subject"></div>
+                            </div>
+                            
+                            <div class="post-row">
+                                <div class="post-content">
+                                    <textarea id="title" class="enterable" style="height: 23px; min-height: 23px" placeholder="Title" onkeyup="textAreaAdjust(this, 10), adjustscrollbar(this);"></textarea>
+                                    <textarea id="content-text" class="enterable" style="min-height: 50px;" placeholder="What are you wondering?" onkeyup="textAreaAdjust(this, 20), adjustscrollbar(this);"></textarea>
+                                    <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" onkeyup="textAreaAdjust(this, 15), adjustscrollbar(this);"></textarea> 
+                                    <div class="more-function" style="height: 25px;">
+                                        <input id="choosefile" type="file" accept="image/*" multiple max="4" onchange="setImg()">
+                                        <input type="text" name="numberimg" id="numberimg" value="0" hidden>
+                                        <input type="button" class="choose-more-button" onclick="activate();">
+                                        <input type="button" class="choose-more-button button-field" data-bs-target="#exampleModalToggle7" data-bs-toggle="modal">
+                                    </div>
+                                    <div class="more-function" id="set-img" style="margin-top: 0; margin-bottom: 20px;" onload="checkHeightChange()">
+                                        <input type="button" id="close-image-button" class="close-image" style="display: none;" onclick="removeImg()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-row" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                                <button type="submit" class="Button-or-bl" style="position: relative;float: left; margin-right: 15px;" onclick="">Post</button>
+                                <button type="button" class="Button-or-bl" style="position: relative;float: left;" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+            <!-- FIELD -->
+              <div class="modal fade" id="exampleModalToggle7" aria-hidden="true" aria-labelledby="exampleModalToggleLabel7" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="subject-choice post" style="margin-left: -70px;">
+                            <div class="subject-content-set" id="set1" style="overflow: visible; height: 23px;"><p style="width: 100%;">Subject:</p></div>
+                            <div class="subject-content-set" id="set2" style="width: 75%;float: right;">
+                                <!-- loop -->
+                                <% for(int i=0; i<listFields.size(); i++)
+                                    {
+                                %>
+                                        <div class="hold-subject-content">
+                                            <input type="checkbox" value="<%= listFields.get(i).getID_Field() %>">
+                                            <label for=""><%= listFields.get(i).getName_Field() %></label>
+                                        </div>
+                                     <%} %>
+                                <!--  -->
+                            </div>
+                            <div class="subject-content-set" style="margin: 20px 0 0 35%;width: fit-content;">
+                                <input type="submit" class="Button-or-bl" style="position: relative;float: left; margin-right: 15px;" onclick="" value="Save">
+                                <input type="button" class="Button-or-bl" style="position: relative;float: right;" data-bs-target="#exampleModalToggle6" data-bs-toggle="modal" value="Cancel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input class="btn btn-primary" data-bs-target="#exampleModalToggle6" data-bs-toggle="modal" value="Open first modal">
     </body>
 </html>

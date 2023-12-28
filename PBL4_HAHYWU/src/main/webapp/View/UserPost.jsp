@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="model.bean.User" %>
+<% User user = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,16 +21,36 @@
    	<jsp:include page="HeaderUserPI.jsp" />
    	<jsp:include page="UserTopPost.jsp" />
    	<jsp:include page="UserPostLeft.jsp" />
+	<style>
+		.click-more {
+			display: block;
+			position: absolute;
+			text-align: center;
+			background-color: white;
+			border-radius: 10px;
+			box-shadow: 4px 4px 10px grey;
+		}
+	</style>
+	<script>
+		function show(id1) {
+	        var x = document.getElementById(id1);
+	        if (x.style.display == "none") {
+	            x.style.display = "block";
+	        } else {
+	            x.style.display = "none";
+	        }
+	    }
+	</script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
     <form action="" method="post">
         <div class="view" style="">
                 <div class="pure-u-9-24"></div>
-                <div class="pure-u-13-24">
+                <div class="pure-u-13-24" style="position: relative;">
                     <!-- Bỏ dô vòng for -->
                     <%
                     	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
-						for (int i=0; i < listpost.size(); i++)
+						for (int i=listpost.size() - 1; i >=0 ; i--)
 						{
  							ArrayList<String> lifield = new ArrayList<String>();
 							String fieldString = null;
@@ -84,6 +105,11 @@
                            			<% }
                           	} %> 
                             </div>
+                            <% if(listpost.get(i).getCensor() != 4)
+							{
+							%>
+								<input type="button" class="more" onclick="show('click-more<%= listpost.get(i).getID_Post() %>')" value="&#x2807;">
+							<% } %>
                         </div>
                         <div class="post-row">
                             <div class="post-content">
@@ -91,7 +117,7 @@
                                 <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
-                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
                                	<%} %>
                                 <% if (lipost.size() != 0)
                                 	{
@@ -120,13 +146,30 @@
 							%>
 								<p class="post-censor">Uncensored</p>
 							<% } %>
+							<% if(listpost.get(i).getCensor() == 4)
+							{
+							%>
+								<p class="post-censor">Deleted</p>
+							<% } %>
 						</div>
-                    </div>
+						<span class="click-more" id="click-more<%= listpost.get(i).getID_Post() %>" style="display: none; right: 45px; top: 50px; width: 20%; position: absolute;">
+						<div>
+						<% if(listpost.get(i).getCensor() == 0)
+							{%>
+							<a href="GrabServlet?updatepost=<%= listpost.get(i).getID_Post() %>&idacc=<%= user.getID_Account() %>"><input type="button" class="choice" value="Edit"></a>
+						<% } %>
+							<a href="GrabServlet?userpost=1&IDPost=<%= listpost.get(i).getID_Post() %>&idacc=<%= user.getID_Account() %>"><input type="button" class="choice" value="Delete"></a>
+						</div>
+					</span> 
+					</div> 
+					
                     <% } %>
                     <!--  -->
+                    
                 </div>
                 <div class="pure-u-2-24"></div>
             </div>
+       		
     </form>
 </body>
 

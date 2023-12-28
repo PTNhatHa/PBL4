@@ -6,6 +6,7 @@
     <title>POST</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link rel="stylesheet" href="../View/style2.css">
+    <link rel="stylesheet" href="../View/style3.css">
     <script lang="JavaScript">
         function pGenerate() {
             const arr = ["Mathematics"];
@@ -56,22 +57,38 @@
         window.onload = function() {
             pGenerate();
         }
+        function show(id1) {
+            alert(id1);
+	        var x = document.getElementById(id1);
+	        if (x.style.display === "none") {
+	            x.style.display = "block";
+	        } else {
+	            x.style.display = "none";
+	        }
+	    }
     </script>
 </head>
 <body>
     <form name="post" action="">
-        <div class="post">
+        <div class="post" style="position: relative;">
             <div class="post-row">
                 <div class="avapic" style="width: 60px; height: 60px;"></div>
                 <input type="text" name="" class="user" value="User">
                 <input type="date" class="date" value="2023-04-25">
                 <div id="subject"></div>
-                <button class="more">&#x2807;</button>
+
+                <button class="more" onclick="show('click-choice')">&#x2807;</button>
+                <span id="click-choice" style="z-index: 99; right: 40px; top: 30px; width: 20%;">
+                    <div>
+                        <button class="choice">Edit</button>
+                        <button class="choice">Delete</button>
+                    </div>
+	            </span>
             </div>
-            <div class="post-row">
+            <div class="post-row" style="z-index: 1; position: relative;">
                 <div class="post-content">
-                    <textarea name="" id="title" cols="0" rows="1"></textarea>
-                    <textarea name="" id="content-text" cols="0" rows="1"></textarea> 
+                    <textarea name="" id="title" cols="0" rows="1">title</textarea>
+                    <textarea name="" id="content-text" cols="0" rows="1">content-text</textarea> 
                     <img id="content-image" style="width: 100%;" src="../img/avata.jpg" alt="">
                 </div>
             </div>

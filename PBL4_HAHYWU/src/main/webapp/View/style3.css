@@ -182,3 +182,38 @@
     background-color: rgba(137,161,201,0.3);
 }
 
+/* Subject choices for new posts */
+.subject-choice {
+    width: 700px !important;
+    overflow: hidden;
+    padding: 45px 35px !important;
+    text-align: center;
+}
+.subject-content-set {
+    width: 20%;
+    overflow: hidden;
+    float: left;
+    text-align: right;
+}
+.subject-content-set > p {
+    color: var(--darkblue);
+    font-size: 20px;
+    font-weight: bold;
+}
+.hold-subject-content {
+    width: 23%; 
+    height: 31px; 
+    float: left; 
+    text-align: left;
+    font-size: 14px;
+    color: var(--darkblue);
+}
+.hold-subject-content > label {
+    vertical-align: middle;
+    font-weight: 400;
+}
+.hold-subject-content > input[type="checkbox"] {
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+}

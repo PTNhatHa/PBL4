@@ -13,25 +13,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style33.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <title>Header</title>
     <script>
-	    function show(id1) {
-	        var x = document.getElementById(id1);
-	        if (x.style.display === "none") {
-	            x.style.display = "block";
-	        } else {
-	            x.style.display = "none";
-	        }
-	    }
+        function show(id1, id2) {
+            var x = document.getElementById(id1);
+            var y = document.getElementById(id2);
+            y.style.display = "none";
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         function signout() {
             location.href = "index.jsp";
         }
     </script>
 </head>
-<body>
+<body class="scroll">
 	<main>
+	<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
@@ -41,8 +43,8 @@
                         <p class="logo-text">HAHYWU</p>
                     </div>
                     <div class="button-head">
-                        <input id="Profile" class="button-head-hover" type="button" value="" style="background-image: url(img/Profile.png);">
-                        <input id="Home" type="button" value="" style="background-image: url(img/Home.png);">
+                        <a href="GrabServlet?userprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" type="button" value="" style="background-image: url(img/Profile.png);"></a>
+                        <a href="GrabServlet?userhome=1&idacc=<%= user.getID_Account() %>"><input id="Home" type="button" value="" style="background-image: url(img/Home.png);"></a>
                     </div>
                     <div> 
                         <input type="button" name="" class="leftbut" style="background-image: url(img/Notification.png); right: 70px;" onclick="show('notification-box', 'click-choice')">
@@ -57,7 +59,6 @@
                     %>
                     </div>
                     <%
-						User user = (User)request.getAttribute("user");
                     	if(user.getAvatar() != null){
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
@@ -76,7 +77,7 @@
                         <button class="signout" onclick="signout()">Sign out</button>
                     </div>
 	                </span>
-	                <span id="notification-box" style="display: none; overflow-y: hidden;">
+	                <span id="notification-box" style="display: none;">
 	                    <p class="notification-header">Notification</p>
 	                    <%
 	                    	ArrayList<Notification> notifications = (ArrayList<Notification>)request.getAttribute("notifications");

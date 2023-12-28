@@ -62,7 +62,6 @@
                 txt.value = document.getElementById('rs3txt').value;
             }
             var l = "GrabServlet?Censoring=1&IDPost=" + document.getElementById("idp").value + "&AllReasons=" + txt.value + "&idacc=" + document.getElementById("acc").value;
-            alert(l);
             location = l;
         }
     </script>
@@ -138,7 +137,7 @@
                             <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                             <% if(!listpost.get(i).getHastag().equals(""))
                             {%>
-                            <textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                            <textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
                             <%} %>
                             <% if (listimg.size() != 0)
                                 {
@@ -175,18 +174,18 @@
                         <div class="rs">
                             <div class="rstxt">
                                 <input id="rs1" type="checkbox" class="checkbox">
-                                <p class="p-16">this content does not match the field</p>
+                                <label for="rs1" class="p-16">this content does not match the field</label>
                             </div>
                             <div class="rstxt">
                                 <input id="rs2" type="checkbox" class="checkbox">
-                                <p class="p-16">this content is inappropriate</p>
+                                <label for="rs2" class="p-16">this content is inappropriate</label>
                             </div>
                             <div class="rstxt">
                                 <input id="rs3" type="checkbox" class="checkbox" onchange="document.getElementById('otherrs').hidden = !this.checked;">
-                                <p class="p-16">Other</p>
+                                <label for="rs3" class="p-16">Other</label>
                             </div>
                             <div id="otherrs" class="rstxt" hidden style="padding: 0px 13px !important;">
-                                <input id="rs3txt" type="text" class="otherreason" placeholder="Khác" style="border: none; padding: 1px;" required>
+                                <input id="rs3txt" type="text" class="otherreason" placeholder="Other" style="border: none; padding: 1px;" required>
                             </div>
                         </div>
                         <div class="bt">

@@ -24,7 +24,7 @@
                     <!-- Bỏ dô vòng for -->
                     <%
                     	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
-						for (int i=0; i < listpost.size(); i++)
+						for (int i=listpost.size() - 1; i >= 0 ; i--)
 						{
  							ArrayList<String> lifield = new ArrayList<String>();
 							String fieldString = null;
@@ -86,7 +86,7 @@
                                 <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
-                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.get(i).getHastag() %></textarea>
+                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
                                	<%} %>
                                 <% if (lipost.size() != 0)
                                 	{
