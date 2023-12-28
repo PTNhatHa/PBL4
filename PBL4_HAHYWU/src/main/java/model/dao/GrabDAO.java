@@ -436,11 +436,11 @@ public class GrabDAO {
 		}
 	}
 	
-	public ArrayList<Post> getAllPost(int censor, int ID_Field) {
+	public ArrayList<Post> getAllPost(int censor, int ID_Field, String sort) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
-	        String sql = "SELECT * FROM post WHERE Censor = '" + censor + "'";
+	        String sql = "SELECT * FROM post WHERE Censor = '" + censor + "' ORDER BY ID_Post " + sort;
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        ResultSet rs = preStmt.executeQuery();
 	        while(rs.next()) 
@@ -589,11 +589,11 @@ public class GrabDAO {
 	}
 	
 	/* User Post */
-	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field) {
+	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field, String sort) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
-	        String sql = "SELECT * FROM post WHERE ID_Author = '" + ID_User + "'";
+	        String sql = "SELECT * FROM post WHERE ID_Author = '" + ID_User + "' ORDER BY ID_Post " + sort;
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        ResultSet rs = preStmt.executeQuery();
 	        while(rs.next()) 
@@ -781,48 +781,7 @@ public class GrabDAO {
 		preStmt.close();
 		return rs;
 	}
-	
-//	Manage Fields
-	public ArrayList<Integer> findID_Field_Max() throws Exception, SQLException {
-		ArrayList<Integer> l = new ArrayList<Integer>();
-		String sql = "SELECT * FROM field";
-		PreparedStatement preStmt = connectionMySQL(sql);
-        ResultSet rs = preStmt.executeQuery();
-        while(rs.next()) 
-        {
-        	l.add(Integer.parseInt(rs.getString("ID_Field")));
-        }
-        Collections.sort(l, Collections.reverseOrder());
-        if(connect != null) connect.close();
-        preStmt.close();
-        return l;
-	}
-	public int addField(Field field) throws Exception {
-		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "', '" + 0 + "')";
-		PreparedStatement preStmt = connectionMySQL(sql);
-		int rs = preStmt.executeUpdate();
-		if(connect != null) connect.close();
-		preStmt.close();
-		return rs;
-	}
-	public int deletePost_Field(String ID_Field) throws Exception {
-		String sql = "DELETE FROM post_field WHERE ID_Field='" + ID_Field + "'";
-		PreparedStatement preStmt = connectionMySQL(sql);
-		int rs = preStmt.executeUpdate();
-		if(connect != null) connect.close();
-		preStmt.close();
-		return rs;
-	}
-	public int deleteField(String ID_Field) throws Exception {
-		String sql = "DELETE FROM field WHERE ID_Field='" + ID_Field + "'";
-		PreparedStatement preStmt = connectionMySQL(sql);
-		int rs = preStmt.executeUpdate();
-		if(connect != null) connect.close();
-		preStmt.close();
-		return rs;
-	}
-	
-	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch) {
+	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch, String sort) {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
@@ -830,7 +789,7 @@ public class GrabDAO {
 	    	PreparedStatement preStmt;
 	    	if(!ID_User.equals(""))
 	    	{
-	    		sql = "SELECT * FROM post WHERE ID_Author = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?)";
+	    		sql = "SELECT * FROM post WHERE ID_Author = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY ID_Post " + sort;
 	    		preStmt = connectionMySQL(sql);
 	    		preStmt.setString(1, ID_User);
 	    	    preStmt.setString(2, "%" + txtsearch + "%");
@@ -838,7 +797,7 @@ public class GrabDAO {
 	    	    preStmt.setString(4, "%" + txtsearch + "%");
 	    	}
 	    	else {
-	    		sql = "SELECT * FROM post WHERE Censor = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?)";
+	    		sql = "SELECT * FROM post WHERE Censor = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY ID_Post " + sort;
 	    		preStmt = connectionMySQL(sql);
 	    		preStmt.setInt(1, censor);
 	    	    preStmt.setString(2, "%" + txtsearch + "%");
@@ -908,5 +867,47 @@ public class GrabDAO {
 	    }
 	    return listpost;
 	}
+	
+//	Manage Fields
+	public ArrayList<Integer> findID_Field_Max() throws Exception, SQLException {
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		String sql = "SELECT * FROM field";
+		PreparedStatement preStmt = connectionMySQL(sql);
+        ResultSet rs = preStmt.executeQuery();
+        while(rs.next()) 
+        {
+        	l.add(Integer.parseInt(rs.getString("ID_Field")));
+        }
+        Collections.sort(l, Collections.reverseOrder());
+        if(connect != null) connect.close();
+        preStmt.close();
+        return l;
+	}
+	public int addField(Field field) throws Exception {
+		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "', '" + 0 + "')";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
+		return rs;
+	}
+	public int deletePost_Field(String ID_Field) throws Exception {
+		String sql = "DELETE FROM post_field WHERE ID_Field='" + ID_Field + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
+		return rs;
+	}
+	public int deleteField(String ID_Field) throws Exception {
+		String sql = "DELETE FROM field WHERE ID_Field='" + ID_Field + "'";
+		PreparedStatement preStmt = connectionMySQL(sql);
+		int rs = preStmt.executeUpdate();
+		if(connect != null) connect.close();
+		preStmt.close();
+		return rs;
+	}
+	
+	
 }
 

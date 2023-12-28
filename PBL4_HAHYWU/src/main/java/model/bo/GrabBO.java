@@ -88,8 +88,8 @@ public class GrabBO {
 		grabDAO.updateAccount(user);
 	}
 	
-	public ArrayList<Post> getAllPost(int censor, int ID_Field) {
-		return grabDAO.getAllPost(censor, ID_Field);
+	public ArrayList<Post> getAllPost(int censor, int ID_Field, String sort) {
+		return grabDAO.getAllPost(censor, ID_Field, sort);
 	}
 	public ArrayList<Field> getAllField() throws Exception, Exception {
 		return grabDAO.getAllField();
@@ -120,8 +120,8 @@ public class GrabBO {
 	}
 	
 	/* User Post */
-	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field) {
-		return grabDAO.getUserPost(ID_User, censor, ID_Field);
+	public ArrayList<Post> getUserPost(String ID_User, int censor, int ID_Field, String sort) {
+		return grabDAO.getUserPost(ID_User, censor, ID_Field, sort);
 	}
 	public boolean addField(Field field) throws Exception {
 		ArrayList<Integer> l = grabDAO.findID_Field_Max();
@@ -212,14 +212,14 @@ public class GrabBO {
 	}
 	public NumberCensor getNumberCensor(String ID_Acc) {
 		NumberCensor nbCensor = new NumberCensor();
-		nbCensor.setTotal(grabDAO.getUserPost(ID_Acc, 5, 0).size());
-		nbCensor.setCensoring(grabDAO.getUserPost(ID_Acc, 0, 0).size());
-		nbCensor.setCensored(grabDAO.getUserPost(ID_Acc, 1, 0).size());
-		nbCensor.setUncensored(grabDAO.getUserPost(ID_Acc, 2, 0).size());
+		nbCensor.setTotal(grabDAO.getUserPost(ID_Acc, 5, 0, "DESC").size());
+		nbCensor.setCensoring(grabDAO.getUserPost(ID_Acc, 0, 0, "DESC").size());
+		nbCensor.setCensored(grabDAO.getUserPost(ID_Acc, 1, 0, "DESC").size());
+		nbCensor.setUncensored(grabDAO.getUserPost(ID_Acc, 2, 0, "DESC").size());
 		return nbCensor;
 	}
-	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch) {
-		return grabDAO.searchPost(ID_User, censor, ID_Field, txtsearch);
+	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch, String sort) {
+		return grabDAO.searchPost(ID_User, censor, ID_Field, txtsearch, sort);
 	}
 }
 

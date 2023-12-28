@@ -48,7 +48,7 @@
                 		<%} %>
                        <!-- Bỏ dô vòng for -->
                     <%
-						for (int i=listpost.size() - 1; i >= 0 ; i--)
+						for (int i=0; i < listpost.size() ; i++)
 						{
  							ArrayList<String> lifield = new ArrayList<String>();
 							String fieldString = null;

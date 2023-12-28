@@ -121,7 +121,6 @@
         function saveupdate() {
             var idpost = document.getElementById("idpost").value;
             var idacc = document.getElementById("acc").value;
-            alert(document.getElementById("acc").value);
             var title = document.getElementById("title").value;
             var datepost = document.getElementById("datepost").value;
             var content = document.getElementById("content-text").value;
@@ -129,8 +128,6 @@
             var fileInput = document.getElementById("choosefile");
             var numberimg = fileInput.files.length;
             var numberfields = document.getElementById("nbfield").value;
-            // alert(idacc + "--" + title + "--" + datepost + "-- " + content + "--");
-            // alert(hastag + "--" + fileInput + "--" + numberimg + "-- " + numberfields + "--");
             var form = new FormData();
             form.append("idupdate", idpost);
             form.append("idacc", idacc);

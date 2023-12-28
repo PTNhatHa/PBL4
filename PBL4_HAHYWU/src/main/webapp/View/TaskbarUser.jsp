@@ -17,11 +17,14 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
         	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
+        	var s = document.getElementById("mysort");
+            s.value = '<%= request.getAttribute("sort") %>';
         });
         function search()
         {
             var l = "GrabServlet?userhome=1&IDField=" + document.getElementById("mySelect").value 
-            		+ "&search=" + document.getElementById("txtsearch").value + "&idacc=" + document.getElementById("acc").value;
+            		+ "&search=" + document.getElementById("txtsearch").value + "&idacc=" 
+            		+ document.getElementById("acc").value + "&sort=" + document.getElementById("mysort").value;
             location = l;
         }
 	</script>
@@ -33,6 +36,11 @@
             <div class="pure-u-10-24">
             </div>
             <div class="pure-u-10-24 taskbarright">
+            	<select id="mysort" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="search()">
+                    <option value="DESC">Newest</option>
+                    <option value="ASC">Oldest</option>
+                </select>
+            
                 <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="search()">
                     <option value="0">All</option>
                     <!-- loop -->
@@ -44,6 +52,7 @@
              			<%} %>
                     <!--  -->
                 </select>  
+                
                 <input id="txtsearch" class="searchadmin" type="text" placeholder="Search" name="search" value="<%= request.getAttribute("searchtxt") %>" style="z-index: 1;">
                 <input class="searchadminimg" type="button" name="searchbut" value="" onclick="search()" style="z-index: 2;">
             </div>

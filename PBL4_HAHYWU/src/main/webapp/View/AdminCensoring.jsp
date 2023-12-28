@@ -61,7 +61,8 @@
             {
                 txt.value = document.getElementById('rs3txt').value;
             }
-            var l = "GrabServlet?Censoring=1&IDPost=" + document.getElementById("idp").value + "&AllReasons=" + txt.value + "&idacc=" + document.getElementById("acc").value;
+            var l = "GrabServlet?Censoring=1&IDPost=" + document.getElementById("idp").value + "&AllReasons=" 
+            + txt.value + "&idacc=" + document.getElementById("acc").value + "&ID_Field=" + document.getElementById("idfield").value;
             location = l;
         }
     </script>
@@ -152,7 +153,7 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>"><input type="button" name="" class="btCensor" value="Censored"></a>
+                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>&ID_Field=<%= request.getAttribute("ID_Field") %>"><input type="button" name="" class="btCensor" value="Censored"></a>
                             <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
                         </div>
                     </div>
@@ -195,6 +196,7 @@
                         </div>
                         <div hidden>
                             <input id="reasons" type="text" value="">
+                            <input id="idfield" type="text" value="<%= request.getAttribute("ID_Field") %>">
                             <input id="acc" type="text" value="<%= acc.getID_Account() %>">
                             <input id="idp" type="text" value="">
                         </div>

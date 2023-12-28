@@ -257,11 +257,11 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Post> listpost = new ArrayList<Post>();
 					if(request.getParameter("search").equals(""))
 					{
-						listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
+						listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
 						request.setAttribute("searchtxt", "");
 					}
 					else {
-						listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"));
+						listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
 						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
 						keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
 						for(int i=0; i<listpost.size(); i++)
@@ -279,7 +279,7 @@ public class GrabServlet extends HttpServlet {
 						request.setAttribute("searchtxt", request.getParameter("search"));
 					}
 					
-					
+					request.setAttribute("sort", request.getParameter("sort"));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					
@@ -306,10 +306,11 @@ public class GrabServlet extends HttpServlet {
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getAllPost(1,0);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,0,"DESC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("searchtxt", "");
+					request.setAttribute("sort", "DESC");
 					destination = "/View/UserHome.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -338,11 +339,11 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Post> listpost = new ArrayList<Post>();
 					if(request.getParameter("search").equals(""))
 					{
-						listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+						listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
 						request.setAttribute("searchtxt", "");
 					}
 					else {
-						listpost = grabBO.searchPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"));
+						listpost = grabBO.searchPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
 						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
 						keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
 						for(int i=0; i<listpost.size(); i++)
@@ -366,6 +367,7 @@ public class GrabServlet extends HttpServlet {
 					
 					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
 					request.setAttribute("nbCensor", nbCensor);
+					request.setAttribute("sort", request.getParameter("sort"));
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -391,7 +393,7 @@ public class GrabServlet extends HttpServlet {
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0);
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0, request.getParameter("sort"));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
@@ -422,7 +424,7 @@ public class GrabServlet extends HttpServlet {
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0);
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0, "DESC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
@@ -430,7 +432,7 @@ public class GrabServlet extends HttpServlet {
 					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
 					request.setAttribute("nbCensor", nbCensor);
 					request.setAttribute("searchtxt", "");
-					
+					request.setAttribute("sort", "DESC");
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -648,7 +650,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), "ASC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/TaskCensored.jsp";
@@ -673,7 +675,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(1,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensored.jsp";
@@ -697,7 +699,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(1,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensored.jsp";
@@ -717,7 +719,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,0);
+					ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensored.jsp";
@@ -738,7 +740,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = grabBO.getAllPost(2,Integer.parseInt(request.getParameter("IDField")), "ASC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					destination = "/View/TaskUncensored.jsp";
@@ -763,7 +765,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(2,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskUncensored.jsp";
@@ -787,7 +789,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(2,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskUncensored.jsp";
@@ -807,7 +809,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,0);
+					ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskUncensored.jsp";
@@ -841,9 +843,10 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+							ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
 							
 							request.setAttribute("listpost", listpost);
+							request.setAttribute("ID_Field", request.getParameter("ID_Field"));
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 							rd.forward(request, response);
@@ -872,8 +875,9 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+							ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
 							request.setAttribute("listpost", listpost);
+							request.setAttribute("ID_Field", request.getParameter("ID_Field"));
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 							rd.forward(request, response);
@@ -892,9 +896,9 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), "ASC");
 					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("ID_Field", request.getParameter("ID_Field"));
 					destination = "/View/TaskCensoring.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -917,7 +921,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensoring.jsp";
@@ -941,7 +945,7 @@ public class GrabServlet extends HttpServlet {
 						
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
-						ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+						ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
 						destination = "/View/TaskCensoring.jsp";
@@ -960,7 +964,7 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(0,0);
+					ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					destination = "/View/TaskCensoring.jsp";
