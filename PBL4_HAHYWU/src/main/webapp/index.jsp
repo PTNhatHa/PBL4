@@ -263,7 +263,7 @@
                         </div>
                     </div>
                     <div class="pure-u-7-24">
-                        <div class="intro">
+                        <div class="intro" style="float: right">
                             <div>
                                 <img src="img/infinite.png" alt="">
                                 <h3 class="introtitle">No limit</h3>

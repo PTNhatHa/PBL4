@@ -92,6 +92,7 @@
                 }
                 image.style.float = "left";
                 image.src = URL.createObjectURL(fileInput.files[i]);
+                image.addEventListener('click', img_tag_handler);
                 div.appendChild(image);
             }
             div.style.display = "block";
@@ -133,6 +134,7 @@
                 console.error('Error:', error);
             });
         }
+        document.addEventListener('DOMContentLoaded', img_tag_handler);
     </script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
@@ -215,7 +217,7 @@
 								{
 									for(int k=0; k < lipost.size(); k++)
 									{%>
-										<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
+										<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh" onclick="img_tag_handler()">
 									<%}
 								}%>
 			                </div>
@@ -260,7 +262,7 @@
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                        <span style="width: 100%; height: 100px; display: block;">
-						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
+						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;" onclick="img_tag_handler()">
 						                        </span>  
 						                    </div>
 						                </div>
@@ -300,7 +302,7 @@
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                        <span style="width: 100%; height: 100px; display: block;">
-						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
+						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;" onclick="img_tag_handler()">
 						                        </span>  
 						                    </div>
 						                </div>
@@ -361,5 +363,6 @@
 			<div class="pure-u-6-24"></div>
         </div>
     </form>
+    <jsp:include page="zoomImage.jsp"></jsp:include>
 </body>
 </html>
