@@ -218,5 +218,8 @@ public class GrabBO {
 		nbCensor.setUncensored(grabDAO.getUserPost(ID_Acc, 2, 0).size());
 		return nbCensor;
 	}
+	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch) {
+		return grabDAO.searchPost(ID_User, censor, ID_Field, txtsearch);
+	}
 }
 

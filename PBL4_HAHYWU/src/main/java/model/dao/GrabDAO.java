@@ -822,5 +822,91 @@ public class GrabDAO {
 		return rs;
 	}
 	
+	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch) {
+	    Post post = null;
+	    ArrayList<Post> listpost = new ArrayList<Post>();
+	    try {
+	    	String sql = "";
+	    	PreparedStatement preStmt;
+	    	if(!ID_User.equals(""))
+	    	{
+	    		sql = "SELECT * FROM post WHERE ID_Author = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?)";
+	    		preStmt = connectionMySQL(sql);
+	    		preStmt.setString(1, ID_User);
+	    	    preStmt.setString(2, "%" + txtsearch + "%");
+	    	    preStmt.setString(3, "%" + txtsearch + "%");
+	    	    preStmt.setString(4, "%" + txtsearch + "%");
+	    	}
+	    	else {
+	    		sql = "SELECT * FROM post WHERE Censor = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?)";
+	    		preStmt = connectionMySQL(sql);
+	    		preStmt.setInt(1, censor);
+	    	    preStmt.setString(2, "%" + txtsearch + "%");
+	    	    preStmt.setString(3, "%" + txtsearch + "%");
+	    	    preStmt.setString(4, "%" + txtsearch + "%");
+			}
+	        
+	        ResultSet rs = preStmt.executeQuery();
+	        while(rs.next()) 
+	        {
+	        	if(censor != 5)
+	        	{
+	        		if(censor != rs.getInt(8)) continue;
+	        	}
+	        	if(censor != 4)
+	        	{
+	        		if(rs.getInt(8) == 4) continue;
+	        	}
+	        	post = new Post();
+	        	post.setID_Post(rs.getInt(1));
+	        	post.setID_Author(rs.getString(2));
+	        	
+	        	sql = "SELECT * FROM account WHERE ID_Account = '" + post.getID_Author() + "'";
+		        preStmt = connectionMySQL(sql);
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        {
+		        	post.setName_Author(rs1.getString(2));
+		        	post.setAvatar_Author(rs1.getBytes(10));
+		        }
+	        	post.setTitle(rs.getString(3));
+	        	post.setDate_Post(rs.getDate(4));
+	        	post.setContent(rs.getString(5));
+	        	post.setHastag(rs.getString(6));
+	        	post.setComment_Quantity(rs.getInt(7));
+	        	post.setCensor(rs.getInt(8));
+	        	boolean check=false;
+	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
+	        	if(ID_Field == 0) //All Fields
+	        	{
+	        		check = true;
+	        	}
+	        	else {
+					if(listfields.size() > 0)
+					{
+						int i;
+						for(i=0; i<listfields.size(); i++)
+						{
+							if(listfields.get(i).getID_Field() == ID_Field)
+							{
+								check=true;
+								break;
+							}
+						}
+					}
+				}
+	        	if(check)
+	        	{
+	        		post.setlistFields(listfields);
+		        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+		        	listpost.add(post);
+	        	}
+	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
+	    } catch (Exception e) {
+	    }
+	    return listpost;
+	}
 }
 

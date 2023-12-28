@@ -30,6 +30,21 @@
 			border-radius: 10px;
 			box-shadow: 4px 4px 10px grey;
 		}
+		.searchresult {
+		color: #1B335B;
+		font-size: 20px;
+		font-weight: 800;
+		text-align: left;
+		}
+		.searchresult1 {
+		color: #1B335B;
+		font-size: 14px;
+		text-align: left;
+		}
+		mark {
+		    background-color: #FFCAB6;
+		    color: #1B335B;
+		}
 	</style>
 	<script>
 		function show(id1) {
@@ -43,13 +58,19 @@
 	</script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
+<% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
     <form action="" method="post">
         <div class="view" style="">
                 <div class="pure-u-9-24"></div>
                 <div class="pure-u-13-24" style="position: relative;">
+                	<% if(!request.getAttribute("searchtxt").equals(""))
+                		{%>
+					<p class="searchresult" style="position: relative; margin: 10px 0 0;">Search results</p>
+					<p class="searchresult1" style="position: relative;  margin: 0;"><b><%= listpost.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
+                    <hr class="straightline" style="position: relative;  margin: 0;">
+                		<%} %>
                     <!-- Bỏ dô vòng for -->
                     <%
-                    	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
 						for (int i=listpost.size() - 1; i >=0 ; i--)
 						{
  							ArrayList<String> lifield = new ArrayList<String>();
@@ -113,11 +134,11 @@
                         </div>
                         <div class="post-row">
                             <div class="post-content">
-                                <textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.get(i).getTitle() %></textarea>
+                                <p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
                                 <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
-                               	<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
+                               	<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
                                	<%} %>
                                 <% if (lipost.size() != 0)
                                 	{

@@ -30,7 +30,8 @@
         {
             var censor = document.getElementById("mySelectCensor").value;
             var field = document.getElementById("mySelectField").value;
-            var l = "GrabServlet?userpost=1&IDField=" + field + "&censor=" + censor + "&idacc=" + document.getElementById("acc").value;
+            var l = "GrabServlet?userpost=1&IDField=" + field + "&censor=" + censor 
+            		+ "&idacc=" + document.getElementById("acc").value + "&search=" + document.getElementById("txtsearch").value;
             location = l;
         }
         
@@ -240,8 +241,8 @@
                     <div class="pure-g" style="position: relative;">
                         <div class="pure-u-2-24"></div>
                         <div class="pure-u-20-24" style="position: relative;text-align: left;">
-                            <input class="topost" type="text" name="searchpost" style="width: 95.5%;" placeholder="Search">
-                            <input class="searchpostbut" type="button" name="searchpostbut">
+                            <input id="txtsearch" class="topost" type="text" name="searchpost" style="width: 95.5%;" placeholder="Search" value="<%= request.getAttribute("searchtxt") %>">
+                            <input class="searchpostbut" type="button" name="searchpostbut" onclick="btsearch()" >
                         </div>
                         <div class="pure-u-2-24"></div>
                     </div>

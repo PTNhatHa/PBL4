@@ -69,7 +69,7 @@
             </div>
             <div class="pure-u-10-24 taskbarright">
             	<input class="taskbarfield" type="button" name="" id="clickField" value="Edit Field" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onclick="openPopup()">
-                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="selectchoice(this.value)">
+                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 0px 10px;" onchange="selectchoice(this.value)">
                     <option value="0">All</option>
                     <!-- loop -->
                     <% ArrayList<Field> listFields = (ArrayList<Field>) request.getAttribute("listFields");
@@ -80,8 +80,6 @@
              			<%} %>
                     <!--  -->
                 </select>  
-                <input class="searchadmin" type="text" placeholder="Search" name="search" value="">
-                <input class="searchadminimg" type="button" name="searchbut" value="">
             </div>
             <div class="pure-u-2-24"></div>
         </div>

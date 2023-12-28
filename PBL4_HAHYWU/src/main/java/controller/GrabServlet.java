@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -253,9 +254,35 @@ public class GrabServlet extends HttpServlet {
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
+						for(int i=0; i<listpost.size(); i++)
+						{
+							// Biểu thức chính quy sẽ tìm tất cả các lần xuất hiện của từ khóa không phân biệt hoa thường
+							String regex = "(?i)" + keyword;
+							// Thay thế và đánh dấu từ khóa trong nội dung bằng thẻ <mark>
+							String highlightedTitle = listpost.get(i).getTitle().replaceAll(regex, "<mark>$0</mark>");
+					        String highlightedContent = listpost.get(i).getContent().replaceAll(regex, "<mark>$0</mark>");
+					        String highlightedHashtag = listpost.get(i).getHastag().replaceAll(regex, "<mark>$0</mark>");
+					        listpost.get(i).setTitle(highlightedTitle);
+					        listpost.get(i).setContent(highlightedContent);
+					        listpost.get(i).setHastag(highlightedHashtag);
+						}
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					
+					
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					
 					destination = "/View/UserHome.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -282,6 +309,7 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Post> listpost = grabBO.getAllPost(1,0);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
+					request.setAttribute("searchtxt", "");
 					destination = "/View/UserHome.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -307,7 +335,31 @@ public class GrabServlet extends HttpServlet {
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
+						for(int i=0; i<listpost.size(); i++)
+						{
+							// Biểu thức chính quy sẽ tìm tất cả các lần xuất hiện của từ khóa không phân biệt hoa thường
+							String regex = "(?i)" + keyword;
+							// Thay thế và đánh dấu từ khóa trong nội dung bằng thẻ <mark>
+							String highlightedTitle = listpost.get(i).getTitle().replaceAll(regex, "<mark>$0</mark>");
+					        String highlightedContent = listpost.get(i).getContent().replaceAll(regex, "<mark>$0</mark>");
+					        String highlightedHashtag = listpost.get(i).getHastag().replaceAll(regex, "<mark>$0</mark>");
+					        listpost.get(i).setTitle(highlightedTitle);
+					        listpost.get(i).setContent(highlightedContent);
+					        listpost.get(i).setHastag(highlightedHashtag);
+						}
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					request.setAttribute("ID_Censor", request.getParameter("censor"));
@@ -322,7 +374,7 @@ public class GrabServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if(request.getParameter("IDPost") != null)
+			else if(request.getParameter("IDPost") != null) //Delete post
 			{
 				try {
 					boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 4);
@@ -346,6 +398,7 @@ public class GrabServlet extends HttpServlet {
 					
 					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
 					request.setAttribute("nbCensor", nbCensor);
+					request.setAttribute("searchtxt", "");
 					
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
@@ -376,6 +429,7 @@ public class GrabServlet extends HttpServlet {
 					
 					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
 					request.setAttribute("nbCensor", nbCensor);
+					request.setAttribute("searchtxt", "");
 					
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);

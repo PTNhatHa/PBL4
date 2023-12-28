@@ -13,13 +13,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style11.css">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
         	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
         });
-        function selectchoice(choice) {
-            var l = "GrabServlet?userhome=1&IDField=" + choice + "&idacc=" + document.getElementById("acc").value;
+        function search()
+        {
+            var l = "GrabServlet?userhome=1&IDField=" + document.getElementById("mySelect").value 
+            		+ "&search=" + document.getElementById("txtsearch").value + "&idacc=" + document.getElementById("acc").value;
             location = l;
         }
 	</script>
@@ -31,7 +33,7 @@
             <div class="pure-u-10-24">
             </div>
             <div class="pure-u-10-24 taskbarright">
-                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="selectchoice(this.value)">
+                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="search()">
                     <option value="0">All</option>
                     <!-- loop -->
                     <% ArrayList<Field> listFields = (ArrayList<Field>) request.getAttribute("listFields");
@@ -42,8 +44,8 @@
              			<%} %>
                     <!--  -->
                 </select>  
-                <input class="searchadmin" type="text" placeholder="Search" name="search" value="">
-                <input class="searchadminimg" type="button" name="searchbut" value="">
+                <input id="txtsearch" class="searchadmin" type="text" placeholder="Search" name="search" value="<%= request.getAttribute("searchtxt") %>" style="z-index: 1;">
+                <input class="searchadminimg" type="button" name="searchbut" value="" onclick="search()" style="z-index: 2;">
             </div>
             <div class="pure-u-2-24"></div>
             <div hidden>
