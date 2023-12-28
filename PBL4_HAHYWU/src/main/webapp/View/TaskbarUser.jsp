@@ -23,10 +23,18 @@
             location = l;
         }
 	</script>
+	<style>
+       .searchadmin, ::after, ::before {
+           box-sizing: unset;
+       }	        
+       * {
+	    line-height: normal !important;
+	}
+    </style>
 </head>
 <body>
     <main>
-        <div class="pure-g taskbar">
+        <div class="pure-g taskbar" style="z-index: 9999">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-10-24">
             </div>

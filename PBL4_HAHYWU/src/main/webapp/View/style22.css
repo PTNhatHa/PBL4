@@ -313,7 +313,6 @@ frame{
     width: 788px; 
     /* height: 428px; */
     overflow: hidden;
-/*     box-shadow: 4px 4px 10px grey; */
 }
 .post-head {
     background-color: white;
@@ -491,7 +490,7 @@ input.date[type="date"]::-webkit-calendar-picker-indicator {
     top: 0;
     width: 25px;
     height: 25px;
-    background-image: url(../img/picture.png);
+    background-image: url(../img/picture.jpg);
     background-repeat: no-repeat;
     background-position: center;
     border: 2px solid var(--darkblue);

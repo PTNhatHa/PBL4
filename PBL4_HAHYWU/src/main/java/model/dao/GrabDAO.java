@@ -20,6 +20,7 @@ import model.bean.Image;
 import model.bean.Notification;
 import model.bean.Post;
 import model.bean.User;
+import model.bean.Comment;
 
 public class GrabDAO {
 	public PreparedStatement connectionMySQL(String sql) throws ClassNotFoundException, SQLException {
@@ -381,7 +382,7 @@ public class GrabDAO {
 		return result;
 	}
 	
-	public Post PostgetPostByIDPost(int ID_Post) {
+	public Post getPostByIDPost(int ID_Post) {
 		Post post = new Post();
 		try
 		{
@@ -410,6 +411,7 @@ public class GrabDAO {
 	        	post.setCensor(rs.getInt(8));
 	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
 	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -424,6 +426,115 @@ public class GrabDAO {
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        preStmt.setInt(1, 1);
 	        preStmt.setInt(2, ID_Notification);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* User's Comment */
+	public void addComment(Comment comment) {
+		try
+		{
+			String countSql = "SELECT MAX(ID_Comment) AS count FROM comment";
+	        PreparedStatement countStmt = connectionMySQL(countSql);
+	        ResultSet rs = countStmt.executeQuery();
+	        int count = 0;
+	        if (rs.next()) {
+	            count = rs.getInt("count");
+	        }
+	        // Tạo ID mới cho cmt
+	        int newId = count + 1;
+
+	        // Thêm cmt mới vào bảng comment
+	        String insertSql1 = "INSERT INTO comment (ID_Comment, ID_Post, ID_Commentator, Comment, Date_Time) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement insertStmt = connectionMySQL(insertSql1);
+	        insertStmt.setInt(1, newId);
+	        insertStmt.setInt(2, comment.getID_Post());
+	        insertStmt.setString(3, comment.getID_Commentator());
+	        insertStmt.setString(4, comment.getComment_Content());
+	        insertStmt.setDate(5, comment.getDate_Time());
+	        insertStmt.execute();
+	        
+	        // Thêm ảnh vào bảng comment_images, nếu cmt đó có ảnh thì thêm DL ảnh đó vào nếu không có ảnh thì set giá trị Image là null
+	        String insertSql2 = "INSERT INTO comment_images (ID_Comment, ID_Image, Image) VALUES (?, ?, ?)";
+	        PreparedStatement insertStmt2 = connectionMySQL(insertSql2);
+	        insertStmt2.setInt(1, newId);
+	        insertStmt2.setInt(2, newId);
+	        if(comment.getImage() != null) {
+	        	ByteArrayInputStream bais = new ByteArrayInputStream(comment.getImage());
+		        insertStmt2.setBlob(3, bais);
+	        }
+	        else {
+	        	insertStmt2.setBytes(3, null);
+	        }
+	        insertStmt2.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Comment> getAllCommentByIDPost(int ID_Post) {
+		ArrayList<Comment> result = new ArrayList<Comment>();
+		try
+		{
+			String sql = "SELECT * FROM comment WHERE ID_Post = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Post);
+	        ResultSet rs = preStmt.executeQuery();
+	        while(rs.next())
+		    {
+		    	Comment comment = new Comment();
+		    	comment.setID_Comment(rs.getInt("ID_Comment"));
+		    	comment.setID_Post(ID_Post);
+	    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
+	    		comment.setID_Commentator(rs.getString("ID_Commentator"));
+	    		comment.setName_Commentator(account.getDisplay_Name());
+	    		comment.setAvatar_Commentator(account.getAvatar());
+	    		comment.setComment_Content(rs.getString("Comment"));
+	    		comment.setDate_Time(rs.getDate("Date_Time"));
+	    		sql = "SELECT * FROM comment_images WHERE ID_Comment = ?";
+		        preStmt = connectionMySQL(sql);
+		        preStmt.setInt(1, rs.getInt("ID_Comment"));
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        { 
+		        	comment.setImage(rs1.getBytes("Image"));
+		        }
+		    	result.add(comment);
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int countCommentOfPost(int ID_Post) {
+		int count = 0;
+		try
+		{
+			String countSql = "SELECT COUNT(*) AS count FROM comment WHERE ID_Post = ?";
+	        PreparedStatement countStmt = connectionMySQL(countSql);
+	        countStmt.setInt(1, ID_Post);
+	        ResultSet rs = countStmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            count = rs.getInt("count");
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public void updateCommentQuantity(int ID_Post) {
+		try
+		{
+			int count = countCommentOfPost(ID_Post);
+	        String sql = "UPDATE post SET Comment_Quantity = ? WHERE ID_Post = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, count);
+	        preStmt.setInt(2, ID_Post);
 	        preStmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -480,6 +591,7 @@ public class GrabDAO {
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
 	        	post.setCensor(rs.getInt(8));
+	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
 	        	Boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
 	        	if(ID_Field == 0) //All Fields

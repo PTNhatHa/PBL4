@@ -34,6 +34,7 @@ import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
+import model.bean.Comment;
 import model.bean.Field;
 import model.bean.Notification;
 import model.bean.Post;
@@ -190,24 +191,26 @@ public class GrabServlet extends HttpServlet {
 				}
 			}
 		}
-		else if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
-	        Part filePart = request.getPart("newimg");
-	        if (filePart != null) {
-	            InputStream fileContent = filePart.getInputStream();
-	            // Chuyển InputStream thành byte array để lưu trong database
-	            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	            byte[] buffer = new byte[1024];
-	            for (int len; (len = fileContent.read(buffer)) != -1; ) {
-	                bos.write(buffer, 0, len);
-	            }
-	            byte[] fileBytes = bos.toByteArray();
-	            bos.close();
-	            fileContent.close();
-	            // Lấy id người dùng từ request
-	            String idacc = request.getParameter("idacc");
-	            grabBO.changeAvatar(idacc, fileBytes);
-	        }
-	    }
+		else if(request.getParameter("changeava") != null) {
+			if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+		        Part filePart = request.getPart("newimg");
+		        if (filePart != null) {
+		            InputStream fileContent = filePart.getInputStream();
+		            // Chuyển InputStream thành byte array để lưu trong database
+		            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		            byte[] buffer = new byte[1024];
+		            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+		                bos.write(buffer, 0, len);
+		            }
+		            byte[] fileBytes = bos.toByteArray();
+		            bos.close();
+		            fileContent.close();
+		            // Lấy id người dùng từ request
+		            String idacc = request.getParameter("idacc");
+		            grabBO.changeAvatar(idacc, fileBytes);
+		        }
+		    }
+		}
 		else if(request.getParameter("changepw") != null) {
 			if(request.getParameter("username") != null && request.getParameter("password") != null) {
 				String username = request.getParameter("username");
@@ -306,6 +309,71 @@ public class GrabServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+		}
+		else if(request.getParameter("sendcomment") != null) {
+			try {
+				if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+			        Part filePart = request.getPart("cmtimg");
+			        String idauthor = request.getParameter("idauthor");
+		            String idcommentator = request.getParameter("idcommentator");
+		            LocalDate now = LocalDate.now();
+					Date nowDate = Date.valueOf(now);
+			        if (filePart != null) {
+			            InputStream fileContent = filePart.getInputStream();
+			            // Chuyển InputStream thành byte array để lưu trong database
+			            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			            byte[] buffer = new byte[1024];
+			            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+			                bos.write(buffer, 0, len);
+			            }
+			            byte[] fileBytes = bos.toByteArray();
+			            bos.close();
+			            fileContent.close();
+			            // Add comment
+			            Comment comment = new Comment();
+			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+			            comment.setID_Commentator(idcommentator);
+			            System.out.println(idcommentator);
+			            comment.setComment_Content(request.getParameter("cmttype"));
+			        	comment.setDate_Time(nowDate);
+			        	comment.setImage(fileBytes);
+			        	grabBO.addComment(comment);
+			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
+			        	if(!idauthor.equals(idcommentator)) {
+			        		Notification noti = new Notification();
+			        		noti.setID_Commentator(idcommentator);
+							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+							noti.setMessage("has commented on your post");
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							grabBO.addNotification(noti);
+			        	}
+			        }
+			        else {
+			        	// Add comment
+			            Comment comment = new Comment();
+			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+			            comment.setID_Commentator(idcommentator);
+			            System.out.println(idcommentator);
+			            comment.setComment_Content(request.getParameter("cmttype"));
+			        	comment.setDate_Time(nowDate);
+			        	grabBO.addComment(comment);
+			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
+			        	if(!idauthor.equals(idcommentator)) {
+			        		Notification noti = new Notification();
+			        		noti.setID_Commentator(idcommentator);
+							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+							noti.setMessage("has commented on your post");
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							grabBO.addNotification(noti);
+			        	}
+			        }
+			    }
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		else if(request.getParameter("userpost") != null) {
@@ -610,7 +678,7 @@ public class GrabServlet extends HttpServlet {
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);
 							noti.setStatus(0);
-							boolean check2 = grabBO.addNotification(noti);
+							grabBO.addNotification(noti);
 							String idacc = request.getParameter("idacc");
 							Account admin = grabBO.getAccountByIDAccount(idacc);
 							request.setAttribute("admin", admin);

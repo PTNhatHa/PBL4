@@ -181,4 +181,126 @@
 .choice:hover {
     background-color: rgba(137,161,201,0.3);
 }
+/* Subject choices for new posts */
+.subject-choice {
+    width: 700px !important;
+    overflow: hidden;
+    padding: 45px 35px !important;
+    text-align: center;
+}
+.subject-content-set {
+    width: 20%;
+    overflow: hidden;
+    float: left;
+    text-align: right;
+}
+.subject-content-set > p {
+    color: var(--darkblue);
+    font-size: 20px;
+    font-weight: bold;
+}
+.hold-subject-content {
+    width: 23%; 
+    height: 31px; 
+    float: left; 
+    text-align: left;
+    font-size: 14px;
+    color: var(--darkblue);
+}
+.hold-subject-content > label {
+    vertical-align: middle;
+    font-weight: 400;
+}
+.hold-subject-content > input[type="checkbox"] {
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+}
+ /* COMMENT */
+.choose-image {
+    border: none;
+    position: absolute; 
+    top: 11px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    background-size: cover;
+}
+.create-comment {
+    margin-top: -40px;
+    padding: 50px 0 10px;
+    border: 1px solid #1B335B; 
+    border-top: none;
+    overflow: hidden; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 0 0 30px 30px;
+}
+.comment {
+    position: relative;
+    background-color: white;
+    width: 100%;
+    height: 300px;
+    margin-top: -25px;
+    padding-top: 24px;
+}
+.show-comment {
+    display: block;
+    position: relative;
+    padding-top: 5px;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.one-comment {
+    border-radius: 30px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+    margin: 10px 0;
+}
+.commentinfor {
+    font-size: 14px;
+    color: #1B335B;
+    width: 100%;
+    height: 44px;
+    margin: 0 0 5px;
+    padding-bottom: 5px;
+}
+.commentinfor > p {
+    font-size: 18px;
+    margin: 0;
+}
+.commentinfor > input {
+    color: #1B335B;
+    outline: none;
+    background-color: transparent;
+    border: 1px black;
+    pointer-events: none;
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+.comment-type {
+    border: 2px solid #1B335B;
+    border-radius: 30px;
+    width: 100%;
+    height: 33px;
+    overflow: hidden;
+    min-height: 33px;
+    font-size: 16px;
+    line-height: 20px;
+    color: #1B335B;
+    resize: none;
+    padding: 5px 90px 0 15px;
+    outline: none;
+}
+
 

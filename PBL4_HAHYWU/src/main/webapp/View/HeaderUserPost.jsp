@@ -34,7 +34,7 @@
 <body class="scroll">
 	<main>
 		<% User user = (User)request.getAttribute("user"); %>
-        <div class="pure-g nav">
+        <div class="pure-g nav" style="z-index: 99999;">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
                 <div class="nav-child">
