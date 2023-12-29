@@ -30,6 +30,7 @@
                 var idacc = document.body.getAttribute('data-jsp-var');
                 var file = input.files[0];
                 var form = new FormData();
+                form.append("changeava", 1);
                 form.append("idacc", idacc);
                 form.append("newimg", file);
                 fetch("GrabServlet", {

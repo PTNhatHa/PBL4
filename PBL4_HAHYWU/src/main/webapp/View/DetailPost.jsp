@@ -18,7 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
-    <link rel="stylesheet" href="View/style3.css">
+    <link rel="stylesheet" href="View/style3333.css">
     <jsp:include page="HeaderUser.jsp" />
     <script>
 	    function textAreaAdjust(element) {
@@ -181,13 +181,17 @@
 							<div class="post-row">
 							<% if (listpost.getAvatar_Author() != null)
 								{%>
-								<div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
+								<div>
+                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"> </a>
+                                </div>
 							<% }
 								else{
 							%>
-									<div class="avapic" style="width: 60px; height: 60px;"></div>
+									<div>
+	                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"> </a>
+	                                </div>
 							<%} %>
-								<input type="text" name="" class="user" value="<%= listpost.getName_Author() %>" readonly>
+								<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.getName_Author() %>"></a>
 								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
 								<div id="subject">
 								<% 
@@ -254,11 +258,11 @@
 				    	%>				
 											<div class="one-comment">  <!-- Loop -->
 							                    <div style="width: 5%; float: left;">
-									                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+									                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;"> </a>
 									            </div>
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
-							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -273,11 +277,11 @@
 			    		%>				
 											<div class="one-comment">  <!-- Loop -->
 							                    <div style="width: 5%; float: left;">
-									                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+									                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;"> </a>
 									            </div>
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
-							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -294,11 +298,11 @@
 				    	%>				
 											<div class="one-comment">  <!-- Loop -->
 							                    <div style="width: 5%; float: left;">
-									                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+									                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;"></a>
 									            </div>
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
-							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -313,11 +317,11 @@
 			    		%>				
 											<div class="one-comment">  <!-- Loop -->
 							                    <div style="width: 5%; float: left;">
-									                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+									                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;"></a>
 									            </div>
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
-							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -370,13 +374,17 @@
 							<div class="post-row">
 							<% if (listpost.getAvatar_Author() != null)
 								{%>
-								<div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
+								<div>
+                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"> </a>
+                                </div>
 							<% }
 								else{
 							%>
-									<div class="avapic" style="width: 60px; height: 60px;"></div>
+								<div>
+                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"> </a>
+                                </div>
 							<%} %>
-								<input type="text" name="" class="user" value="<%= listpost.getName_Author() %>" readonly>
+								<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.getName_Author() %>"></a>
 								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
 								<div id="subject">
 								<% 

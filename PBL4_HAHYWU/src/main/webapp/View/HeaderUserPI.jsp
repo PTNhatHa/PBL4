@@ -65,7 +65,7 @@
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
     				%>
-    						<input type="button" name="" class="leftbut" style="background-image: url(data:image/png;base64,<%= base64Encoded %>); background-size: 45px;" onclick="show('click-choice'), hide('notification-box')">
+    						<input type="button" name="" class="leftbut" style="background-image: url(data:image/png;base64,<%= base64Encoded %>);  background-size: 45px;" onclick="show('click-choice'), hide('notification-box')">
     				<%
                     	}
                     	else {

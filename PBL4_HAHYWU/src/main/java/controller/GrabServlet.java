@@ -157,7 +157,26 @@ public class GrabServlet extends HttpServlet {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
-		
+		else if(request.getParameter("visitprofile") != null) {
+			String idmain = request.getParameter("idmain");
+			String idacc = request.getParameter("idacc");
+			User acc = grabBO.getUserByIDUser(idacc);
+			request.setAttribute("acc", acc);
+			User user = grabBO.getUserByIDUser(idmain);
+			request.setAttribute("user", user);
+			ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+			request.setAttribute("notifications", notifications);
+			int count = grabBO.countUnseenNoti(idmain);
+			request.setAttribute("count", count);
+			if(idmain.equals(idacc)) {
+				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idmain);
+			}
+			else {
+				destination = "/View/VisitProfilePI.jsp";
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+				rd.forward(request, response);
+			}
+		}
 		else if(request.getParameter("updateuser") != null) {
 			User user = new User();
 			String idacc = request.getParameter("idacc");
@@ -420,6 +439,67 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
 					destination = "/View/UserPost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(request.getParameter("visituserpost") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idmain = request.getParameter("idmain");
+					User user = grabBO.getUserByIDUser(idmain);
+					request.setAttribute("user", user);
+					
+					String idacc = request.getParameter("idacc");
+					User acc = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("acc", acc);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idmain);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/VisitProfilePost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				try {
+					String idmain = request.getParameter("idmain");
+					User user = grabBO.getUserByIDUser(idmain);
+					request.setAttribute("user", user);
+					
+					String idacc = request.getParameter("idacc");
+					User acc = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("acc", acc);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idmain);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 1, 0);
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
+					destination = "/View/VisitProfilePost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
 				} catch (Exception e) {

@@ -279,7 +279,13 @@
 .commentinfor > a {
     font-size: 18px;
     margin: 0;
-    font-weight: 600;
+    font-weight: 800;
+    text-decoration: none;
+    color: #1B335B;
+    display: block;
+}
+.commentinfor > a:visited {
+	color: #1B335B;
 }
 .commentinfor > input {
     color: #1B335B;

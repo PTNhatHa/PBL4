@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="View/style1.css">
     <link rel="stylesheet" href="View/style22.css">
-    <link rel="stylesheet" href="View/style3.css">
+    <link rel="stylesheet" href="View/style3333.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
     <jsp:include page="HeaderUserPost.jsp" />
     <jsp:include page="TaskbarUser.jsp" />
@@ -134,7 +134,6 @@
                 console.error('Error:', error);
             });
         }
-        document.addEventListener('DOMContentLoaded', img_tag_handler);
     </script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
@@ -183,13 +182,18 @@
 			            <div class="post-row">
 			                <% if (listpost.get(i).getAvatar_Author() != null)
 								{%>
-                                <div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
+                                <div>
+                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.get(i).getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"> </a>
+                                </div>
                             <% }
 								else{
 							%>
-                                <div class="avapic" style="width: 60px; height: 60px;"></div>
-                            <%} %>
-			                <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" readonly>
+                                <div>
+                                	<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.get(i).getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"> </a>
+                                </div>
+                            <% } %>
+			                <a href="GrabServlet?visitprofile=1&idacc=<%= listpost.get(i).getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.get(i).getName_Author() %>"></a>
+<%-- 			                <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>"> --%>
 			                <input type="date" class="date" value="<%= listpost.get(i).getDate_Post() %>" readonly>
 			                <div id="subject">
 							<% 
@@ -253,11 +257,11 @@
 			    	%>				
 										<div class="one-comment">  <!-- Loop -->
 						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+								                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;"> </a>
 								            </div>
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -272,11 +276,11 @@
 		    		%>				
 										<div class="one-comment">  <!-- Loop -->
 						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+								                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;"> </a>
 								            </div>
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -293,11 +297,11 @@
 			    	%>				
 										<div class="one-comment">  <!-- Loop -->
 						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+								                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;"></a>
 								            </div>
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
@@ -312,11 +316,11 @@
 		    		%>				
 										<div class="one-comment">  <!-- Loop -->
 						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+								                <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="background-image: url(img/defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;"></a>
 								            </div>
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>

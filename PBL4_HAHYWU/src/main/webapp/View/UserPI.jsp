@@ -154,17 +154,17 @@
 	                    <hr class="straightline" style="height: 3px; width: 62.37%; margin: 22px 18.76%; background-color: rgba(27, 51, 91, 0.9);">
 	                    <div class="info-field">
 	                        <p class="info-text">Password</p>
-	                        <input class="info-enter" type="password" name="pw" id="pw" placeholder="..." oninput="checkPW('<%= user.getUsername() %>')">
+	                        <input class="info-enter" type="password" name="pw" id="pw" placeholder="..." required="required" oninput="checkPW('<%= user.getUsername() %>')">
 	                        <input type="button" class="showpw" id="showpw" onmousedown="showPW('pw', 'showpw');" onmouseup="hidePW('pw', 'showpw')">
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">New password</p>
-	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="...">
+	                        <input class="info-enter" type="password" name="npw" id="npw" placeholder="..." required="required">
 	                        <input type="button" class="showpw" id="shownpw" onmousedown="showPW('npw', 'shownpw');" onmouseup="hidePW('npw', 'shownpw');">
 	                    </div>
 	                    <div class="info-field">
 	                        <p class="info-text">Confirm password</p>
-	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="..." oninput="checkcfPW()">
+	                        <input class="info-enter" type="password" name="cpw" id="cpw" placeholder="..." required="required" oninput="checkcfPW()">
 	                        <input type="button" class="showpw" id="showcpw" onmousedown="showPW('cpw', 'showcpw');" onmouseup="hidePW('cpw', 'showcpw');">
 	                    </div>
 	                    <span class="warning" id="warning"> </span>

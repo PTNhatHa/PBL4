@@ -342,7 +342,7 @@ frame{
     text-align: left !important;
     border: none;
     background-color: transparent;
-    pointer-events: none;
+    outline : none;
 }
 .date {
     position: absolute !important;
