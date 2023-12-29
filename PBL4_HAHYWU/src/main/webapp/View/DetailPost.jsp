@@ -171,194 +171,252 @@
 					}
 					ArrayList<Comment> commentlist = new ArrayList<Comment>();
 					commentlist = listpost.getListComment();
-				%>
-				<div style="width: 100%; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 10px 0;">
-					<!-- POST -->
-					<!-- <div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px; z-index: 9999;"> -->
-					<div class="post" style="margin: 10px 0px; z-index: 9999; width: 100%">
-						<div class="post-row">
-						<% if (listpost.getAvatar_Author() != null)
-							{%>
-							<div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
-						<% }
-							else{
-						%>
-								<div class="avapic" style="width: 60px; height: 60px;"></div>
-						<%} %>
-							<input type="text" name="" class="user" value="<%= listpost.getName_Author() %>" readonly>
-							<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
-							<div id="subject">
-							<% 
-								if(lifield.size() != 0)
-								{
-									for (int j=0; j < lifield.size(); j++)
-									{ 
-							%>
-										<div class="subject-content">
-										<%= lifield.get(j) %>
-										</div>
-									<% }
-							} %> 
-							</div>
-						</div>
-						<div class="post-row">
-							<div class="post-content">
-								<textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.getTitle() %></textarea>
-								<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.getContent() %></p>
-								<% if(!listpost.getHastag().equals(""))
+					if(listpost.getCensor() == 1)
+					{
+				%>		
+						<div style="width: 100%; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 10px 0;">
+						<!-- POST -->
+						<!-- <div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px; z-index: 9999;"> -->
+						<div class="post" style="margin: 10px 0px; z-index: 9999; width: 100%">
+							<div class="post-row">
+							<% if (listpost.getAvatar_Author() != null)
 								{%>
-								<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.getHastag() %></textarea>
-								<%} %>
-								<% if (lipost.size() != 0)
+								<div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
+							<% }
+								else{
+							%>
+									<div class="avapic" style="width: 60px; height: 60px;"></div>
+							<%} %>
+								<input type="text" name="" class="user" value="<%= listpost.getName_Author() %>" readonly>
+								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
+								<div id="subject">
+								<% 
+									if(lifield.size() != 0)
 									{
-										for(int k=0; k < lipost.size(); k++)
+										for (int j=0; j < lifield.size(); j++)
+										{ 
+								%>
+											<div class="subject-content">
+											<%= lifield.get(j) %>
+											</div>
+										<% }
+								} %> 
+								</div>
+							</div>
+							<div class="post-row">
+								<div class="post-content">
+									<textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.getTitle() %></textarea>
+									<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.getContent() %></p>
+									<% if(!listpost.getHastag().equals(""))
+									{%>
+									<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.getHastag() %></textarea>
+									<%} %>
+									<% if (lipost.size() != 0)
 										{
-											%>
-												<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
-											<%
-										}
-								} %>
+											for(int k=0; k < lipost.size(); k++)
+											{
+												%>
+													<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
+												<%
+											}
+									} %>
+								</div>
 							</div>
+							<% 	int cmts = listpost.getComment_Quantity();
+								if(cmts == 0) { %> 
+								<div class="post-row">
+									<input type="button" class="bottom-text" style="position: static; float: right;" value="Not comment yet" onclick="openComment()">
+								</div>
+							<%  }
+								else { %> 
+								<div class="post-row">
+									<input type="button" class="bottom-text" style="position: static; float: right;" value="<%=cmts%> comments" onclick="openComment()">
+								</div>
+							<%	} %>
 						</div>
-						<% 	int cmts = listpost.getComment_Quantity();
-							if(cmts == 0) { %> 
-							<div class="post-row">
-								<input type="button" class="bottom-text" style="position: static; float: right;" value="Not comment yet" onclick="openComment()">
-							</div>
-						<%  }
-							else { %> 
-							<div class="post-row">
-								<input type="button" class="bottom-text" style="position: static; float: right;" value="<%=cmts%> comments" onclick="openComment()">
-							</div>
-						<%	} %>
-					</div>
-
-					<!-- COMMENT -->
-			        <span class="comment" style="z-index: 999; display: none; margin-top: -35px" id="comment-box">
-			            <span class="show-comment scroll">
-	            	<% 
-						if(commentlist.size() != 0)
-						{
-							for (int j=0; j < commentlist.size(); j++)
-							{ 
-								if(commentlist.get(j).getAvatar_Commentator() != null)
-								{
-									byte[] avacommentator = commentlist.get(j).getAvatar_Commentator();
-		    				    	String avacmtor = Base64.getEncoder().encodeToString(avacommentator);
-		    				    	if(commentlist.get(j).getImage() != null)
-		    				    	{
-		    				    		byte[] imagecmt = commentlist.get(j).getImage();
-			    				    	String cmtimage = Base64.getEncoder().encodeToString(imagecmt);
-			    	%>				
-										<div class="one-comment">  <!-- Loop -->
-						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
-								            </div>
-						                    <div style="width: 85%; position: relative;">
-						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
-						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                        <span style="width: 100%; height: 100px; display: block;">
-						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
-						                        </span>  
-						                    </div>
-						                </div>
-					<%			    	
-		    				    	}
-		    				    	else {
-		    		%>				
-										<div class="one-comment">  <!-- Loop -->
-						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
-								            </div>
-						                    <div style="width: 85%; position: relative;">
-						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
-						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                    </div>
-						                </div>
-					<%	
-		    				    	}
-								}
-								else {
-									if(commentlist.get(j).getImage() != null)
-		    				    	{
-		    				    		byte[] imagecmt = commentlist.get(j).getImage();
-			    				    	String cmtimage = Base64.getEncoder().encodeToString(imagecmt);
-			    	%>				
-										<div class="one-comment">  <!-- Loop -->
-						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
-								            </div>
-						                    <div style="width: 85%; position: relative;">
-						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
-						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                        <span style="width: 100%; height: 100px; display: block;">
-						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
-						                        </span>  
-						                    </div>
-						                </div>
-					<%			    	
-		    				    	}
-		    				    	else {
-		    		%>				
-										<div class="one-comment">  <!-- Loop -->
-						                    <div style="width: 5%; float: left;">
-								                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
-								            </div>
-						                    <div style="width: 85%; position: relative;">
-						                        <div class="commentinfor">
-						                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
-						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                    </div>
-						                </div>
-					<%	
-		    				    	}
+	
+						<!-- COMMENT -->
+				        <span class="comment" style="z-index: 999; display: none; margin-top: -35px" id="comment-box">
+				            <span class="show-comment scroll">
+		            	<% 
+							if(commentlist.size() != 0)
+							{
+								for (int j=0; j < commentlist.size(); j++)
+								{ 
+									if(commentlist.get(j).getAvatar_Commentator() != null)
+									{
+										byte[] avacommentator = commentlist.get(j).getAvatar_Commentator();
+			    				    	String avacmtor = Base64.getEncoder().encodeToString(avacommentator);
+			    				    	if(commentlist.get(j).getImage() != null)
+			    				    	{
+			    				    		byte[] imagecmt = commentlist.get(j).getImage();
+				    				    	String cmtimage = Base64.getEncoder().encodeToString(imagecmt);
+				    	%>				
+											<div class="one-comment">  <!-- Loop -->
+							                    <div style="width: 5%; float: left;">
+									                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+									            </div>
+							                    <div style="width: 85%; position: relative;">
+							                        <div class="commentinfor">
+							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                        </div>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <span style="width: 100%; height: 100px; display: block;">
+							                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
+							                        </span>  
+							                    </div>
+							                </div>
+						<%			    	
+			    				    	}
+			    				    	else {
+			    		%>				
+											<div class="one-comment">  <!-- Loop -->
+							                    <div style="width: 5%; float: left;">
+									                <input type="button" name="" class="avapic" style="background-image: url(data:image/png;base64,<%=avacmtor%>);margin-top: 5px; width: 33px; height: 33px;">
+									            </div>
+							                    <div style="width: 85%; position: relative;">
+							                        <div class="commentinfor">
+							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                        </div>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                    </div>
+							                </div>
+						<%	
+			    				    	}
+									}
+									else {
+										if(commentlist.get(j).getImage() != null)
+			    				    	{
+			    				    		byte[] imagecmt = commentlist.get(j).getImage();
+				    				    	String cmtimage = Base64.getEncoder().encodeToString(imagecmt);
+				    	%>				
+											<div class="one-comment">  <!-- Loop -->
+							                    <div style="width: 5%; float: left;">
+									                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+									            </div>
+							                    <div style="width: 85%; position: relative;">
+							                        <div class="commentinfor">
+							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                        </div>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <span style="width: 100%; height: 100px; display: block;">
+							                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
+							                        </span>  
+							                    </div>
+							                </div>
+						<%			    	
+			    				    	}
+			    				    	else {
+			    		%>				
+											<div class="one-comment">  <!-- Loop -->
+							                    <div style="width: 5%; float: left;">
+									                <input type="button" name="" class="avapic" style="background-image: url(defaultavatar.jpg);margin-top: 5px; width: 33px; height: 33px;">
+									            </div>
+							                    <div style="width: 85%; position: relative;">
+							                        <div class="commentinfor">
+							                            <p><b><%= commentlist.get(j).getName_Commentator() %></b></p>
+							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                        </div>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                    </div>
+							                </div>
+						<%	
+			    				    	}
+									}
 								}
 							}
-						}
-					%>
-			                
-			            </span>
-			        </span>
-
-					<!-- CREATE COMMENT -->
-			        <span class="create-comment" style="z-index: 99; position: relative; display: flex;"> <!--display: none/flex-->
-		            <% 	if(user.getAvatar() != null){
-                		byte[] ava = user.getAvatar();
-				    	String base64Encoded = Base64.getEncoder().encodeToString(ava);
-					%>
-                        <div style="width: 5%; float: left;">
-                        	<input type="button" name="" class="avapic" style="margin-top: 5px; width: 33px; height: 33px; background-image: url(data:image/png;base64,<%= base64Encoded %>);">
-                    	</div>
-                    <% 	}
-						else {
-					%>
-                        <div style="width: 5%; float: left;">
-                        	<input type="button" name="" class="avapic" style="background-image: url(img/defaultavatar.jpg); margin-top: 5px; width: 33px; height: 33px;">
-                    	</div>
-                          <%	} %>
-			            <div style="width: 85%; position: relative;">
-			                <textarea name="" value="" class="comment-type" id="comment-type" style="margin-top: 5px;" oninput="textAreaAdjust(this)"></textarea>
-			                <input type="button" id="butSend" class="choose-more-button choose-image" style="background-image: url(img/send.jpg); right: 15px;" onclick="sendComment('<%=listpost.getID_Post()%>', '<%=listpost.getID_Author()%>', '<%=user.getID_Account()%>', 'comment-type', 'choose-comment-image')"> <!--Su kien onclick-->
-			                <input type="button" id="butImage" class="choose-more-button choose-image" style="right: 45px;" onclick="activate();">
-			                <input id="choose-comment-image" type="file"  accept="image/*" style="width: 100%; display: none;" onchange="setImg()">
-			                <span style="width: 100%; height: 100px; display: none;" id="comment-type-image">
-			                    <input type="button" id="close-comment-image" class="close-image" style="display: none; position: static; float: right; margin-right: 20px;" onclick="removeImg()">
-			                </span>  
-			            </div>    
-			        </span>
-                </div>
-            </div>
+						%>
+				                
+				            </span>
+				        </span>
+	
+						<!-- CREATE COMMENT -->
+				        <span class="create-comment" style="z-index: 99; position: relative; display: flex;"> <!--display: none/flex-->
+			            <% 	if(user.getAvatar() != null){
+	                		byte[] ava = user.getAvatar();
+					    	String base64Encoded = Base64.getEncoder().encodeToString(ava);
+						%>
+	                        <div style="width: 5%; float: left;">
+	                        	<input type="button" name="" class="avapic" style="margin-top: 5px; width: 33px; height: 33px; background-image: url(data:image/png;base64,<%= base64Encoded %>);">
+	                    	</div>
+	                    <% 	}
+							else {
+						%>
+	                        <div style="width: 5%; float: left;">
+	                        	<input type="button" name="" class="avapic" style="background-image: url(img/defaultavatar.jpg); margin-top: 5px; width: 33px; height: 33px;">
+	                    	</div>
+	                          <%	} %>
+				            <div style="width: 85%; position: relative;">
+				                <textarea name="" value="" class="comment-type" id="comment-type" style="margin-top: 5px;" oninput="textAreaAdjust(this)"></textarea>
+				                <input type="button" id="butSend" class="choose-more-button choose-image" style="background-image: url(img/send.jpg); right: 15px;" onclick="sendComment('<%=listpost.getID_Post()%>', '<%=listpost.getID_Author()%>', '<%=user.getID_Account()%>', 'comment-type', 'choose-comment-image')"> <!--Su kien onclick-->
+				                <input type="button" id="butImage" class="choose-more-button choose-image" style="right: 45px;" onclick="activate();">
+				                <input id="choose-comment-image" type="file"  accept="image/*" style="width: 100%; display: none;" onchange="setImg()">
+				                <span style="width: 100%; height: 100px; display: none;" id="comment-type-image">
+				                    <input type="button" id="close-comment-image" class="close-image" style="display: none; position: static; float: right; margin-right: 20px;" onclick="removeImg()">
+				                </span>  
+				            </div>    
+				        </span>
+	                </div>
+				<%		
+					}
+					else {
+				%>		
+						<!-- POST -->
+						<!-- <div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px; z-index: 9999;"> -->
+						<div class="post" style="margin: 10px 0px; z-index: 9999; width: 100%">
+							<div class="post-row">
+							<% if (listpost.getAvatar_Author() != null)
+								{%>
+								<div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
+							<% }
+								else{
+							%>
+									<div class="avapic" style="width: 60px; height: 60px;"></div>
+							<%} %>
+								<input type="text" name="" class="user" value="<%= listpost.getName_Author() %>" readonly>
+								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
+								<div id="subject">
+								<% 
+									if(lifield.size() != 0)
+									{
+										for (int j=0; j < lifield.size(); j++)
+										{ 
+								%>
+											<div class="subject-content">
+											<%= lifield.get(j) %>
+											</div>
+										<% }
+								} %> 
+								</div>
+							</div>
+							<div class="post-row">
+								<div class="post-content">
+									<textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.getTitle() %></textarea>
+									<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.getContent() %></p>
+									<% if(!listpost.getHastag().equals(""))
+									{%>
+									<textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag">#<%= listpost.getHastag() %></textarea>
+									<%} %>
+									<% if (lipost.size() != 0)
+										{
+											for(int k=0; k < lipost.size(); k++)
+											{
+												%>
+													<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
+												<%
+											}
+									} %>
+								</div>
+							</div>
+							</div>
+				<%		
+					}
+				%>
+				
+            
             <div class="pure-u-6-24"></div>
         </div>
     </form>

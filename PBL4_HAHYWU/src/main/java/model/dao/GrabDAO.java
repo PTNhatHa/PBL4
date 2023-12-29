@@ -735,6 +735,7 @@ public class GrabDAO {
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
 	        	post.setCensor(rs.getInt(8));
+	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
 	        	Boolean check=false;
 	        	ArrayList<Field> listfields= getFieldOfPost(post.getID_Post());
 	        	if(ID_Field == 0) //All Fields
