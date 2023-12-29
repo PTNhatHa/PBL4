@@ -1,6 +1,7 @@
 package model.bean;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class Comment {
 	private int ID_Comment;
@@ -9,8 +10,9 @@ public class Comment {
 	private String Name_Commentator;
 	private byte[] Avatar_Commentator;
 	private String Comment_Content;
-	private Date Date_Time;
+	private LocalDateTime Date_Time;
 	private byte[] Image; 
+	private String Date_ago;
 	
 	public int getID_Comment() {
 		return ID_Comment;
@@ -54,10 +56,10 @@ public class Comment {
 		Comment_Content = comment_Content;
 	}
 	
-	public Date getDate_Time() {
+	public LocalDateTime getDate_Time() {
 		return Date_Time;
 	}
-	public void setDate_Time(Date date_Time) {
+	public void setDate_Time(LocalDateTime date_Time) {
 		Date_Time = date_Time;
 	}
 	
@@ -66,5 +68,12 @@ public class Comment {
 	}
 	public void setImage(byte[] image) {
 		Image = image;
+	}
+	
+	public String getDate_ago() {
+		return Date_ago;
+	}
+	public void setDate_ago(String Date_ago) {
+		this.Date_ago = Date_ago;
 	}
 }

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <title>Header</title>
     <script>
@@ -34,7 +34,7 @@
 <body class="scroll">
 	<main>
 		<% User user = (User)request.getAttribute("user"); %>
-        <div class="pure-g nav" style="z-index: 99999;">
+        <div class="pure-g nav" style="z-index: 999999;">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
                 <div class="nav-child">
@@ -93,6 +93,7 @@
 					                    <div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
 					                        <div class="notification-ava"></div>
 					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
+					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
 					                    </div>
 		                <%	
 		                    		}
@@ -101,6 +102,7 @@
 		                    			<div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
 					                        <div class="notification-ava"></div>
 	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> <%=notifications.get(i).getMessage()%> <b><%=notifications.get(i).getName_Post()%></b></p>
+					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
 					                    </div>
 		                <%    			
 		                    		}
@@ -112,6 +114,7 @@
    					                    <div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
    					                        <div class="notification-ava"></div>
    					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
+   					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
    					                    </div>
    		                <%	
    		                    		}
@@ -120,6 +123,7 @@
    		                    			<div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
    					                        <div class="notification-ava"></div>
    	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> has commented on your post <b><%=notifications.get(i).getName_Post()%></b></p>
+   					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
    					                    </div>
    		                <%    			
    		                    		}

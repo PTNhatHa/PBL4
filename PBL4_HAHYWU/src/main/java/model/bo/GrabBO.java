@@ -85,10 +85,6 @@ public class GrabBO {
 		return grabDAO.getPostByIDPost(ID_Post);
 	}
 	
-	public Post getPostByIDPost(int ID_Post) {
-		return grabDAO.getPostByIDPost(ID_Post);
-	}
-	
 	public void seenNoti(int ID_Notification) {
 		grabDAO.seenNoti(ID_Notification);
 	}

@@ -21,44 +21,34 @@
 <body <% User user = (User)request.getAttribute("acc");%>>
 <!--     <form name="UserTop" action=""> -->
 	<% User main = (User)request.getAttribute("user"); %>
-        <div class="pure-g">
-            <div class="pure-u-2-24" style="background-color: white; width: 100%; height: 340px; position: fixed;"></div>
-            <div class="pure-u-20-24 topcenter">
+        <div class="pure-g" style="z-index: 999;">
+            <div class="pure-u-2-24" style="background-color: white; height: 340px;"></div>
+            <div class="pure-u-20-24 topcenter" style="left: 0%;">
                 <div class="top">
                     <div class="ava">
                     <%
                     	if(user.getAvatar() != null){
                     		byte[] imageBytes = user.getAvatar();
     				    	String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
-    				%>
+    				    	%>
 	   						<img src="data:image/png;base64,<%= base64Encoded %>" alt="ava">
-	                    </div>
-	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
+	   						<%}
+                    	else {
+                    	%>
+							<img src="img/defaultavatar.jpg" alt="ava">
+							<%}%> 
 	                </div>
+	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
+	            </div>
 	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
 	                <div class="menu-top">
-	                    <a href="GrabServlet?visitprofile=1&idacc=<%= user.getID_Account() %>&idmain=<%= main.getID_Account() %>"><input class="menu-top-button" type="button" value="Information"></a>
+	                    <a href="GrabServlet?visitprofile=1&idacc=<%= user.getID_Account() %>&idmain=<%= main.getID_Account() %>">
+	                    	<input class="menu-top-button" type="button" value="Information">
+	                    </a>
 	                    <a href=""><input class="menu-top-button" type="button" value="Post" style="background-color: #89A1C9;"></a>
-	                </div>
-    				<%
-                    	}
-                    	else {
-					%>
-							<img src="img/defaultavatar.jpg" alt="ava">
-	                    </div>
-	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
-	                </div>
-	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
-	                 <div class="menu-top">
-	                    <a href="GrabServlet?visitprofile=1&idacc=<%= user.getID_Account() %>&idmain=<%= main.getID_Account() %>"><input class="menu-top-button" type="button" value="Information"></a>
-	                    <a href=""><input class="menu-top-button" type="button" value="Post" style="background-color: #89A1C9;"></a>
-                	</div>
-					<%
-                    	}
-					%> 
-                        
+	               	</div>            
             </div>
-            <div class="pure-u-2-24"></div>
+            <div class="pure-u-2-24" style="background-color: white; height: 340px;"></div>
         </div>
 <!--     </form> -->
 </body>

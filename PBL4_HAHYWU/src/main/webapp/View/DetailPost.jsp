@@ -192,7 +192,7 @@
 	                                </div>
 							<%} %>
 								<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.getName_Author() %>"></a>
-								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
+								<input type="text" class="date" value="<%= listpost.getDate_ago() %>" readonly>
 								<div id="subject">
 								<% 
 									if(lifield.size() != 0)

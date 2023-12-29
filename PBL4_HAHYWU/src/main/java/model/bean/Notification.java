@@ -1,6 +1,7 @@
 package model.bean;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class Notification {
 	private int ID_Notification;
@@ -9,8 +10,9 @@ public class Notification {
 	private int ID_Post;
 	private String Name_Post;
 	private String Message;
-	private Date Date_Time;
+	private LocalDateTime Date_Time;
 	private int Status; // 0: unseen, 1: seen
+	private String Date_ago;
 	
 	public int getID_Notification() {
 		return ID_Notification;
@@ -48,10 +50,10 @@ public class Notification {
 	public void setMessage(String Message) {
 		this.Message = Message;
 	}
-	public Date getDate_Time() {
+	public LocalDateTime getDate_Time() {
 		return Date_Time;
 	}
-	public void setDate_Time(Date Date_Time) {
+	public void setDate_Time(LocalDateTime Date_Time) {
 		this.Date_Time = Date_Time;
 	}
 	public int isStatus() {
@@ -59,5 +61,11 @@ public class Notification {
 	}
 	public void setStatus(int Status) {
 		this.Status = Status;
+	}
+	public String getDate_ago() {
+		return Date_ago;
+	}
+	public void setDate_ago(String Date_ago) {
+		this.Date_ago = Date_ago;
 	}
 }

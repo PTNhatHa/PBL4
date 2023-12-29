@@ -156,6 +156,12 @@ public class GrabServlet extends HttpServlet {
 			User user = grabBO.getUserByIDUser(idacc);
 			request.setAttribute("user", user);
 			ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+			for(int i=0; i<notifications.size(); i++)
+			{
+	            LocalDateTime dateTimeFromDB = notifications.get(i).getDate_Time();
+	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+			}
+			
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idacc);
 			request.setAttribute("count", count);
@@ -171,6 +177,11 @@ public class GrabServlet extends HttpServlet {
 			User user = grabBO.getUserByIDUser(idmain);
 			request.setAttribute("user", user);
 			ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+			for(int i=0; i<notifications.size(); i++)
+			{
+	            LocalDateTime dateTimeFromDB = notifications.get(i).getDate_Time();
+	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+			}
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idmain);
 			request.setAttribute("count", count);
@@ -266,10 +277,18 @@ public class GrabServlet extends HttpServlet {
 			}
 			int idpost = Integer.parseInt(request.getParameter("idpost"));
 			Post post = grabBO.getPostByIDPost(idpost);
+			LocalDateTime dateTimeFromDB = post.getDate_Post();
+			post.setDate_ago(getDateAgo(dateTimeFromDB));
+			
 			String idacc = request.getParameter("idacc");
 			User user = grabBO.getUserByIDUser(idacc);
 			request.setAttribute("user", user);
 			ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+			for(int i=0; i<notifications.size(); i++)
+			{
+	            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+			}
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idacc);
 			request.setAttribute("count", count);
@@ -290,6 +309,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -351,6 +375,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -381,8 +410,7 @@ public class GrabServlet extends HttpServlet {
 			        Part filePart = request.getPart("cmtimg");
 			        String idauthor = request.getParameter("idauthor");
 		            String idcommentator = request.getParameter("idcommentator");
-		            LocalDate now = LocalDate.now();
-					Date nowDate = Date.valueOf(now);
+		            
 			        if (filePart != null) {
 			            InputStream fileContent = filePart.getInputStream();
 			            // Chuyển InputStream thành byte array để lưu trong database
@@ -400,7 +428,7 @@ public class GrabServlet extends HttpServlet {
 			            comment.setID_Commentator(idcommentator);
 			            System.out.println(idcommentator);
 			            comment.setComment_Content(request.getParameter("cmttype"));
-			        	comment.setDate_Time(nowDate);
+			        	comment.setDate_Time(LocalDateTime.now());
 			        	comment.setImage(fileBytes);
 			        	grabBO.addComment(comment);
 			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
@@ -409,7 +437,7 @@ public class GrabServlet extends HttpServlet {
 			        		noti.setID_Commentator(idcommentator);
 							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
 							noti.setMessage("has commented on your post");
-							noti.setDate_Time(nowDate);
+							noti.setDate_Time(LocalDateTime.now());
 							noti.setStatus(0);
 							grabBO.addNotification(noti);
 			        	}
@@ -421,7 +449,7 @@ public class GrabServlet extends HttpServlet {
 			            comment.setID_Commentator(idcommentator);
 			            System.out.println(idcommentator);
 			            comment.setComment_Content(request.getParameter("cmttype"));
-			        	comment.setDate_Time(nowDate);
+			        	comment.setDate_Time(LocalDateTime.now());
 			        	grabBO.addComment(comment);
 			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
 			        	if(!idauthor.equals(idcommentator)) {
@@ -429,7 +457,7 @@ public class GrabServlet extends HttpServlet {
 			        		noti.setID_Commentator(idcommentator);
 							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
 							noti.setMessage("has commented on your post");
-							noti.setDate_Time(nowDate);
+							noti.setDate_Time(LocalDateTime.now());
 							noti.setStatus(0);
 							grabBO.addNotification(noti);
 			        	}
@@ -452,6 +480,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -513,6 +546,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -549,6 +587,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -592,13 +635,38 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idmain);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						searchPost(listpost, keyword);
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
+					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
+					request.setAttribute("nbCensor", nbCensor);
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("sort", request.getParameter("sort"));
 					destination = "/View/VisitProfilePost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -621,13 +689,27 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idmain);
 					request.setAttribute("count", count);
 					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 1, 0);
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 1, 0, "DESC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
+					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
+					request.setAttribute("nbCensor", nbCensor);
 					request.setAttribute("ID_Field", 0);
+					request.setAttribute("searchtxt", "");
+					request.setAttribute("sort", "DESC");
 					destination = "/View/VisitProfilePost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -769,6 +851,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("listFields", listFields);
 					
 					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+					for(int i=0; i<notifications.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
+			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
+					}
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -844,9 +931,7 @@ public class GrabServlet extends HttpServlet {
 						Notification noti = new Notification();
 						noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
 						noti.setMessage("has not been approved because: " + request.getParameter("AllReasons"));
-						LocalDate now = LocalDate.now();
-						Date nowDate = Date.valueOf(now);
-						noti.setDate_Time(nowDate);
+						noti.setDate_Time(LocalDateTime.now());
 						noti.setStatus(0);
 						boolean check2 = grabBO.addNotification(noti);
 						
@@ -1154,7 +1239,7 @@ public class GrabServlet extends HttpServlet {
 							noti.setMessage("has been approved.");
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
-							noti.setDate_Time(nowDate);
+							noti.setDate_Time(LocalDateTime.now());
 							noti.setStatus(0);
 							grabBO.addNotification(noti);
 							String idacc = request.getParameter("idacc");
@@ -1204,7 +1289,7 @@ public class GrabServlet extends HttpServlet {
 							noti.setMessage("has not been approved because: " + request.getParameter("AllReasons"));
 							LocalDate now = LocalDate.now();
 							Date nowDate = Date.valueOf(now);
-							noti.setDate_Time(nowDate);
+							noti.setDate_Time(LocalDateTime.now());
 							noti.setStatus(0);
 							boolean check2 = grabBO.addNotification(noti);
 							

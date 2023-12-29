@@ -8,6 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -389,7 +393,7 @@ public class GrabDAO {
 				    	notification.setID_Post(posts.get(i).getID_Post());
 				    	notification.setName_Post(posts.get(i).getTitle());
 				    	notification.setMessage(rs.getString("Message"));
-				    	notification.setDate_Time(rs.getDate("Date_Time"));
+				    	notification.setDate_Time(rs.getTimestamp("Date_Time").toLocalDateTime());
 				    	notification.setStatus(rs.getInt("Status"));
 				    	result.add(notification);
 			    	}
@@ -400,7 +404,7 @@ public class GrabDAO {
 			    		notification.setID_Post(posts.get(i).getID_Post());
 				    	notification.setName_Post(posts.get(i).getTitle());
 				    	notification.setMessage(rs.getString("Message"));
-				    	notification.setDate_Time(rs.getDate("Date_Time"));
+				    	notification.setDate_Time(rs.getTimestamp("Date_Time").toLocalDateTime());
 				    	notification.setStatus(rs.getInt("Status"));
 				    	result.add(notification);
 			    	}
@@ -411,45 +415,14 @@ public class GrabDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		for(int i=0; i<result.size(); i++)
+		{
+            LocalDateTime dateTimeFromDB = result.get(i).getDate_Time();
+            result.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+		}
 		return result;
 	}
 	
-	public Post getPostByIDPost(int ID_Post) {
-		Post post = new Post();
-		try
-		{
-			String sql = "SELECT * FROM post WHERE ID_Post = ?";
-			PreparedStatement preStmt = connectionMySQL(sql);
-	        preStmt.setInt(1, ID_Post);
-	        ResultSet rs = preStmt.executeQuery();
-	        if(rs.next())
-		    {
-	        	post.setID_Post(rs.getInt(1));
-	        	post.setID_Author(rs.getString(2));
-	        	sql = "SELECT * FROM account WHERE ID_Account = ?";
-		        preStmt = connectionMySQL(sql);
-		        preStmt.setString(1, post.getID_Author());
-		        ResultSet rs1 = preStmt.executeQuery();
-		        if(rs1.next()) 
-		        { 
-		        	post.setName_Author(rs1.getString(2));
-		        	post.setAvatar_Author(rs1.getBytes(10));
-		        }
-	        	post.setTitle(rs.getString(3));
-	        	post.setDate_Post(rs.getDate(4));
-	        	post.setContent(rs.getString(5));
-	        	post.setHastag(rs.getString(6));
-	        	post.setComment_Quantity(rs.getInt(7));
-	        	post.setCensor(rs.getInt(8));
-	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
-	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
-	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
-		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return post;
-	}
 	
 	public void seenNoti(int ID_Notification) {
 		try
@@ -485,7 +458,7 @@ public class GrabDAO {
 	        insertStmt.setInt(2, comment.getID_Post());
 	        insertStmt.setString(3, comment.getID_Commentator());
 	        insertStmt.setString(4, comment.getComment_Content());
-	        insertStmt.setDate(5, comment.getDate_Time());
+	        insertStmt.setTimestamp(5, Timestamp.valueOf(comment.getDate_Time()));
 	        insertStmt.execute();
 	        
 	        // Thêm ảnh vào bảng comment_images, nếu cmt đó có ảnh thì thêm DL ảnh đó vào nếu không có ảnh thì set giá trị Image là null
@@ -524,7 +497,7 @@ public class GrabDAO {
 	    		comment.setName_Commentator(account.getDisplay_Name());
 	    		comment.setAvatar_Commentator(account.getAvatar());
 	    		comment.setComment_Content(rs.getString("Comment"));
-	    		comment.setDate_Time(rs.getDate("Date_Time"));
+	    		comment.setDate_Time(rs.getTimestamp("Date_Time").toLocalDateTime());
 	    		sql = "SELECT * FROM comment_images WHERE ID_Comment = ?";
 		        preStmt = connectionMySQL(sql);
 		        preStmt.setInt(1, rs.getInt("ID_Comment"));
@@ -537,6 +510,11 @@ public class GrabDAO {
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		for(int i=0; i<result.size(); i++)
+		{
+            LocalDateTime dateTimeFromDB = result.get(i).getDate_Time();
+            result.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
 		}
 		return result;
 	}
@@ -656,6 +634,11 @@ public class GrabDAO {
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
+	    for(int i=0; i<listpost.size(); i++)
+		{
+            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+		}
 	    return listpost;
 	}
 	public ArrayList<Field> getFieldOfPost(int ID_Post) throws Exception, SQLException {
@@ -818,6 +801,11 @@ public class GrabDAO {
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
+	    for(int i=0; i<listpost.size(); i++)
+		{
+            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+		}
 	    return listpost;
 	}
 	
@@ -905,6 +893,7 @@ public class GrabDAO {
 	        	post.setCensor(rs.getInt(8));
 	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
 	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
+	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1028,6 +1017,11 @@ public class GrabDAO {
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
 	    }
+	    for(int i=0; i<listpost.size(); i++)
+		{
+            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+		}
 	    return listpost;
 	}
 	
@@ -1095,7 +1089,31 @@ public class GrabDAO {
 		preStmt.close();
 		return rs;
 	}
-	
+	public String getDateAgo(LocalDateTime dateTimeFromDB) {
+		LocalDateTime now = LocalDateTime.now();
+        // Tính khoảng thời gian chênh lệch
+        Duration duration = Duration.between(dateTimeFromDB, now);
+        long seconds = duration.getSeconds();
+
+        String display;
+        if (duration.toDays() < 7) 
+        {
+            if (seconds < 60) {
+                display = seconds + "s";
+            } else if (seconds < 3600) {
+                display = duration.toMinutes() + "m";
+            } else if (seconds < 86400) {
+                display = duration.toHours() + "h";
+            } else {
+                display = duration.toDays() + "d";
+            }
+        } else {
+            // Nếu khoảng thời gian chênh lệch lớn hơn hoặc bằng 7 ngày, lấy ngày từ cơ sở dữ liệu
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            display = dateTimeFromDB.format(formatter);
+        }
+        return display;
+	}
 	
 }
 

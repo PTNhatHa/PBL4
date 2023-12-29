@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style33.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +65,7 @@
 <body <% User user = (User)request.getAttribute("user"); %> data-jsp-var="<%= user.getID_Account() %>">
 <!--     <form name="UserTop" action=""> -->
         <div class="pure-g" style="z-index: 999;">
-            <div class="pure-u-2-24" style="background-color: white; height: 340px; position: relative;"></div>
+            <div class="pure-u-2-24" style="background-color: white; height: 340px;"></div>
             <div class="pure-u-20-24 topcenter" style="left: 0%;">
                 <div class="top">
                     <div class="ava">

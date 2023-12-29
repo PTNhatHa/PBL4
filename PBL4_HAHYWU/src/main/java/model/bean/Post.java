@@ -102,6 +102,7 @@ public class Post {
 	public void setlistImages(ArrayList<Image> listImages) {
 		this.listImages = listImages;
 	}
+	
 	public ArrayList<Comment> getListComment() {
 		return listComment;
 	}

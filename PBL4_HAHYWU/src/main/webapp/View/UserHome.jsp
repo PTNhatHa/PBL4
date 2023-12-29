@@ -15,13 +15,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="View/style1.css">
-    <link rel="stylesheet" href="View/style22.css">
+    <link rel="stylesheet" href="View/style111.css">
+    <link rel="stylesheet" href="View/style222.css">
     <link rel="stylesheet" href="View/style3333.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style222.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <jsp:include page="HeaderUserPost.jsp" />
     <jsp:include page="TaskbarUser.jsp" />
@@ -160,23 +159,24 @@
 <body class="viewuser" style="background-color: #89A1C9;">
 <% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); 
 	ArrayList<User> listacc = (ArrayList<User>) request.getAttribute("listAcc"); 
+	User user = (User)request.getAttribute("user");
 %>
 
         <div class="view" style="heigth: 100%; top: 150px;">
                 <div class="pure-u-6-24"></div>
-                <div class="pure-u-12-24" style="position: relative;">
+                <div class="pure-u-12-24" style="position: relative; top: 150px;">
                 
                 	<% if(!request.getAttribute("searchtxt").equals(""))
                 		{
                 			if(listacc != null)
                 			{%>
-        					<p class="searchresult" style="top: 150px; position: relative;">User search results</p>
-        					<p class="searchresult1" style="top: 150px; position: relative;"><b><%= listacc.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
-                            <hr class="straightline" style="top: 150px; position: relative; margin: 10px 0 0;">
+        					<p class="searchresult" style="position: relative;">User search results</p>
+        					<p class="searchresult1" style="position: relative;"><b><%= listacc.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
+                            <hr class="straightline" style="position: relative; margin: 10px 0 0;">
                             <%
 	                            for(int a=0; a < listacc.size(); a++)
 	                            {%>
-	                			<div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px;">
+	                			<div class="post" style="width: 100%; margin: 10px 0px;">
 							        <div class="post-row">
 							            <% if (listacc.get(a).getAvatar() != null)
 				                        	{
@@ -200,9 +200,9 @@
 							    <%}
                 			}
                 		%>
-					<p class="searchresult" style="top: 150px; position: relative;">Post search results</p>
-					<p class="searchresult1" style="top: 150px; position: relative;"><b><%= listpost.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
-                    <hr class="straightline" style="top: 150px; position: relative; margin: 10px 0 0;">
+					<p class="searchresult" style="position: relative;">Post search results</p>
+					<p class="searchresult1" style="position: relative;"><b><%= listpost.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
+                    <hr class="straightline" style="position: relative; margin: 10px 0 0;">
                 		<%} %>
                        <!-- Bỏ dô vòng for -->
                     <%
@@ -238,7 +238,7 @@
 							ArrayList<Comment> commentlist = new ArrayList<Comment>();
 							commentlist = listpost.get(i).getListComment();
 					%>
-					<div style="width: 788px; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 15px 0;">
+					<div style="width: 100%; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 15px 0;">
 						<!-- POST -->
 						<div class="post" style="z-index: 9999;">
 							<div class="post-row">
@@ -324,7 +324,7 @@
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                        <span style="width: 100%; height: 100px; display: block;">
@@ -343,7 +343,7 @@
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                    </div>
@@ -364,7 +364,7 @@
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                        <span style="width: 100%; height: 100px; display: block;">
@@ -383,7 +383,7 @@
 						                    <div style="width: 85%; position: relative;">
 						                        <div class="commentinfor">
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-						                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
 						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 						                    </div>
