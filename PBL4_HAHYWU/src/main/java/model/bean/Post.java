@@ -1,5 +1,6 @@
 package model.bean;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 public class Post {
 
@@ -8,13 +9,14 @@ public class Post {
 	private String Name_Author;
 	private byte[] Avatar_Author;
 	private String Title;
-	private Date Date_Post;
+	private LocalDateTime Date_Post;
 	private String Content;
 	private String Hastag;
 	private int Comment_Quantity;
 	private int Censor; //1 censored - 2 uncensored - 0 censoring
 	private ArrayList<Field> listFields;
 	private ArrayList<Image> listImages;
+	private String Date_ago;
 	
 	public int getID_Post() {
 		return ID_Post;
@@ -51,10 +53,10 @@ public class Post {
 		this.Title = Title;
 	}
 	
-	public Date getDate_Post() {
+	public LocalDateTime getDate_Post() {
 		return Date_Post;
 	}
-	public void setDate_Post(Date Date_Post) {
+	public void setDate_Post(LocalDateTime Date_Post) {
 		this.Date_Post = Date_Post;
 	}
 	
@@ -98,5 +100,12 @@ public class Post {
 	}
 	public void setlistImages(ArrayList<Image> listImages) {
 		this.listImages = listImages;
+	}
+	
+	public String getDate_ago() {
+		return Date_ago;
+	}
+	public void setDate_ago(String Date_ago) {
+		this.Date_ago = Date_ago;
 	}
 }

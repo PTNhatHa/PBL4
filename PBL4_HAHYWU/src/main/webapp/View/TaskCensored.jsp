@@ -22,7 +22,22 @@
        }	        
        * {
 	    line-height: normal !important;
-	}
+		}
+		.searchresult {
+		color: #1B335B;
+		font-size: 20px;
+		font-weight: 800;
+		text-align: left;
+		}
+		.searchresult1 {
+		color: #1B335B;
+		font-size: 14px;
+		text-align: left;
+		}
+		mark {
+		    background-color: #FFCAB6;
+		    color: #1B335B;
+		}
     </style>
     <script>
 	 	// Khi mở popup, lưu trạng thái
@@ -42,18 +57,22 @@
 	        	var a = document.getElementById("clickField");
 	        	a.click();
 	        }
+	        var s = document.getElementById("mysort");
+            s.value = '<%= request.getAttribute("sort") %>';
 	    }
 	    
         document.addEventListener("DOMContentLoaded", function() {
         	document.getElementById("mySelect").value = <%= request.getAttribute("ID_Field") %>;
         });
-        function selectchoice(choice) {
-            var l = "GrabServlet?Censored=1&IDField=" + choice + "&idacc=" + document.getElementById("acc").value;
+        function selectchoice() {
+            var l = "GrabServlet?Censored=1&IDField=" + document.getElementById("mySelect").value + "&search=" + document.getElementById("txtsearch").value
+            		+ "&idacc=" + document.getElementById("acc").value  + "&sort=" + document.getElementById("mysort").value;
             location = l;
         }
         function add() {
         	var n = document.getElementById("namefield").value;
-            var l = "GrabServlet?Censored=1&addField=1&idacc=" + document.getElementById("acc").value + "&newfield=" + n;
+            var l = "GrabServlet?Censored=1&addField=1&idacc=" + document.getElementById("acc").value + "&newfield=" + n  
+            		+ "&sort=" + document.getElementById("mysort").value;
             location = l;
         }
 	</script>
@@ -69,7 +88,7 @@
             </div>
             <div class="pure-u-10-24 taskbarright">
             	<input class="taskbarfield" type="button" name="" id="clickField" value="Edit Field" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" onclick="openPopup()">
-                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 0px 10px;" onchange="selectchoice(this.value)">
+                <select id="mySelect" class="cbb" style="width: 30%; padding: 7px; margin: auto 0px 10px;" onchange="selectchoice()">
                     <option value="0">All</option>
                     <!-- loop -->
                     <% ArrayList<Field> listFields = (ArrayList<Field>) request.getAttribute("listFields");
@@ -80,6 +99,12 @@
              			<%} %>
                     <!--  -->
                 </select>  
+                <select id="mysort" class="cbb" style="width: 30%; padding: 7px; margin: auto 10px; border-radius: 30px; border: 2px solid #1B335B; color: #1B335B;" onchange="selectchoice()">
+                    <option value="DESC">Newest</option>
+                    <option value="ASC">Oldest</option>
+                </select>
+                <input id="txtsearch" class="searchadmin" type="text" placeholder="Search" name="search" value="<%= request.getAttribute("searchtxt") %>" style="z-index: 1;">
+                <input class="searchadminimg" type="button" name="searchbut" value="" onclick="selectchoice()" style="z-index: 2;">
             </div>
             <div class="pure-u-2-24"></div>
         </div>

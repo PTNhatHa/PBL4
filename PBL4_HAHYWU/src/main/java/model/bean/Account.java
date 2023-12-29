@@ -91,5 +91,4 @@ public class Account {
 	public void setRole_Account(int role_Account) {
 		Role_Account = role_Account;
 	}
-	
 }

@@ -1,3 +1,5 @@
+<%@page import="model.bean.User"%>
+<%@page import="model.bean.Account"%>
 <%@page import="model.bean.Field"%>
 <%@page import="model.bean.Post"%>
 <%@page import="java.util.ArrayList"%>
@@ -35,14 +37,49 @@
 	</style>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
-<% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
-    <form action="" method="post">
+<% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); 
+	ArrayList<User> listacc = (ArrayList<User>) request.getAttribute("listAcc"); 
+%>
+
         <div class="view" style="heigth: 100%; top: 150px;">
                 <div class="pure-u-6-24"></div>
                 <div class="pure-u-12-24" style="position: relative;">
+                
                 	<% if(!request.getAttribute("searchtxt").equals(""))
-                		{%>
-					<p class="searchresult" style="top: 150px; position: relative;">Search results</p>
+                		{
+                			if(listacc != null)
+                			{%>
+        					<p class="searchresult" style="top: 150px; position: relative;">User search results</p>
+        					<p class="searchresult1" style="top: 150px; position: relative;"><b><%= listacc.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
+                            <hr class="straightline" style="top: 150px; position: relative; margin: 10px 0 0;">
+                            <%
+	                            for(int a=0; a < listacc.size(); a++)
+	                            {%>
+	                			<div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px;">
+							        <div class="post-row">
+							            <% if (listacc.get(a).getAvatar() != null)
+				                        	{
+				                        	byte[] imageBytes = listacc.get(a).getAvatar();
+    				    					String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+    				    	%>
+				                            <div class="avapic" style="width: 60px; height: 60px; float: left; background-image: url(data:image/png;base64,<%= base64Encoded %>);"></div>
+				                        <% }
+				                        	else{
+				                        %>
+				                        		<div class="avapic" style="width: 60px; height: 60px; float: left;"></div>
+				                        <%} %>
+							            <div style="float: left;">
+							                <p class="searchacc" style="white-space: pre-wrap; min-height: 1em;"><%= listacc.get(a).getDisplay_Name() %></p>
+							                <% if(listacc.get(a).getTotalPost() != 0){ %>
+							                <p class="searchacc_more" style="white-space: pre-wrap; min-height: 1em;">Total: <%= listacc.get(a).getTotalPost() %> post</p>
+							                <%} %>
+							            </div>
+							        </div>
+							    </div>
+							    <%}
+                			}
+                		%>
+					<p class="searchresult" style="top: 150px; position: relative;">Post search results</p>
 					<p class="searchresult1" style="top: 150px; position: relative;"><b><%= listpost.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
                     <hr class="straightline" style="top: 150px; position: relative; margin: 10px 0 0;">
                 		<%} %>
@@ -79,7 +116,7 @@
 							}
 					%>
                     <div class="post" style="width: 100%; top: 150px !important; margin: 10px 0px;">
-                        <div class="post-row">
+                        <div class="post-row" style="z-index: 9;">
                         <% if (listpost.get(i).getAvatar_Author() != null)
                         	{%>
                             <div class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= avaAuthor %>);"></div>
@@ -88,8 +125,8 @@
                         %>
                         		<div class="avapic" style="width: 60px; height: 60px;"></div>
                         <%} %>
-                            <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" readonly>
-                            <input type="date" class="date" value="<%= listpost.get(i).getDate_Post() %>" readonly>
+                            <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" style="z-index: 99;">
+                            <input type="text" class="date" value="<%= listpost.get(i).getDate_ago() %>" readonly>
                             <div id="subject">
                             <% 
                             	if(lifield.size() != 0)
@@ -129,6 +166,6 @@
                 </div>
                 <div class="pure-u-6-24"></div>
             </div>
-    </form>
+
 </body>
 </html>

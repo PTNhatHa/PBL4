@@ -343,7 +343,7 @@ frame{
     text-align: left !important;
     border: none;
     background-color: transparent;
-    pointer-events: none;
+/*     pointer-events: none; */
 }
 .date {
     position: absolute !important;
@@ -735,4 +735,41 @@ input[type="file"] {
 .field-admin > a > input:hover {
     background-color: var(--darkblue);
     color: white;
+}
+.searchacc {
+    color: #1B335B ;
+    font-size: 18px ;
+    font-weight: bold ;
+    text-align: left ;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    margin: 0px 10px;
+    width: fit-content;
+}
+.searchacc_more {
+    color: var(--darkblue50) ;
+    font-size: 14px ;
+    font-weight: bold ;
+    text-align: left ;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    margin: 0px 10px;
+    width: fit-content;
+}
+.searchresult {
+	color: #1B335B;
+	font-size: 20px;
+	font-weight: 800;
+	text-align: left;
+}
+.searchresult1 {
+	color: #1B335B;
+	font-size: 14px;
+	text-align: left;
+}
+mark {
+    background-color: #FFCAB6;
+    color: #1B335B;
 }

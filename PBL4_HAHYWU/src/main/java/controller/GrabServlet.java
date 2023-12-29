@@ -3,11 +3,14 @@ package controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -259,8 +262,11 @@ public class GrabServlet extends HttpServlet {
 					{
 						listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
 						request.setAttribute("searchtxt", "");
+						request.setAttribute("listAcc", null);
 					}
 					else {
+						ArrayList<User> listAcc = grabBO.searchUser(request.getParameter("search"));
+						request.setAttribute("listAcc", listAcc);
 						listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
 						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
 						keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
@@ -279,6 +285,12 @@ public class GrabServlet extends HttpServlet {
 						request.setAttribute("searchtxt", request.getParameter("search"));
 					}
 					
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
+
 					request.setAttribute("sort", request.getParameter("sort"));
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
@@ -307,10 +319,16 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("count", count);
 					
 					ArrayList<Post> listpost = grabBO.getAllPost(1,0,"DESC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("searchtxt", "");
 					request.setAttribute("sort", "DESC");
+					request.setAttribute("listAcc", null);
 					destination = "/View/UserHome.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -360,7 +378,11 @@ public class GrabServlet extends HttpServlet {
 						}
 						request.setAttribute("searchtxt", request.getParameter("search"));
 					}
-					
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
 					request.setAttribute("ID_Censor", request.getParameter("censor"));
@@ -394,6 +416,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("count", count);
 					
 					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0, request.getParameter("sort"));
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
@@ -425,6 +452,11 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("count", count);
 					
 					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0, "DESC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
 					request.setAttribute("ID_Censor", 5);
@@ -446,7 +478,7 @@ public class GrabServlet extends HttpServlet {
 			Post post = new Post();
 			post.setID_Author(request.getParameter("idacc"));
 			post.setTitle(request.getParameter("title"));
-			post.setDate_Post(Date.valueOf(request.getParameter("datepost")));
+			post.setDate_Post(LocalDateTime.now());
 			post.setContent(request.getParameter("content"));
 			post.setHastag(request.getParameter("hastag"));
 			
@@ -513,7 +545,6 @@ public class GrabServlet extends HttpServlet {
 				post.setID_Post(Integer.parseInt(request.getParameter("idupdate")));
 				post.setID_Author(request.getParameter("idacc"));
 				post.setTitle(request.getParameter("title"));
-				post.setDate_Post(Date.valueOf(request.getParameter("datepost")));
 				post.setContent(request.getParameter("content"));
 				post.setHastag(request.getParameter("hastag"));
 				
@@ -642,7 +673,55 @@ public class GrabServlet extends HttpServlet {
 			}
 		}
 		else if(request.getParameter("Censored") != null) {
-			if(request.getParameter("IDField") != null)
+			if (request.getParameter("AllReasons") != null) {
+				try {
+					boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 2);
+					if(check)
+					{
+						Notification noti = new Notification();
+						noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
+						noti.setMessage("has not been approved because: " + request.getParameter("AllReasons"));
+						LocalDate now = LocalDate.now();
+						Date nowDate = Date.valueOf(now);
+						noti.setDate_Time(nowDate);
+						noti.setStatus(0);
+						boolean check2 = grabBO.addNotification(noti);
+						
+						String idacc = request.getParameter("idacc");
+						Account admin = grabBO.getAccountByIDAccount(idacc);
+						request.setAttribute("admin", admin);
+						ArrayList<Field> listFields = grabBO.getAllField();
+						request.setAttribute("listFields", listFields);
+						ArrayList<Post> listpost = new ArrayList<Post>();
+						if(request.getParameter("search").equals(""))
+						{
+							listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+							request.setAttribute("searchtxt", "");
+						}
+						else {
+							listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+							String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+							searchPost(listpost, keyword);
+							request.setAttribute("searchtxt", request.getParameter("search"));
+						}
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
+						request.setAttribute("listpost", listpost);
+						request.setAttribute("ID_Field", request.getParameter("IDField"));
+						request.setAttribute("sort", request.getParameter("sort"));
+						destination = "/View/TaskCensored.jsp";
+						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(request.getParameter("IDField") != null)
 			{
 				try {
 					String idacc = request.getParameter("idacc");
@@ -650,9 +729,26 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), "ASC");
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getAllPost(1,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost("", 1, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						searchPost(listpost, keyword);
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("sort", request.getParameter("sort"));
 					destination = "/View/TaskCensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -676,8 +772,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskCensored.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -700,8 +803,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskCensored.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -720,8 +830,15 @@ public class GrabServlet extends HttpServlet {
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(1,0, "ASC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
+					request.setAttribute("sort", "ASC");
+					request.setAttribute("searchtxt", "");
 					destination = "/View/TaskCensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -740,9 +857,27 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(2,Integer.parseInt(request.getParameter("IDField")), "ASC");
+
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getAllPost(2,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost("", 2, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						searchPost(listpost, keyword);
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("sort", request.getParameter("sort"));
 					destination = "/View/TaskUncensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -766,8 +901,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskUncensored.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -790,8 +932,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskUncensored.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -810,8 +959,15 @@ public class GrabServlet extends HttpServlet {
 					listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(2,0, "ASC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
+					request.setAttribute("sort", "ASC");
+					request.setAttribute("searchtxt", "");
 					destination = "/View/TaskUncensored.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -843,10 +999,29 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
+							
+							ArrayList<Post> listpost = new ArrayList<Post>();
+							if(request.getParameter("search").equals(""))
+							{
+								listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+								request.setAttribute("searchtxt", "");
+							}
+							else {
+								listpost = grabBO.searchPost("", 0, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+								String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+								searchPost(listpost, keyword);
+								request.setAttribute("searchtxt", request.getParameter("search"));
+							}
+							
+							for(int i=0; i<listpost.size(); i++)
+							{
+					            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+					            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+							}
 							
 							request.setAttribute("listpost", listpost);
-							request.setAttribute("ID_Field", request.getParameter("ID_Field"));
+							request.setAttribute("ID_Field", request.getParameter("IDField"));
+							request.setAttribute("sort", request.getParameter("sort"));
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 							rd.forward(request, response);
@@ -875,9 +1050,29 @@ public class GrabServlet extends HttpServlet {
 							request.setAttribute("admin", admin);
 							ArrayList<Field> listFields = grabBO.getAllField();
 							request.setAttribute("listFields", listFields);
-							ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
+							
+							ArrayList<Post> listpost = new ArrayList<Post>();
+							if(request.getParameter("search").equals(""))
+							{
+								listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+								request.setAttribute("searchtxt", "");
+							}
+							else {
+								listpost = grabBO.searchPost("", 0, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+								String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+								searchPost(listpost, keyword);
+								request.setAttribute("searchtxt", request.getParameter("search"));
+							}
+							
+							
+							for(int i=0; i<listpost.size(); i++)
+							{
+					            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+					            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+							}
 							request.setAttribute("listpost", listpost);
-							request.setAttribute("ID_Field", request.getParameter("ID_Field"));
+							request.setAttribute("ID_Field", request.getParameter("IDField"));
+							request.setAttribute("sort", request.getParameter("sort"));
 							destination = "/View/TaskCensoring.jsp";
 							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 							rd.forward(request, response);
@@ -896,9 +1091,28 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("admin", admin);
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
-					ArrayList<Post> listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), "ASC");
+					
+					ArrayList<Post> listpost = new ArrayList<Post>();
+					if(request.getParameter("search").equals(""))
+					{
+						listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
+						request.setAttribute("searchtxt", "");
+					}
+					else {
+						listpost = grabBO.searchPost("", 0, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
+						String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
+						searchPost(listpost, keyword);
+						request.setAttribute("searchtxt", request.getParameter("search"));
+					}
+					
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", request.getParameter("ID_Field"));
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					request.setAttribute("sort", request.getParameter("sort"));
 					destination = "/View/TaskCensoring.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -922,8 +1136,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskCensoring.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -946,8 +1167,15 @@ public class GrabServlet extends HttpServlet {
 						ArrayList<Field> listFields = grabBO.getAllField();
 						request.setAttribute("listFields", listFields);
 						ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
+						for(int i=0; i<listpost.size(); i++)
+						{
+				            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+				            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+						}
 						request.setAttribute("listpost", listpost);
 						request.setAttribute("ID_Field", 0);
+						request.setAttribute("sort", "ASC");
+						request.setAttribute("searchtxt", "");
 						destination = "/View/TaskCensoring.jsp";
 						RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 						rd.forward(request, response);
@@ -965,8 +1193,15 @@ public class GrabServlet extends HttpServlet {
 					ArrayList<Field> listFields = grabBO.getAllField();
 					request.setAttribute("listFields", listFields);
 					ArrayList<Post> listpost = grabBO.getAllPost(0,0, "ASC");
+					for(int i=0; i<listpost.size(); i++)
+					{
+			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
+			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
+					}
 					request.setAttribute("listpost", listpost);
 					request.setAttribute("ID_Field", 0);
+					request.setAttribute("sort", "ASC");
+					request.setAttribute("searchtxt", "");
 					destination = "/View/TaskCensoring.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -1036,4 +1271,44 @@ public class GrabServlet extends HttpServlet {
         }
     }
 	
+	public String getDateAgo(LocalDateTime dateTimeFromDB) {
+		LocalDateTime now = LocalDateTime.now();
+        // Tính khoảng thời gian chênh lệch
+        Duration duration = Duration.between(dateTimeFromDB, now);
+        long seconds = duration.getSeconds();
+
+        String display;
+        if (duration.toDays() < 7) 
+        {
+            if (seconds < 60) {
+                display = seconds + "s";
+            } else if (seconds < 3600) {
+                display = duration.toMinutes() + "m";
+            } else if (seconds < 86400) {
+                display = duration.toHours() + "h";
+            } else {
+                display = duration.toDays() + "d";
+            }
+        } else {
+            // Nếu khoảng thời gian chênh lệch lớn hơn hoặc bằng 7 ngày, lấy ngày từ cơ sở dữ liệu
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            display = dateTimeFromDB.format(formatter);
+        }
+        return display;
+	}
+	public void searchPost(ArrayList<Post> listpost, String keyword) {
+		keyword = Pattern.quote(keyword); // Trích dẫn từ khóa để sử dụng trong regex
+		for(int i=0; i<listpost.size(); i++)
+		{
+			// Biểu thức chính quy sẽ tìm tất cả các lần xuất hiện của từ khóa không phân biệt hoa thường
+			String regex = "(?i)" + keyword;
+			// Thay thế và đánh dấu từ khóa trong nội dung bằng thẻ <mark>
+			String highlightedTitle = listpost.get(i).getTitle().replaceAll(regex, "<mark>$0</mark>");
+	        String highlightedContent = listpost.get(i).getContent().replaceAll(regex, "<mark>$0</mark>");
+	        String highlightedHashtag = listpost.get(i).getHastag().replaceAll(regex, "<mark>$0</mark>");
+	        listpost.get(i).setTitle(highlightedTitle);
+	        listpost.get(i).setContent(highlightedContent);
+	        listpost.get(i).setHastag(highlightedHashtag);
+		}	
+	}
 }

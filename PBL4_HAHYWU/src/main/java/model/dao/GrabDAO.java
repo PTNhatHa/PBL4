@@ -458,7 +458,7 @@ public class GrabDAO {
 		        	post.setAvatar_Author(rs1.getBytes(10));
 		        }
 	        	post.setTitle(rs.getString(3));
-	        	post.setDate_Post(rs.getDate(4));
+	        	post.setDate_Post(rs.getTimestamp(4).toLocalDateTime());
 	        	post.setContent(rs.getString(5));
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
@@ -619,7 +619,7 @@ public class GrabDAO {
 		        	post.setAvatar_Author(rs1.getBytes(10));
 		        }
 	        	post.setTitle(rs.getString(3));
-	        	post.setDate_Post(rs.getDate(4));
+	        	post.setDate_Post(rs.getTimestamp(4).toLocalDateTime());
 	        	post.setContent(rs.getString(5));
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
@@ -735,7 +735,7 @@ public class GrabDAO {
 		        	post.setAvatar_Author(rs1.getBytes(10));
 		        }
 	        	post.setTitle(rs.getString(3));
-	        	post.setDate_Post(rs.getDate(4));
+	        	post.setDate_Post(rs.getTimestamp(4).toLocalDateTime());
 	        	post.setContent(rs.getString(5));
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
@@ -751,13 +751,12 @@ public class GrabDAO {
 	public void updatePost(Post p) {
 		try
 		{
-	        String sql1 = "UPDATE post SET Title = ?, Date = ?, Content = ?, Hastag = ? WHERE ID_Post = ?";
+	        String sql1 = "UPDATE post SET Title = ?, Content = ?, Hastag = ? WHERE ID_Post = ?";
 	        PreparedStatement preStmt = connectionMySQL(sql1);
 	        preStmt.setString(1, p.getTitle());
-	        preStmt.setDate(2, p.getDate_Post());
-	        preStmt.setString(3, p.getContent());
-	        preStmt.setString(4, p.getHastag());
-	        preStmt.setInt(5, p.getID_Post());
+	        preStmt.setString(2, p.getContent());
+	        preStmt.setString(3, p.getHastag());
+	        preStmt.setInt(4, p.getID_Post());
 	        preStmt.execute();
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
@@ -829,7 +828,7 @@ public class GrabDAO {
 		        	post.setAvatar_Author(rs1.getBytes(10));
 		        }
 	        	post.setTitle(rs.getString(3));
-	        	post.setDate_Post(rs.getDate(4));
+	        	post.setDate_Post(rs.getTimestamp(4).toLocalDateTime());
 	        	post.setContent(rs.getString(5));
 	        	post.setHastag(rs.getString(6));
 	        	post.setComment_Quantity(rs.getInt(7));
@@ -866,6 +865,31 @@ public class GrabDAO {
 	    } catch (Exception e) {
 	    }
 	    return listpost;
+	}
+	
+	public ArrayList<User> searchUser(String txtsearch) {
+		ArrayList<User> list = new ArrayList<User>();
+	    User user = null;
+	    PreparedStatement preStmt;
+	    ResultSet rs;
+	    try {
+	        String sql = "SELECT * FROM account WHERE Role_Account = 1 AND Display_Name LIKE ?";
+	        preStmt = connectionMySQL(sql);
+	        preStmt.setString(1, "%" + txtsearch + "%");
+	        rs = preStmt.executeQuery();
+	        while(rs.next()) {
+	        	user = new User();
+	        	user.setID_Account(rs.getString("ID_Account"));
+	        	user.setDisplay_Name(rs.getString("Display_Name"));
+	        	user.setAvatar(rs.getBytes("Avatar"));
+	        	user.setTotalPost(getUserPost(user.getID_Account(), 1, 0, "DESC").size());
+	        	list.add(user);
+	        }
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
+	    } catch (Exception e) {
+	    }
+	    return list;
 	}
 	
 //	Manage Fields

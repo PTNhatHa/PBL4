@@ -16,6 +16,7 @@ public class User {
 	private int Role_Account;
 	private String Career;
 	private String Bio;
+	private int TotalPost;
 	
 	public String getID_Account() {
 		return ID_Account;
@@ -108,4 +109,10 @@ public class User {
 		Bio = bio;
 	}
 	
+	public int getTotalPost() {
+		return TotalPost;
+	}
+	public void setTotalPost(int TotalPost) {
+		this.TotalPost = TotalPost;
+	}
 }

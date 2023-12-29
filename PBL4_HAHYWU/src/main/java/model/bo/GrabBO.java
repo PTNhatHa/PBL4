@@ -173,7 +173,7 @@ public class GrabBO {
 					idi = 1;
 				}
 				else {
-					idi = l.get(0).intValue() + 1;
+					idi = li.get(0).intValue() + 1;
 				}
 				
 				for(int j=0; j < p.getlistImages().size(); j++)
@@ -204,6 +204,23 @@ public class GrabBO {
 		grabDAO.deleteImageOfPost(p.getID_Post());
 		if(p.getlistImages() != null)
 		{
+			ArrayList<Integer> li = grabDAO.findID_Max("post_images", 2);
+			
+			int idi;
+			if(li.size() == 0)
+			{
+				idi = 1;
+			}
+			else {
+				idi = li.get(0).intValue() + 1;
+			}
+			
+			for(int j=0; j < p.getlistImages().size(); j++)
+			{
+				p.getlistImages().get(j).setID_Image(idi);
+				idi++;
+				
+			}
 			grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
 		}
 	}
@@ -220,6 +237,9 @@ public class GrabBO {
 	}
 	public ArrayList<Post> searchPost(String ID_User, int censor, int ID_Field, String txtsearch, String sort) {
 		return grabDAO.searchPost(ID_User, censor, ID_Field, txtsearch, sort);
+	}
+	public ArrayList<User> searchUser(String txtsearch) {
+		return grabDAO.searchUser(txtsearch);
 	}
 }
 

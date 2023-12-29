@@ -25,7 +25,24 @@
 		}
 		.post, ::after, ::before {
             box-sizing: unset;
-        }			        
+        }		
+        .searchresult {
+			color: #1B335B;
+			font-size: 20px;
+			font-weight: 800;
+			text-align: left;
+		}
+		.searchresult1 {
+			color: #1B335B;
+			font-size: 14px;
+			text-align: left;
+		}
+		mark {
+		    background-color: #FFCAB6;
+		    color: #1B335B;
+            margin: 0px;
+            padding: 0px;
+		}	        
     </style>
     <script>
         function uncensored(id) {
@@ -62,20 +79,28 @@
                 txt.value = document.getElementById('rs3txt').value;
             }
             var l = "GrabServlet?Censoring=1&IDPost=" + document.getElementById("idp").value + "&AllReasons=" 
-            + txt.value + "&idacc=" + document.getElementById("acc").value + "&ID_Field=" + document.getElementById("idfield").value;
+            + txt.value + "&idacc=" + document.getElementById("acc").value + "&IDField=" + document.getElementById("idfield").value
+            + "&sort=" + document.getElementById("idsort").value + "&search=" + document.getElementById("txtsearch").value;
             location = l;
         }
     </script>
 </head>
 <body class="viewadmin" style="background-color: #89A1C9;">
+<%  Account acc = (Account) request.getAttribute("admin");
+	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
     <form action="" method="post">
         <div class="view" style="heigth: 100%; top: 150px;">
             <div class="pure-u-6-24"></div>
             <div class="pure-u-12-24">
+            <% if(!request.getAttribute("searchtxt").equals(""))
+           		{%>
+				<p class="searchresult" style="top: 150px; position: relative;">Post search results</p>
+				<p class="searchresult1" style="top: 150px; position: relative;"><b><%= listpost.size() %></b> results for <b><%= request.getAttribute("searchtxt") %></b></p>
+                <hr class="straightline" style="top: 150px; position: relative; margin: 10px 0 0;">
+            <%} %>
+            
                 <!-- Bỏ dô vòng for -->
                 <%
-                	Account acc = (Account) request.getAttribute("admin");
-                    ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
                     for (int i=0; i < listpost.size(); i++)
                     {
                         ArrayList<String> lifield = new ArrayList<String>();
@@ -117,7 +142,7 @@
                             <div class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"></div>
                     <%} %>
                         <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" readonly>
-                        <input type="date" class="date" value="<%= listpost.get(i).getDate_Post() %>" readonly>
+                        <input type="text" class="date" value="<%= listpost.get(i).getDate_ago() %>" readonly>
                         <div id="subject">
                         <% 
                             if(lifield.size() != 0)
@@ -134,12 +159,12 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <textarea name="" id="title" cols="0" rows="1" placeholder="Title"><%= listpost.get(i).getTitle() %></textarea>
+                            <p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
                             <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
                             <% if(!listpost.get(i).getHastag().equals(""))
-                            {%>
-                            <textarea name="" id="hastag" cols="0" rows="1" placeholder="hastag"><%= listpost.get(i).getHastag() %></textarea>
-                            <%} %>
+                           	{%>
+                           		<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
+                           	<%} %>
                             <% if (listimg.size() != 0)
                                 {
                                     for(int k=0; k < listimg.size(); k++)
@@ -153,7 +178,9 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>&ID_Field=<%= request.getAttribute("ID_Field") %>"><input type="button" name="" class="btCensor" value="Censored"></a>
+                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>&IDField=<%= request.getAttribute("ID_Field") %>&sort=<%= request.getAttribute("sort") %>&search=<%= request.getAttribute("searchtxt") %>">
+                            	<input type="button" name="" class="btCensor" value="Censored">
+                            </a>
                             <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
                         </div>
                     </div>
@@ -196,6 +223,8 @@
                         </div>
                         <div hidden>
                             <input id="reasons" type="text" value="">
+                            <input id="idsort" type="text" value="<%= request.getAttribute("sort") %>">
+                            <input id="txtsearch" type="text" value="<%= request.getAttribute("searchtxt") %>">
                             <input id="idfield" type="text" value="<%= request.getAttribute("ID_Field") %>">
                             <input id="acc" type="text" value="<%= acc.getID_Account() %>">
                             <input id="idp" type="text" value="">
