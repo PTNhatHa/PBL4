@@ -38,6 +38,7 @@ import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.mindrot.jbcrypt.BCrypt;
 
 import model.bean.Account;
+import model.bean.Comment;
 import model.bean.Field;
 import model.bean.Image;
 import model.bean.Notification;
@@ -49,13 +50,9 @@ import model.dao.GrabDAO;
 
 @WebServlet("/GrabServlet")
 @MultipartConfig(
-
 		  fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
-
 		  maxFileSize = 1024 * 1024 * 50,       // 50 MB
-
 		  maxRequestSize = 1024 * 1024 * 100    // 100 MB
-
 )
 public class GrabServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -166,13 +163,33 @@ public class GrabServlet extends HttpServlet {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
-		
+		else if(request.getParameter("visitprofile") != null) {
+			String idmain = request.getParameter("idmain");
+			String idacc = request.getParameter("idacc");
+			User acc = grabBO.getUserByIDUser(idacc);
+			request.setAttribute("acc", acc);
+			User user = grabBO.getUserByIDUser(idmain);
+			request.setAttribute("user", user);
+			ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+			request.setAttribute("notifications", notifications);
+			int count = grabBO.countUnseenNoti(idmain);
+			request.setAttribute("count", count);
+			if(idmain.equals(idacc)) {
+				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idmain);
+			}
+			else {
+				destination = "/View/VisitProfilePI.jsp";
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+				rd.forward(request, response);
+			}
+		}
 		else if(request.getParameter("updateuser") != null) {
 			User user = new User();
 			String idacc = request.getParameter("idacc");
 			if(request.getParameter("deleteavatar") != null) {
 				grabBO.removeAvatar(idacc);
-				response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
+				response.getWriter().write("Delete avatar successfully!");
+
 			}
 			else {
 				try {
@@ -240,6 +257,26 @@ public class GrabServlet extends HttpServlet {
 			String hashed = BCrypt.hashpw(npw, BCrypt.gensalt());
 			grabBO.forgotPassword(email, hashed);
 			response.getWriter().write("Change password successfully!");
+		}
+		else if(request.getParameter("showdetailpost") != null) {
+			int idnoti = Integer.parseInt(request.getParameter("idnoti"));
+			int status = Integer.parseInt(request.getParameter("status"));
+			if(status == 0) {
+				grabBO.seenNoti(idnoti);
+			}
+			int idpost = Integer.parseInt(request.getParameter("idpost"));
+			Post post = grabBO.getPostByIDPost(idpost);
+			String idacc = request.getParameter("idacc");
+			User user = grabBO.getUserByIDUser(idacc);
+			request.setAttribute("user", user);
+			ArrayList<Notification> notifications = grabBO.showNotication(idacc);
+			request.setAttribute("notifications", notifications);
+			int count = grabBO.countUnseenNoti(idacc);
+			request.setAttribute("count", count);
+			request.setAttribute("post", post);
+			destination = "/View/DetailPost.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
 		}
 		else if(request.getParameter("userhome") != null) {
 			if(request.getParameter("IDField") != null)
@@ -336,6 +373,71 @@ public class GrabServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+		}
+		else if(request.getParameter("sendcomment") != null) {
+			try {
+				if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+			        Part filePart = request.getPart("cmtimg");
+			        String idauthor = request.getParameter("idauthor");
+		            String idcommentator = request.getParameter("idcommentator");
+		            LocalDate now = LocalDate.now();
+					Date nowDate = Date.valueOf(now);
+			        if (filePart != null) {
+			            InputStream fileContent = filePart.getInputStream();
+			            // Chuyển InputStream thành byte array để lưu trong database
+			            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			            byte[] buffer = new byte[1024];
+			            for (int len; (len = fileContent.read(buffer)) != -1; ) {
+			                bos.write(buffer, 0, len);
+			            }
+			            byte[] fileBytes = bos.toByteArray();
+			            bos.close();
+			            fileContent.close();
+			            // Add comment
+			            Comment comment = new Comment();
+			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+			            comment.setID_Commentator(idcommentator);
+			            System.out.println(idcommentator);
+			            comment.setComment_Content(request.getParameter("cmttype"));
+			        	comment.setDate_Time(nowDate);
+			        	comment.setImage(fileBytes);
+			        	grabBO.addComment(comment);
+			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
+			        	if(!idauthor.equals(idcommentator)) {
+			        		Notification noti = new Notification();
+			        		noti.setID_Commentator(idcommentator);
+							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+							noti.setMessage("has commented on your post");
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							grabBO.addNotification(noti);
+			        	}
+			        }
+			        else {
+			        	// Add comment
+			            Comment comment = new Comment();
+			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+			            comment.setID_Commentator(idcommentator);
+			            System.out.println(idcommentator);
+			            comment.setComment_Content(request.getParameter("cmttype"));
+			        	comment.setDate_Time(nowDate);
+			        	grabBO.addComment(comment);
+			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
+			        	if(!idauthor.equals(idcommentator)) {
+			        		Notification noti = new Notification();
+			        		noti.setID_Commentator(idcommentator);
+							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
+							noti.setMessage("has commented on your post");
+							noti.setDate_Time(nowDate);
+							noti.setStatus(0);
+							grabBO.addNotification(noti);
+			        	}
+			        }
+			    }
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		else if(request.getParameter("userpost") != null) {
@@ -466,6 +568,67 @@ public class GrabServlet extends HttpServlet {
 					request.setAttribute("searchtxt", "");
 					request.setAttribute("sort", "DESC");
 					destination = "/View/UserPost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(request.getParameter("visituserpost") != null) {
+			if(request.getParameter("IDField") != null)
+			{
+				try {
+					String idmain = request.getParameter("idmain");
+					User user = grabBO.getUserByIDUser(idmain);
+					request.setAttribute("user", user);
+					
+					String idacc = request.getParameter("idacc");
+					User acc = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("acc", acc);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idmain);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), Integer.parseInt(request.getParameter("censor")), Integer.parseInt(request.getParameter("IDField")));
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", request.getParameter("IDField"));
+					destination = "/View/VisitProfilePost.jsp";
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+					rd.forward(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else {
+				try {
+					String idmain = request.getParameter("idmain");
+					User user = grabBO.getUserByIDUser(idmain);
+					request.setAttribute("user", user);
+					
+					String idacc = request.getParameter("idacc");
+					User acc = grabBO.getUserByIDUser(idacc);
+					request.setAttribute("acc", acc);
+					
+					ArrayList<Field> listFields = grabBO.getAllField();
+					request.setAttribute("listFields", listFields);
+					
+					ArrayList<Notification> notifications = grabBO.showNotication(idmain);
+					request.setAttribute("notifications", notifications);
+					int count = grabBO.countUnseenNoti(idmain);
+					request.setAttribute("count", count);
+					
+					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 1, 0);
+					request.setAttribute("listpost", listpost);
+					request.setAttribute("ID_Field", 0);
+					destination = "/View/VisitProfilePost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
 				} catch (Exception e) {
@@ -993,7 +1156,7 @@ public class GrabServlet extends HttpServlet {
 							Date nowDate = Date.valueOf(now);
 							noti.setDate_Time(nowDate);
 							noti.setStatus(0);
-							boolean check2 = grabBO.addNotification(noti);
+							grabBO.addNotification(noti);
 							String idacc = request.getParameter("idacc");
 							Account admin = grabBO.getAccountByIDAccount(idacc);
 							request.setAttribute("admin", admin);

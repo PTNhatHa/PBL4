@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.bean.Account;
+import model.bean.Comment;
 import model.bean.Field;
 import model.bean.Notification;
 import model.bean.NumberCensor;
@@ -64,6 +65,7 @@ public class GrabBO {
 		grabDAO.changeAvatar(idacc, newimg);
 	}
 	
+	/* User's Notification */
 	public ArrayList<Notification> showNotication(String ID_Author) {
 		return grabDAO.showNotification(ID_Author);
 	}
@@ -81,6 +83,27 @@ public class GrabBO {
 	}
 	public Post getPostByIDPost(int ID_Post) {
 		return grabDAO.getPostByIDPost(ID_Post);
+	}
+	
+	public Post getPostByIDPost(int ID_Post) {
+		return grabDAO.getPostByIDPost(ID_Post);
+	}
+	
+	public void seenNoti(int ID_Notification) {
+		grabDAO.seenNoti(ID_Notification);
+	}
+	
+	/* User's Comment */
+	public void addComment(Comment comment) {
+		grabDAO.addComment(comment);
+	}
+	
+	public void updateCommentQuantity(int ID_Post) {
+		grabDAO.updateCommentQuantity(ID_Post);
+	}
+	
+	public ArrayList<Comment> getAllCommentByIDPost(int ID_Post) {
+		return grabDAO.getAllCommentByIDPost(ID_Post);
 	}
 	
 	/* Admin */

@@ -16,6 +16,7 @@ public class Post {
 	private int Censor; //1 censored - 2 uncensored - 0 censoring
 	private ArrayList<Field> listFields;
 	private ArrayList<Image> listImages;
+	private ArrayList<Comment> listComment;
 	private String Date_ago;
 	
 	public int getID_Post() {
@@ -100,6 +101,12 @@ public class Post {
 	}
 	public void setlistImages(ArrayList<Image> listImages) {
 		this.listImages = listImages;
+	}
+	public ArrayList<Comment> getListComment() {
+		return listComment;
+	}
+	public void setListComment(ArrayList<Comment> listComment) {
+		this.listComment = listComment;
 	}
 	
 	public String getDate_ago() {

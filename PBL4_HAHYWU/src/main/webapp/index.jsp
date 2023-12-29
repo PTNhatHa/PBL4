@@ -94,14 +94,16 @@
         }
 
 		
-		function checkPassword(pw, cfpw, warning) {
+		function checkPassword(pw, cfpw, warning, btton) {
         	var password = document.getElementById(pw).value;
 			var cfpassword = document.getElementById(cfpw).value;
 			if(password != cfpassword) {
 				document.getElementById(warning).innerHTML = "The confirm password does not match!";
+				document.getElementById(btton).disabled = true;
 			}
 			else {
 				document.getElementById(warning).innerHTML = "";
+				document.getElementById(btton).disabled = false;
 			}
         }
         
@@ -111,6 +113,16 @@
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                    if(this.responseText == "This username has already been used!") {
+                    	document.getElementById("btSignup").disabled = true;
+                    	document.getElementById("pw").disabled = true;
+                    	document.getElementById("cfpassword").disabled = true;
+                    }
+                    else {
+                    	document.getElementById("btSignup").disabled = false;
+                    	document.getElementById("pw").disabled = false;
+                    	document.getElementById("cfpassword").disabled = false;
+                    }
                 }
             };
             xmlhttp.open("GET", "GrabServlet?signupaccount=1&checkusername=1&username="+username, true);
@@ -122,21 +134,27 @@
         	var name = document.getElementById("name").value;
         	var username = document.getElementById("usname").value;
         	var password = document.getElementById("pw").value;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("OTPAlertp").innerHTML = this.responseText;
-                    var a = document.getElementById("sign-in"); 
-                	var signin = document.createElement("button");
-                	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
-                	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
-                	signin.hidden = true;
-                	a.appendChild(signin);  // thêm phần tử vào trang web
-                	signin.click();
-                }
-            };
-            xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
-            xmlhttp.send();
+        	var cfpassword = document.getElementById("cfpassword").value;
+        	if(name == "" || username == "" || password == "" || cfpassword == "") {
+        		document.getElementById("OTPAlertp").innerHTML = "Please complete the information!"
+        	}
+        	else {
+        		var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("OTPAlertp").innerHTML = this.responseText;
+                        var a = document.getElementById("sign-in"); 
+                    	var signin = document.createElement("button");
+                    	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+                    	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
+                    	signin.hidden = true;
+                    	a.appendChild(signin);  // thêm phần tử vào trang web
+                    	signin.click();
+                    }
+                };
+                xmlhttp.open("GET", "GrabServlet?signupaccount=1&email="+email+"&name="+name+"&username="+username+"&password="+password, true);
+                xmlhttp.send();
+        	}
 		}
         function sendOTPforchange() {
         	document.getElementById("OTPAlertchangepw").innerHTML = ""; 
@@ -353,12 +371,12 @@
                         <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
                         <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
                         <input type="password" value="" name="pw" id="pw" placeholder="Password" style="top: 285px;" required="required">
-                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword('pw','cfpassword','OTPAlertp')">
+                        <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword('pw','cfpassword','OTPAlertp','btSignup')">
                     </div>
                     <span class="OTPAlert" style="position: absolute; bottom: 108px;">
                         <p id="OTPAlertp" > </p>
                     </span>
-                    <input class="Button-or-bl" type="button" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
+                    <input type="button" id="btSignup" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
                 </div>
             </div>
             </div>
@@ -450,14 +468,14 @@
                     </div>
                     <div class="info-field">
                         <p class="info-text">Confirm password</p>
-                        <input class="info-enter" type="password" id="cpw" name="cpw" placeholder="confirm password" oninput="checkPassword('npw','cpw','alertpchangepw')">
+                        <input class="info-enter" type="password" id="cpw" name="cpw" placeholder="confirm password" oninput="checkPassword('npw','cpw','alertpchangepw','btSavechangepw')">
                         <input type="button" class="showpw" id="showcpw" onmousedown="showPW('cpw');" onmouseup="hidePW('cpw');" required="required"></input>
                     </div>
                     <div class="info-field">
                         <span id="alertchangepw"><p id="alertpchangepw" class="alertchangepw-content"></p></span>
                     </div>
                     <div class="info-field" style="margin: 25px 0 0;">
-                        <button type="button" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="forgotpw()">Save</button>  <!-- THEM SU KIEN -->
+                        <button type="button"  id="btSavechangepw" style="position: relative; margin-right: 15px;" onclick="forgotpw()">Save</button>  <!-- THEM SU KIEN -->
                         <button type="button" data-bs-dismiss="modal" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
                     </div>
                 </div>

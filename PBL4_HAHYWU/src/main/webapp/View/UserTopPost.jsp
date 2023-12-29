@@ -47,11 +47,24 @@
                 });
             }
         }
+        function deleteAvatar() {
+            var idacc = document.body.getAttribute('data-jsp-var');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if(this.responseText == "Delete avatar successfully!") {
+                        window.location.reload();
+                    }
+                }
+            };
+            xmlhttp.open("GET", "GrabServlet?updateuser=1&deleteavatar=1&idacc="+idacc, true);
+            xmlhttp.send();
+        }
     </script>
 </head>
 <body <% User user = (User)request.getAttribute("user"); %> data-jsp-var="<%= user.getID_Account() %>">
 <!--     <form name="UserTop" action=""> -->
-        <div class="pure-g">
+        <div class="pure-g" style="z-index: 999;">
             <div class="pure-u-2-24" style="background-color: white; height: 340px; position: relative;"></div>
             <div class="pure-u-20-24 topcenter" style="left: 0%;">
                 <div class="top">
@@ -75,7 +88,7 @@
 	                <span id="camera-choice" style="display: none;">
 	                    <div>
 	                        <button class="choice" onclick="document.getElementById('imgInp').click();">Change avatar</button>
-	                        <button class="choice" onclick="location.href='GrabServlet?updateuser=1&deleteavatar=1&idacc=<%= user.getID_Account() %>'">Delete avatar</button>
+	                        <button class="choice" onclick="deleteAvatar()">Delete avatar</button>
 	                    </div>
 	                </span>
     				<%
