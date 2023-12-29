@@ -25,6 +25,7 @@
                 x.style.display = "none";
             }
         }
+        function hide(id)
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var idacc = document.body.getAttribute('data-jsp-var');
@@ -63,7 +64,7 @@
 </head>
 <body <% User user = (User)request.getAttribute("user"); %> data-jsp-var="<%= user.getID_Account() %>">
 <!--     <form name="UserTop" action=""> -->
-        <div class="pure-g">
+        <div class="pure-g" style="z-index: 999;">
             <div class="pure-u-2-24" style="background-color: white; height: 340px; position: relative;"></div>
             <div class="pure-u-20-24 topcenter" style="left: 0%;">
                 <div class="top">

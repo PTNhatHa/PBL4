@@ -139,7 +139,7 @@
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
     <form action="" method="post">
-        <div class="view" style="">
+        <div class="view" >
                 <div class="pure-u-9-24"></div>
                 <div class="pure-u-13-24">
                     <%
@@ -179,9 +179,9 @@
                     if(listpost.get(i).getCensor() == 1)
 					{
 				%>		
-			    <div style="width: 788px; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 15px 0;">
+			    <div style="width: 788px; background-color: white; border-radius: 30px; box-shadow: 4px 4px 10px grey; margin: 15px 0; z-index: 999;">
 			        <!-- POST -->
-			        <div class="post" style="z-index: 9999;">
+			        <div class="post" style="z-index: 999;">
 			            <div class="post-row">
 			                <% if (listpost.get(i).getAvatar_Author() != null)
 								{%>
@@ -240,7 +240,7 @@
 			        <%	} %>
 			        </div>
 					<!-- COMMENT -->
-			        <span class="comment" style="z-index: 999; display: none;" id="comment-box<%=listpost.get(i).getID_Post()%>">
+			        <span class="comment" style="z-index: 99; display: none;" id="comment-box<%=listpost.get(i).getID_Post()%>">
 			            <span class="show-comment scroll">
 	            	<% 
 						if(commentlist.size() != 0)
@@ -337,7 +337,7 @@
 			            </span>
 			        </span>
 					<!-- CREATE COMMENT -->
-			        <span class="create-comment" style="z-index: 99; position: relative; display: flex;"> <!--display: none/flex-->
+			        <span class="create-comment" style="z-index: 9; position: relative; display: flex;"> <!--display: none/flex-->
 		            <% 	if(user.getAvatar() != null){
                 		byte[] ava = user.getAvatar();
 				    	String base64Encoded = Base64.getEncoder().encodeToString(ava);
