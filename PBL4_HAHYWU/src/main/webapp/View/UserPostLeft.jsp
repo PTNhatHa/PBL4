@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <script>
@@ -188,6 +188,26 @@
     </style>
 </head>
 <body class="scroll">
+    
+<%
+     	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
+		int censoring=0, censored=0, uncensored=0;
+		for (int i=0; i < listpost.size(); i++)
+		{
+			if(listpost.get(i).getCensor() == 0)
+			{
+				censoring = censoring + 1;
+			}
+			if(listpost.get(i).getCensor() == 1)
+			{
+				censored = censored + 1;
+			}
+			if(listpost.get(i).getCensor() == 2)
+			{
+				uncensored = uncensored + 1;
+			}
+		}
+%>
 
         <section class="pure-g section4" style="padding: 10px 0 93px; position: absolute;">
             <div class="pure-u-2-24"></div>
