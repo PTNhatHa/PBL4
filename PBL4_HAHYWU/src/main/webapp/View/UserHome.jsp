@@ -182,17 +182,21 @@
 				                        	{
 				                        	byte[] imageBytes = listacc.get(a).getAvatar();
     				    					String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
-    				    	%>
-				                            <div class="avapic" style="width: 60px; height: 60px; float: left; background-image: url(data:image/png;base64,<%= base64Encoded %>);"></div>
-				                        <% }
-				                        	else{
-				                        %>
-				                        		<div class="avapic" style="width: 60px; height: 60px; float: left;"></div>
-				                        <%} %>
+											%>
+												<div>
+													<a href="GrabServlet?visitprofile=1&idacc=<%= listacc.get(a).getID_Account() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(data:image/png;base64,<%= base64Encoded %>);"> </a>
+												</div>
+											<% }
+												else{
+											%>
+												<div>
+													<a href="GrabServlet?visitprofile=1&idacc=<%= listacc.get(a).getID_Account() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="avapic" style="width: 60px; height: 60px; background-image: url(img/defaultavatar.jpg);"> </a>
+												</div>
+											<% } %>
 							            <div style="float: left;">
-							                <p class="searchacc" style="white-space: pre-wrap; min-height: 1em;"><%= listacc.get(a).getDisplay_Name() %></p>
+							                <a href="GrabServlet?visitprofile=1&idacc=<%= listacc.get(a).getID_Account() %>&idmain=<%=user.getID_Account()%>"><input type="button" class="user" style="white-space: pre-wrap; min-height: 1em;" value="<%= listacc.get(a).getDisplay_Name() %>"></a>
 							                <% if(listacc.get(a).getTotalPost() != 0){ %>
-							                <p class="searchacc_more" style="white-space: pre-wrap; min-height: 1em;">Total: <%= listacc.get(a).getTotalPost() %> post</p>
+							                <input type="text" class="date" value="Total: <%= listacc.get(a).getTotalPost() %> post">
 							                <%} %>
 							            </div>
 							        </div>

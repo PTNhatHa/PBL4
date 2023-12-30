@@ -6,6 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="model.bean.User" %>
+<% User main = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,12 @@
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3333.css">
-   	<jsp:include page="HeaderUser.jsp" />
+   	<% if(main.getRole_Account() == 0) { %>
+    	<jsp:include page="HeaderAdmin.jsp" />
+    <%} 
+    else {%>
+   		<jsp:include page="HeaderUser.jsp" />
+   	<%} %>
    	<jsp:include page="VisitProfileTopPost.jsp" />
    	<jsp:include page="VisitProfilePostLeft.jsp" />
    	<script>
@@ -140,7 +146,7 @@
 <body class="viewuser" style="background-color: #89A1C9;">
 <% 	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
 	User user = (User)request.getAttribute("acc");
-   	User main = (User)request.getAttribute("user");%>
+   	%>
     <form action="" method="post">
         <div class="view" >
                 <div class="pure-u-9-24"></div>
@@ -347,7 +353,8 @@
 			                
 			            </span>
 			        </span>
-					<!-- CREATE COMMENT -->
+			        <% if(main.getRole_Account() == 1) { %>
+				    	<!-- CREATE COMMENT -->
 			        <span class="create-comment" style="z-index: 9; position: relative; display: flex;"> <!--display: none/flex-->
 		            <% 	if(user.getAvatar() != null){
                 		byte[] ava = user.getAvatar();
@@ -373,6 +380,8 @@
 			                </span>  
 			            </div>    
 			        </span>
+				    <%}%> 
+					
 			    </div>
 			    
 			    <% 		}

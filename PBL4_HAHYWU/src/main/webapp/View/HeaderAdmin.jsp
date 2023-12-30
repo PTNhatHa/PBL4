@@ -30,7 +30,7 @@
 </head>
 <body>
 	<main>
-	<% Account user = (Account)request.getAttribute("admin"); %>
+	<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
@@ -40,7 +40,7 @@
                         <p class="logo-text">HAHYWU</p>
                     </div>
                     <div class="button-head">
-                        <a href=""><input id="" class="button-head-hover" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
+                        <a href="GrabServlet?adminprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
                         <a href="GrabServlet?Censoring=1&idacc=<%= user.getID_Account() %>"><input id="Home" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
                         <a href="GrabServlet?ManageUser=1&idacc=<%= user.getID_Account() %>"><input id="MaAc" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/manage_acc.png"%>);"></a>
                     </div>

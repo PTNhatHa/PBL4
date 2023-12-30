@@ -1115,5 +1115,28 @@ public class GrabDAO {
         return display;
 	}
 	
+//	Manage User
+	public ArrayList<User> getAllUser() {
+		ArrayList<User> list = new ArrayList<User>();
+		User account = null;
+		try {
+			String sql = "SELECT * FROM account WHERE Role_Account = 1";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			ResultSet rs = preStmt.executeQuery(sql);
+			while(rs.next()) {
+			    account = new User();
+			    account.setID_Account(rs.getString("ID_Account"));
+                account.setDisplay_Name(rs.getString("Display_Name"));
+                account.setAvatar(rs.getBytes("Avatar"));
+			    account.setTotalPost(getUserPost(account.getID_Account(), 1, 0, "DESC").size());
+			    list.add(account);
+			}
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			
+		}
+		return list;
+	}
 }
 

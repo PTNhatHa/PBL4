@@ -1459,7 +1459,18 @@ public class GrabServlet extends HttpServlet {
 				}
 			}
 		}
-		
+		else if(request.getParameter("ManageUser") != null) {
+			ArrayList<User> list = grabBO.getAllUser();
+			request.setAttribute("listUser", list);
+			
+			String idacc = request.getParameter("idacc");
+			Account admin = grabBO.getAccountByIDAccount(idacc);
+			request.setAttribute("admin", admin);
+			
+			destination = "/View/AdminMU.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+			rd.forward(request, response);
+		}
 	}
 	public boolean sendOTP(String email) {
         final String username = "hahywucenter1711@gmail.com";

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style11.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1new.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
     <title>Header</title>
     <script>
@@ -42,6 +42,7 @@
                     <div class="button-head">
                         <a href="GrabServlet?adminprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
                         <a href=""><input id="" class="button-head-hover" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
+                        <a href="GrabServlet?ManageUser=1&idacc=<%= user.getID_Account() %>"><input id="MaAc" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/manage_acc.png"%>);"></a>
                     </div>
                     <%
                     	if(user.getAvatar() != null){

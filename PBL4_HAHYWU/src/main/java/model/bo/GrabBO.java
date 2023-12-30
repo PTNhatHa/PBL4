@@ -260,5 +260,9 @@ public class GrabBO {
 	public ArrayList<User> searchUser(String txtsearch) {
 		return grabDAO.searchUser(txtsearch);
 	}
+	
+	public ArrayList<User> getAllUser() {
+		return grabDAO.getAllUser();
+	}
 }
 

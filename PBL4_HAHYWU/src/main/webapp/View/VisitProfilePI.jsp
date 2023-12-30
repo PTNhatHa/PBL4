@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="model.bean.User" %>
+<% User main = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,16 +14,19 @@
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
-   	<jsp:include page="HeaderUser.jsp" />
+    <% if(main.getRole_Account() == 0) { %>
+    	<jsp:include page="HeaderAdmin.jsp" />
+    <%} 
+    else {%>
+   		<jsp:include page="HeaderUser.jsp" />
+   	<%} %>
    	<jsp:include page="VisitProfileTopPI.jsp" />
    	<Script language="JavaScript">
     	
     </Script>
 </head>
 <body class="bgbody scroll" style="background-color: white;">
-	<%
-		User user = (User)request.getAttribute("acc");
-	%>
+<% User user = (User)request.getAttribute("acc"); %>
     <form action="GrabServlet?idacc=<%= user.getID_Account() %>" method="post">
         <div class="container-fluid mt-3">
             <div class="row">

@@ -297,6 +297,17 @@ p.introtext {
     background-color: var(--lightblue) !important;
     background-image: url(../img/Profile.png) !important;
 }
+#MaAc:hover {
+    outline: var(--lightblue) !important;
+    border: 3px solid var(--lightblue) !important;
+    background-image: url(../img/manage_acc-Hover.png) !important;
+}
+#MaAc:active {
+    outline: none !important;
+    border: none !important;
+    background-color: var(--lightblue) !important;
+    background-image: url(../img/manage_acc.png) !important;
+}
 #Notification:hover {
     outline: var(--lightblue) !important;
     border: 3px solid var(--lightblue) !important;

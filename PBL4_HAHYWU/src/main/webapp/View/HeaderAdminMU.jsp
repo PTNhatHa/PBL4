@@ -31,7 +31,7 @@
 <body>
 	<main>
 	<% Account user = (Account)request.getAttribute("admin"); %>
-        <div class="pure-g nav">
+        <div class="pure-g nav" style="z-index: 1;">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
                 <div class="nav-child">
@@ -40,9 +40,9 @@
                         <p class="logo-text">HAHYWU</p>
                     </div>
                     <div class="button-head">
-                        <a href=""><input id="" class="button-head-hover" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
-                        <a href="GrabServlet?Censoring=1&idacc=<%= user.getID_Account() %>"><input id="Home" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
-                        <a href="GrabServlet?ManageUser=1&idacc=<%= user.getID_Account() %>"><input id="MaAc" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/manage_acc.png"%>);"></a>
+                        <a href="GrabServlet?adminprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
+                        <a href=""><input id="" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
+                        <a href=""><input id="" class="button-head-hover" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/manage_acc.png"%>);"></a>
                     </div>
                     <%
                     	if(user.getAvatar() != null){
@@ -58,7 +58,7 @@
 					<%
                     	}
 					%> 
-					<span id="click-choice" style="display: none;">
+					<span id="click-choice" style="display: none; z-index: 999999;">
                     <div>
                         <button class="signout" onclick="signout()">Sign out</button>
                     </div>
