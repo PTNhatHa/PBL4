@@ -401,6 +401,7 @@ public class GrabDAO {
 			    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
 			    		notification.setID_Commentator(rs.getString("ID_Commentator"));
 			    		notification.setName_Commentator(account.getDisplay_Name());
+			    		notification.setAvatar_Commentator(account.getAvatar());
 			    		notification.setID_Post(posts.get(i).getID_Post());
 				    	notification.setName_Post(posts.get(i).getTitle());
 				    	notification.setMessage(rs.getString("Message"));
@@ -545,6 +546,75 @@ public class GrabDAO {
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        preStmt.setInt(1, count);
 	        preStmt.setInt(2, ID_Post);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteComment(int ID_Comment) {
+		try
+		{
+			// Xoa o bang comment_images
+	        String sql = "DELETE FROM comment_images WHERE ID_Comment = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Comment);
+	        preStmt.execute();
+	        // Xoa o bang comment_images
+	        String sql1 = "DELETE FROM comment WHERE ID_Comment = ?";
+	        PreparedStatement preStmt1 = connectionMySQL(sql1);
+	        preStmt1.setInt(1, ID_Comment);
+	        preStmt1.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Comment getCommentByIDComment(int ID_Comment) {
+		Comment comment = new Comment();
+		try
+		{
+			String sql = "SELECT * FROM comment WHERE ID_Comment = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Comment);
+	        ResultSet rs = preStmt.executeQuery();
+	        if(rs.next())
+		    {
+		    	comment.setID_Comment(rs.getInt("ID_Comment"));
+		    	comment.setID_Post(rs.getInt("ID_Post"));
+	    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
+	    		comment.setID_Commentator(rs.getString("ID_Commentator"));
+	    		comment.setName_Commentator(account.getDisplay_Name());
+	    		comment.setAvatar_Commentator(account.getAvatar());
+	    		comment.setComment_Content(rs.getString("Comment"));
+	    		comment.setDate_Time(rs.getTimestamp("Date_Time").toLocalDateTime());
+	    		sql = "SELECT * FROM comment_images WHERE ID_Comment = ?";
+		        preStmt = connectionMySQL(sql);
+		        preStmt.setInt(1, rs.getInt("ID_Comment"));
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        { 
+		        	comment.setImage(rs1.getBytes("Image"));
+		        }
+		        comment.setDate_ago(getDateAgo(rs.getTimestamp("Date_Time").toLocalDateTime()));
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return comment;
+	}
+	
+	public void deleteNoti(int ID_Post, int ID_Comment) {
+		try
+		{
+			Comment comment = getCommentByIDComment(ID_Comment);
+			// Xoa o bang notification
+	        String sql = "DELETE FROM notification WHERE ID_Post = ? AND ID_Commentator = ? AND Date_Time = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Post);
+	        preStmt.setString(2, comment.getID_Commentator());
+	        preStmt.setTimestamp(3, Timestamp.valueOf(comment.getDate_Time()));
 	        preStmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

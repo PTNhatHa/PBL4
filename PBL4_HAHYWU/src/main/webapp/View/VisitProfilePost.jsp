@@ -235,13 +235,10 @@
 								}%>
 			                </div>
 			            </div>
-			            <div class="post-row">
-							<p class="post-censor">Censored</p>
-						</div>
 		            <% 	int cmts = listpost.get(i).getComment_Quantity();
 			            if(cmts == 0) { %> 
 			            <div class="post-row">
-			                <input type="button" class="bottom-text" style="position: static; float: right;" value="Not comment yet" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
+			                <input type="button" class="bottom-text" style="position: static; float: right;" value="" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
 			            </div>
 			        <%  }
 			        	else { %> 

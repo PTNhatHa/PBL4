@@ -102,6 +102,14 @@ public class GrabBO {
 		return grabDAO.getAllCommentByIDPost(ID_Post);
 	}
 	
+	public void deleteComment(int ID_Comment) {
+		grabDAO.deleteComment(ID_Comment);
+	}
+	
+	public void deleteNoti(int ID_Post, int ID_Comment) {
+		grabDAO.deleteNoti(ID_Post, ID_Comment);
+	}
+	
 	/* Admin */
 	public void updateAccount(Account user) {
 		grabDAO.updateAccount(user);

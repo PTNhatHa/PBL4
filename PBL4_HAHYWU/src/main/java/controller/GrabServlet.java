@@ -13,6 +13,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -161,6 +163,17 @@ public class GrabServlet extends HttpServlet {
 	            LocalDateTime dateTimeFromDB = notifications.get(i).getDate_Time();
 	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
 			}
+			Collections.sort(notifications, new Comparator<Notification>() {
+			    @Override
+			    public int compare(Notification o1, Notification o2) {
+			        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+			    }
+			});
+			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
 			
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idacc);
@@ -182,6 +195,18 @@ public class GrabServlet extends HttpServlet {
 	            LocalDateTime dateTimeFromDB = notifications.get(i).getDate_Time();
 	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
 			}
+			Collections.sort(notifications, new Comparator<Notification>() {
+			    @Override
+			    public int compare(Notification o1, Notification o2) {
+			        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+			    }
+			});
+			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+			
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idmain);
 			request.setAttribute("count", count);
@@ -289,6 +314,18 @@ public class GrabServlet extends HttpServlet {
 	            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 	            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 			}
+			Collections.sort(notifications, new Comparator<Notification>() {
+			    @Override
+			    public int compare(Notification o1, Notification o2) {
+			        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+			    }
+			});
+			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+			
 			request.setAttribute("notifications", notifications);
 			int count = grabBO.countUnseenNoti(idacc);
 			request.setAttribute("count", count);
@@ -314,6 +351,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -380,6 +429,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -410,6 +471,7 @@ public class GrabServlet extends HttpServlet {
 			        Part filePart = request.getPart("cmtimg");
 			        String idauthor = request.getParameter("idauthor");
 		            String idcommentator = request.getParameter("idcommentator");
+		            LocalDateTime now = LocalDateTime.now();
 		            
 			        if (filePart != null) {
 			            InputStream fileContent = filePart.getInputStream();
@@ -428,7 +490,7 @@ public class GrabServlet extends HttpServlet {
 			            comment.setID_Commentator(idcommentator);
 			            System.out.println(idcommentator);
 			            comment.setComment_Content(request.getParameter("cmttype"));
-			        	comment.setDate_Time(LocalDateTime.now());
+			        	comment.setDate_Time(now);
 			        	comment.setImage(fileBytes);
 			        	grabBO.addComment(comment);
 			        	grabBO.updateCommentQuantity(Integer.parseInt(request.getParameter("idpost")));
@@ -437,7 +499,7 @@ public class GrabServlet extends HttpServlet {
 			        		noti.setID_Commentator(idcommentator);
 							noti.setID_Post(Integer.parseInt(request.getParameter("idpost")));
 							noti.setMessage("has commented on your post");
-							noti.setDate_Time(LocalDateTime.now());
+							noti.setDate_Time(now);
 							noti.setStatus(0);
 							grabBO.addNotification(noti);
 			        	}
@@ -468,6 +530,18 @@ public class GrabServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if(request.getParameter("deletecomment") != null) {
+			try {
+				int idpost = Integer.parseInt(request.getParameter("idpost"));
+				int idcmt = Integer.parseInt(request.getParameter("idcmt"));
+				grabBO.deleteNoti(idpost, idcmt);
+				grabBO.deleteComment(idcmt);
+				grabBO.updateCommentQuantity(idpost);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if(request.getParameter("userpost") != null) {
 			if(request.getParameter("IDField") != null)
 			{
@@ -485,6 +559,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -551,6 +637,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -592,6 +690,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);
@@ -640,6 +750,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idmain);
 					request.setAttribute("count", count);
@@ -694,6 +816,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idmain);
 					request.setAttribute("count", count);
@@ -856,6 +990,18 @@ public class GrabServlet extends HttpServlet {
 			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
 			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
 					}
+					Collections.sort(notifications, new Comparator<Notification>() {
+					    @Override
+					    public int compare(Notification o1, Notification o2) {
+					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
+					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
+					    }
+					});
+					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
+					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
+					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
+					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
+					
 					request.setAttribute("notifications", notifications);
 					int count = grabBO.countUnseenNoti(idacc);
 					request.setAttribute("count", count);

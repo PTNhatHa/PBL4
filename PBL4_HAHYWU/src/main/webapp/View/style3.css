@@ -307,7 +307,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: 5px 90px 0 15px;
     outline: none;
 }
-
+.press-delete {
+    width: 50px;
+    height: 20px;
+    border-radius: 90px;
+    background-color: transparent;
+    border: transparent;
+    float: left;
+/*     margin-left: 10px; */
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+.press-delete:hover {
+	color: #1B335B;
+	background-color: rgb(241, 145, 109, 0.5);
+}
 
 /* Subject choices for new posts */
 .subject-choice {

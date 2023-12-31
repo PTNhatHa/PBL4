@@ -35,9 +35,11 @@
 			var cfpassword = document.getElementById("cpw").value;
 			if(npassword != cfpassword) {
 				document.getElementById("warning").innerHTML = "The confirm password does not match!";
+				document.getElementById("btSavenewpw").disabled = true;
 			}
 			else {
 				document.getElementById("warning").innerHTML = "";
+				document.getElementById("btSavenewpw").disabled = false;
 			}
         }
         function checkPW(username) {
@@ -46,6 +48,16 @@
         	xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("warning").innerHTML = this.responseText;
+                    if(this.responseText == "The password is incorrect!") {
+                    	document.getElementById("btSavenewpw").disabled = true;
+                    	document.getElementById("npw").disabled = true;
+                    	document.getElementById("cpw").disabled = true;
+                    }
+                    else {
+                    	document.getElementById("btSavenewpw").disabled = false;
+                    	document.getElementById("npw").disabled = false;
+                    	document.getElementById("cpw").disabled = false;
+                    }
                 }
             };
             xmlhttp.open("GET", "GrabServlet?changepw=1&username="+username+"&password="+password, true);
@@ -169,7 +181,7 @@
 	                    </div>
 	                    <span class="warning" id="warning"> </span>
 	                    <div class="info-field" style="margin: 20px 0 0;">
-	                        <button type="submit" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
+	                        <button type="submit" id="btSavenewpw" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
 	                        <button type="button" class="Button-or-bl" data-bs-dismiss="modal" style="position: relative; margin-left: 15px;">Cancel</button>
 	                    </div>
 	                </div>

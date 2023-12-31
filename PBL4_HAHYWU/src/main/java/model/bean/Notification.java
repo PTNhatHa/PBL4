@@ -7,6 +7,7 @@ public class Notification {
 	private int ID_Notification;
 	private String ID_Commentator;
 	private String Name_Commentator;
+	private byte[] Avatar_Commentator;
 	private int ID_Post;
 	private String Name_Post;
 	private String Message;
@@ -31,6 +32,12 @@ public class Notification {
 	}
 	public void setName_Commentator(String Name_Commentator) {
 		this.Name_Commentator = Name_Commentator;
+	}
+	public byte[] getAvatar_Commentator() {
+		return Avatar_Commentator;
+	}
+	public void setAvatar_Commentator(byte[] avatar_Commentator) {
+		Avatar_Commentator = avatar_Commentator;
 	}
 	public int getID_Post() {
 		return ID_Post;

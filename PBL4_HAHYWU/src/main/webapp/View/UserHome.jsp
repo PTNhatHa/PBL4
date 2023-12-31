@@ -42,6 +42,14 @@
 		}
 	</style>
     <script>
+	    function show(id1) {
+	        var x = document.getElementById(id1);
+	        if (x.style.display == "none") {
+	            x.style.display = "block";
+	        } else {
+	            x.style.display = "none";
+	        }
+	    }
         function textAreaAdjust(element, butSend, butImage) {
             var but1 = document.getElementById(butSend);
             var but2 = document.getElementById(butImage);
@@ -141,6 +149,24 @@
             	var file = fileInput.files[0];
                 form.append("cmtimg", file);
             }
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        function deleteComment(idpost, idcmt) {
+            var form = new FormData();
+            form.append("deletecomment", 1);
+            form.append("idpost", idpost);
+            form.append("idcmt", idcmt);
             fetch("GrabServlet", {
                 method: 'POST',
                 body: form
@@ -255,7 +281,7 @@
 									</div>
 								<% } %>
 								<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.get(i).getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.get(i).getName_Author() %>"></a>
-								   <!-- <input type="text" name="" class="user" value="<%= listpost.get(i).getName_Author() %>" style="z-index: 99;"> -->
+								  
                             <input type="text" class="date" value="<%= listpost.get(i).getDate_ago() %>" readonly>
                             <div id="subject">
                             <% 
@@ -291,7 +317,7 @@
 						<% 	int cmts = listpost.get(i).getComment_Quantity();
 			            if(cmts == 0) { %> 
 			            <div class="post-row">
-			                <input type="button" class="bottom-text" style="position: static; float: right;" value="Not comment yet" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
+			                <input type="button" class="bottom-text" style="position: static; float: right;" value="" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
 			            </div>
 			        <%  }
 			        	else { %> 
@@ -326,10 +352,27 @@
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                        <span style="width: 100%; height: 100px; display: block;">
+						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <span style="width: 100%; height: 100px; display: block; margin-bottom: 5px">
 						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;" onclick="img_tag_handler()">
 						                        </span>  
+						                        <!-- DELETE COMMENT -->
+				                        <%
+				                        	if(listpost.get(i).getID_Author().equals(user.getID_Account()))
+				                        	{
+				                        %>		
+				                        		<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%		
+				                        	}
+				                        	else {
+				                        		if(commentlist.get(j).getID_Commentator().equals(user.getID_Account()))
+				                        		{
+				                        %>			
+				                        			<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%			
+				                        		}
+				                        	}
+				                        %> 
 						                    </div>
 						                </div>
 					<%			    	
@@ -345,7 +388,24 @@
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <!-- DELETE COMMENT -->
+				                        <%
+				                        	if(listpost.get(i).getID_Author().equals(user.getID_Account()))
+				                        	{
+				                        %>		
+				                        		<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%		
+				                        	}
+				                        	else {
+				                        		if(commentlist.get(j).getID_Commentator().equals(user.getID_Account()))
+				                        		{
+				                        %>			
+				                        			<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%			
+				                        		}
+				                        	}
+				                        %> 
 						                    </div>
 						                </div>
 					<%	
@@ -366,10 +426,27 @@
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-						                        <span style="width: 100%; height: 100px; display: block;">
+						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <span style="width: 100%; height: 100px; display: block; margin-bottom: 5px">
 						                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;" onclick="img_tag_handler()">
 						                        </span>  
+						                        <!-- DELETE COMMENT -->
+				                        <%
+				                        	if(listpost.get(i).getID_Author().equals(user.getID_Account()))
+				                        	{
+				                        %>		
+				                        		<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%		
+				                        	}
+				                        	else {
+				                        		if(commentlist.get(j).getID_Commentator().equals(user.getID_Account()))
+				                        		{
+				                        %>			
+				                        			<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%			
+				                        		}
+				                        	}
+				                        %> 
 						                    </div>
 						                </div>
 					<%			    	
@@ -385,7 +462,24 @@
 						                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 						                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 						                        </div>
-						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+						                        <!-- DELETE COMMENT -->
+				                        <%
+				                        	if(listpost.get(i).getID_Author().equals(user.getID_Account()))
+				                        	{
+				                        %>		
+				                        		<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%		
+				                        	}
+				                        	else {
+				                        		if(commentlist.get(j).getID_Commentator().equals(user.getID_Account()))
+				                        		{
+				                        %>			
+				                        			<input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.get(i).getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
+				                        <%			
+				                        		}
+				                        	}
+				                        %> 
 						                    </div>
 						                </div>
 					<%	
