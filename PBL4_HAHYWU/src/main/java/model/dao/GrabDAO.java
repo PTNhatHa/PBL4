@@ -92,11 +92,13 @@ public class GrabDAO {
 	        insertStmt.execute();
 	        
 	        // Thêm tài khoản mới vào bảng user
-	        String insertSql2 = "INSERT INTO user (ID_User, Career, Bio) VALUES (?, ?, ?)";
+	        String insertSql2 = "INSERT INTO user (ID_User, Career, Bio, Reported_Quantity, Status) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement insertStmt2 = connectionMySQL(insertSql2);
 	        insertStmt2.setString(1, newId);
 	        insertStmt2.setString(2, null);
 	        insertStmt2.setString(3, null);
+	        insertStmt2.setInt(4, 0);
+	        insertStmt2.setInt(5, 0);
 	        insertStmt2.execute();
 	        
 	        if(connect != null) connect.close();
@@ -104,7 +106,7 @@ public class GrabDAO {
 	        if(insertStmt != null) insertStmt.close();
 	        if(insertStmt2 != null) insertStmt2.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -123,7 +125,7 @@ public class GrabDAO {
 			if(connect != null) connect.close();
 			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		if(check == true) {
 			return true;
@@ -147,7 +149,7 @@ public class GrabDAO {
 			if(connect != null) connect.close();
 			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		if(check == true) {
 			return true;
@@ -184,6 +186,7 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return account;
 	}
@@ -212,6 +215,7 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return account;
 	}
@@ -250,22 +254,84 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return user;
+	}
+	
+	public boolean checkUserStatus(String username) {
+		boolean check = true;
+		try {
+			String iduser = "";
+			String sql = "SELECT * FROM account WHERE Username = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			preStmt.setString(1, username);
+			ResultSet rs = preStmt.executeQuery();
+			if(rs.next()) {
+				iduser = rs.getString("ID_Account");
+			}
+			String sql1 = "SELECT * FROM user WHERE ID_User = ?";
+			preStmt = connectionMySQL(sql1);
+			preStmt.setString(1, iduser);
+			rs = preStmt.executeQuery();
+			if(rs.next()) {
+	        	int status = rs.getInt("Status");
+	        	if(status == 1) {
+	        		check = false;
+	        	}
+	        }
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(check == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void reportUser(String idacc) {
+		try
+		{
+			int reportedquantity = 0;
+			String sql = "SELECT * FROM user WHERE ID_User = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			preStmt.setString(1, idacc);
+			ResultSet rs = preStmt.executeQuery();
+			if(rs.next()) {
+				reportedquantity = rs.getInt("Reported_Quantity");
+	        }
+	        String sql1 = "UPDATE user SET Reported_Quantity = ? WHERE ID_User = ?";
+	        preStmt = connectionMySQL(sql1);
+	        preStmt.setInt(1, reportedquantity + 1);
+	        preStmt.setString(2, idacc);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateUser(User user) {
 		try
 		{
-			java.util.Date utilDate = user.getBirthday();
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			
 	        // Update bang account
 	        String sql1 = "UPDATE account SET Display_Name = ?, Email_Address = ?, Phone_Number = ?, Birthday = ?, Gender = ?, Address = ? WHERE ID_Account = ?";
 	        PreparedStatement preStmt = connectionMySQL(sql1);
 	        preStmt.setString(1, user.getDisplay_Name());
 	        preStmt.setString(2, user.getEmail_Address());
 	        preStmt.setString(3, user.getPhone_Number());
-	        preStmt.setDate(4, sqlDate);
+	        if(user.getBirthday() != null) {
+	        	java.util.Date utilDate = user.getBirthday();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		        preStmt.setDate(4, sqlDate);
+	        }
+	        else {
+	        	preStmt.setDate(4, null);
+	        }
 	        preStmt.setInt(5, user.getGender());
 	        preStmt.setString(6, user.getAddress());
 	        preStmt.setString(7, user.getID_Account());

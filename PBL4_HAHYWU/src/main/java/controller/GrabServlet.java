@@ -147,6 +147,9 @@ public class GrabServlet extends HttpServlet {
 			else if(grabBO.checkPassword(username, password) == false) {
 				response.getWriter().write("The password is incorrect!");
 			}
+			else if(grabBO.checkUserStatus(username) == false) {
+				response.getWriter().write("Your account has been locked!");
+			}
 			else {
 				Account account = grabBO.getAccountBySigninInfo(username, password);
 				String idacc = account.getID_Account();
@@ -170,9 +173,7 @@ public class GrabServlet extends HttpServlet {
 			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
 			    }
 			});
-			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
 			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
-			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
 			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
 			
 			request.setAttribute("notifications", notifications);
@@ -202,9 +203,7 @@ public class GrabServlet extends HttpServlet {
 			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
 			    }
 			});
-			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
 			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
-			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
 			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
 			
 			request.setAttribute("notifications", notifications);
@@ -218,6 +217,11 @@ public class GrabServlet extends HttpServlet {
 				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 				rd.forward(request, response);
 			}
+		}
+		else if(request.getParameter("reportuser") != null) {
+			String idacc = request.getParameter("idacc");
+			grabBO.reportUser(idacc);
+			response.getWriter().write("Report successfully!");
 		}
 		else if(request.getParameter("updateuser") != null) {
 			User user = new User();
@@ -233,12 +237,44 @@ public class GrabServlet extends HttpServlet {
 					user.setID_Account(idacc);
 					user.setDisplay_Name(request.getParameter("name"));
 					user.setEmail_Address(request.getParameter("email"));
-					user.setPhone_Number(request.getParameter("number"));
-					user.setBirthday(formatter.parse(request.getParameter("birthday")));
+					// number
+					if(request.getParameter("number") == "") {
+						user.setPhone_Number(null);
+					}
+					else {
+						user.setPhone_Number(request.getParameter("number"));
+					}
+					// birthday
+					if(request.getParameter("birthday") == "") {
+						user.setBirthday(null);
+					}
+					else {
+						user.setBirthday(formatter.parse(request.getParameter("birthday")));
+					}
+					
 					user.setGender(Integer.parseInt(request.getParameter("gender")));
-					user.setAddress(request.getParameter("address"));
-					user.setCareer(request.getParameter("career"));
-					user.setBio(request.getParameter("bio"));
+					// address
+					if(request.getParameter("address") == "") {
+						user.setAddress(null);
+					}
+					else {
+						user.setAddress(request.getParameter("address"));
+					}
+					// career
+					if(request.getParameter("career") == "") {
+						user.setCareer(null);
+					}
+					else {
+						user.setCareer(request.getParameter("career"));
+					}
+					// bio
+					if(request.getParameter("bio") == "") {
+						user.setBio(null);
+					}
+					else {
+						user.setBio(request.getParameter("bio"));
+					}
+					
 					grabBO.updateUser(user);
 					response.sendRedirect("GrabServlet?userprofile=1&idacc="+idacc);
 				} catch (NumberFormatException e) {
@@ -321,9 +357,7 @@ public class GrabServlet extends HttpServlet {
 			        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
 			    }
 			});
-			// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
 			Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
-			// Alternately, you can use the sort method on the List directly if on Java 8 or higher
 			notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
 			
 			request.setAttribute("notifications", notifications);
@@ -358,9 +392,7 @@ public class GrabServlet extends HttpServlet {
 					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
 					    }
 					});
-					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
 					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
-					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
 					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
 					
 					request.setAttribute("notifications", notifications);

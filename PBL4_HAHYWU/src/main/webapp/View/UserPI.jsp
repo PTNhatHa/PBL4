@@ -117,7 +117,18 @@
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Career</p>
-                                <input class="infotext" type="text" name="career" value="<%= user.getCareer() %>">
+                          <%
+                          	if(user.getCareer() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="<%= user.getCareer() %>">
+                          <%		
+                          	}
+                          %>
                             </div>
                             <div class="info" style="margin: 0px 5%;">
                                 <p class="p-12">Mail</p>
@@ -125,17 +136,53 @@
                             </div>
                             <div class="info">
                                 <p class="p-12">Phone</p>
-                                <input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>">
+                          <%
+                          	if(user.getPhone_Number() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>">
+                          <%		
+                          	}
+                          %>      
+                                
                             </div>
                         </div>
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Address</p>
-                                <input class="infotext" type="text" name="address" value="<%= user.getAddress() %>">
+                          <%
+                          	if(user.getAddress() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="<%= user.getAddress() %>">
+                          <%		
+                          	}
+                          %>
+                                
                             </div>
                             <div class="info-h2" style="margin-left: 5%;">
                                 <p class="p-12">Bio</p>
-                                <input class="infotext" type="text" name="bio" value="<%= user.getBio() %>">
+                          <%
+                          	if(user.getBio() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="<%= user.getBio() %>">
+                          <%		
+                          	}
+                          %>
+                                
                             </div>
                         </div>
                     </div>

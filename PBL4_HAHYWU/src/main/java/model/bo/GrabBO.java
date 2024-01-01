@@ -33,6 +33,14 @@ public class GrabBO {
 		return grabDAO.checkPassword(username, password);
 	}
 	
+	public boolean checkUserStatus(String username) {
+		return grabDAO.checkUserStatus(username);
+	}
+	
+	public void reportUser(String idacc) {
+		grabDAO.reportUser(idacc);
+	}
+	
 	public Account getAccountBySigninInfo(String username, String password) {
 		return grabDAO.getAccountBySigninInfo(username, password);
 	}

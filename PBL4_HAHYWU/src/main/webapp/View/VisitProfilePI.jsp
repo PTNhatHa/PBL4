@@ -71,7 +71,18 @@
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Career</p>
-                                <input class="infotext" type="text" name="career" value="<%= user.getCareer() %>" readonly>
+                          <%
+                          	if(user.getCareer() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="" readonly>
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="<%= user.getCareer() %>" readonly>
+                          <%		
+                          	}
+                          %>
                             </div>
                             <div class="info" style="margin: 0px 5%;">
                                 <p class="p-12">Mail</p>
@@ -79,17 +90,50 @@
                             </div>
                             <div class="info">
                                 <p class="p-12">Phone</p>
-                                <input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>" readonly>
+                          <%
+                          	if(user.getPhone_Number() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="" readonly>
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>" readonly>
+                          <%		
+                          	}
+                          %>
                             </div>
                         </div>
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Address</p>
-                                <input class="infotext" type="text" name="address" value="<%= user.getAddress() %>" readonly>
+                          <%
+                          	if(user.getAddress() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="" readonly>
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="<%= user.getAddress() %>" readonly>
+                          <%		
+                          	}
+                          %>
                             </div>
                             <div class="info-h2" style="margin-left: 5%;">
                                 <p class="p-12">Bio</p>
-                                <input class="infotext" type="text" name="bio" value="<%= user.getBio() %>" readonly>
+                          <%
+                          	if(user.getBio() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="" readonly>
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="<%= user.getBio() %>" readonly>
+                          <%		
+                          	}
+                          %>
                             </div>
                         </div>
                     </div>

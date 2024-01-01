@@ -132,6 +132,24 @@
                 console.error('Error:', error);
             });
         }
+	    function deleteComment(idpost, idcmt) {
+            var form = new FormData();
+            form.append("deletecomment", 1);
+            form.append("idpost", idpost);
+            form.append("idcmt", idcmt);
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
     </script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
@@ -265,10 +283,12 @@
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
-							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-							                        <span style="width: 100%; height: 100px; display: block;">
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <span style="width: 100%; height: 100px; display: block; margin-bottom: 5px">
 							                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
-							                        </span>  
+							                        </span>
+							                        <!-- DELETE COMMENT -->
+							                        <input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">  
 							                    </div>
 							                </div>
 						<%			    	
@@ -284,7 +304,9 @@
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
-							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <!-- DELETE COMMENT -->
+							                        <input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
 							                    </div>
 							                </div>
 						<%	
@@ -305,10 +327,12 @@
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
-							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
-							                        <span style="width: 100%; height: 100px; display: block;">
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <span style="width: 100%; height: 100px; display: block; margin-bottom: 5px">
 							                            <img src="data:image/png;base64,<%=cmtimage%>" alt="" style="height: 100%;">
-							                        </span>  
+							                        </span>
+							                        <!-- DELETE COMMENT -->
+							                        <input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">  
 							                    </div>
 							                </div>
 						<%			    	
@@ -324,7 +348,9 @@
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
 							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
-							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em; margin-bottom: 5px"><%= commentlist.get(j).getComment_Content() %></p>
+							                        <!-- DELETE COMMENT -->
+							                        <input id="press-delete" type="button" class="press-delete" value="Delete" onclick="deleteComment('<%=listpost.getID_Post()%>','<%=commentlist.get(j).getID_Comment()%>')">
 							                    </div>
 							                </div>
 						<%	
