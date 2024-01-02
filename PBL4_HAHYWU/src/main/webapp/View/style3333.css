@@ -45,9 +45,9 @@
 .showpw {
     position: absolute;
     right: 100px;
-    width: 30px;
-    height: 30px;
-    border: none;
+    width: 30px !important;
+    height: 30px !important;
+    border: none !important;
     background-color: transparent;
     background-image: url(../img/noeye.png);
     background-repeat: no-repeat;

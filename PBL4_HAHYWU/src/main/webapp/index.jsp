@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style33.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3333.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -371,7 +371,9 @@
                         <input type="text" value="" name="name" id="name" placeholder="Name" style="top: 195px;" required="required">
                         <input type="text" value="" name="usname" id="usname" placeholder="Username" style="top: 240px;" required="required" oninput="checkUsername()">
                         <input type="password" value="" name="pw" id="pw" placeholder="Password" style="top: 285px;" required="required">
+                        <input type="button" class="showpw" id="show-pw" onmousedown="showPW('pw');" onmouseup="hidePW('pw');" required="required" style="top: 287.5px; right: -340px">
                         <input type="password" value="" name="cfpassword" id="cfpassword" placeholder="Confirm password" style="top: 330px;" required="required" oninput="checkPassword('pw','cfpassword','OTPAlertp','btSignup')">
+                   		<input type="button" class="showpw" id="show-cfpw" onmousedown="showPW('cfpassword');" onmouseup="hidePW('cfpassword');" required="required" style="top: 333px; right: -340px">
                     </div>
                     <span class="OTPAlert" style="position: absolute; bottom: 108px;">
                         <p id="OTPAlertp" > </p>
@@ -407,6 +409,7 @@
                         <div class="content" id="sign-in">
                             <input type="text" value="" id="username" name="username" placeholder="Username" style="top: 210px;" required="required">
                             <input type="password" value="" id="password" name="password" placeholder="Password" style="top: 260px;" required="required">
+                            <input type="button" class="showpw" id="show-pw" onmousedown="showPW('password');" onmouseup="hidePW('password');" required="required" style="top: 263px; right: -340px">
                         </div>
                         <button data-bs-toggle="modal" data-bs-target="#exampleModalToggle5" class="forgotpw" style="bottom: 185px;">Forgot your password?</button>
                         <span class="OTPAlert" style="position: absolute; bottom: 145px;">
