@@ -1460,16 +1460,40 @@ public class GrabServlet extends HttpServlet {
 			}
 		}
 		else if(request.getParameter("ManageUser") != null) {
-			ArrayList<User> list = grabBO.getAllUser();
-			request.setAttribute("listUser", list);
-			
-			String idacc = request.getParameter("idacc");
-			Account admin = grabBO.getAccountByIDAccount(idacc);
-			request.setAttribute("admin", admin);
-			
-			destination = "/View/AdminMU.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-			rd.forward(request, response);
+			if(request.getParameter("status") != null) {
+				grabBO.changeLockStatus(Integer.parseInt(request.getParameter("status")), request.getParameter("idacc"));
+			}
+			else if(request.getParameter("lock") != null) {
+				ArrayList<User> list = grabBO.getAllUser(Integer.parseInt(request.getParameter("lock")), request.getParameter("sort"), request.getParameter("search"));
+				request.setAttribute("listUser", list);
+				
+				String idacc = request.getParameter("idacc");
+				Account admin = grabBO.getAccountByIDAccount(idacc);
+				request.setAttribute("admin", admin);
+				
+				request.setAttribute("lock", request.getParameter("lock"));
+				request.setAttribute("sort", request.getParameter("sort"));
+				request.setAttribute("searchtxt", request.getParameter("search"));
+				destination = "/View/AdminMU.jsp";
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+				rd.forward(request, response);
+			}
+			else {
+				ArrayList<User> list = grabBO.getAllUser(2, "ASC", "");
+				request.setAttribute("listUser", list);
+				
+				String idacc = request.getParameter("idacc");
+				Account admin = grabBO.getAccountByIDAccount(idacc);
+				request.setAttribute("admin", admin);
+				
+				request.setAttribute("lock", 2);
+				request.setAttribute("sort", "ASC");
+				request.setAttribute("searchtxt", "");
+				
+				destination = "/View/AdminMU.jsp";
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+				rd.forward(request, response);
+			}
 		}
 	}
 	public boolean sendOTP(String email) {

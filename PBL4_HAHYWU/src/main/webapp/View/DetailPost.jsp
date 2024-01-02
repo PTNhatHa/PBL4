@@ -263,7 +263,7 @@
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 							                        <span style="width: 100%; height: 100px; display: block;">
@@ -282,7 +282,7 @@
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 							                    </div>
@@ -303,7 +303,7 @@
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 							                        <span style="width: 100%; height: 100px; display: block;">
@@ -322,7 +322,7 @@
 							                    <div style="width: 85%; position: relative;">
 							                        <div class="commentinfor">
 							                            <a href="GrabServlet?visitprofile=1&idacc=<%= commentlist.get(j).getID_Commentator() %>&idmain=<%=user.getID_Account()%>"><%= commentlist.get(j).getName_Commentator() %></a>
-							                            <input type="date" value="<%= commentlist.get(j).getDate_Time() %>" readonly>
+							                            <input type="text" value="<%= commentlist.get(j).getDate_ago() %>" readonly>
 							                        </div>
 							                        <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= commentlist.get(j).getComment_Content() %></p>
 							                    </div>
@@ -385,7 +385,7 @@
                                 </div>
 							<%} %>
 								<a href="GrabServlet?visitprofile=1&idacc=<%= listpost.getID_Author() %>&idmain=<%=user.getID_Account()%>"><input type="button" name="" class="user" value="<%= listpost.getName_Author() %>"></a>
-								<input type="date" class="date" value="<%= listpost.getDate_Post() %>" readonly>
+								<input type="text" class="date" value="<%= listpost.getDate_ago() %>" readonly>
 								<div id="subject">
 								<% 
 									if(lifield.size() != 0)

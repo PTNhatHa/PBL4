@@ -41,7 +41,7 @@
                     </div>
                     <div class="button-head">
                         <a href="GrabServlet?adminprofile=1&idacc=<%= user.getID_Account() %>"><input id="Profile" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Profile.png"%>);"></a>
-                        <a href=""><input id="" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
+                        <a href="GrabServlet?Censoring=1&idacc=<%= user.getID_Account() %>"><input id="Home" class="" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/Home.png"%>);"></a>
                         <a href=""><input id="" class="button-head-hover" type="button" value="" style="background-image: url(<%=request.getContextPath() + "/img/manage_acc.png"%>);"></a>
                     </div>
                     <%

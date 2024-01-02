@@ -1089,6 +1089,82 @@ public class GrabDAO {
 		preStmt.close();
 		return rs;
 	}
+	
+//	Manage User
+	public ArrayList<User> getAllUser(Integer lock, String sort, String search) {
+		ArrayList<User> list = new ArrayList<User>();
+		User user = null;
+		try {
+			String sql;
+			if(!search.equals(""))
+			{
+				sql = "SELECT * FROM account WHERE Display_Name LIKE '%" + search + "%' AND Role_Account = 1 ORDER BY Display_Name " + sort;
+			}
+			else
+			{
+				sql = "SELECT * FROM account WHERE Role_Account = 1 ORDER BY Display_Name " + sort;
+			}
+			
+			String sql1 = "";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			PreparedStatement preStmt1;
+			ResultSet rs = preStmt.executeQuery(sql);
+			ResultSet rs1;
+			while(rs.next()) {
+				user = new User();
+				user.setID_Account(rs.getString("ID_Account"));
+				user.setDisplay_Name(rs.getString("Display_Name"));
+				user.setAvatar(rs.getBytes("Avatar"));
+				user.setTotalPost(getUserPost(user.getID_Account(), 1, 0, "DESC").size());
+			    
+			    sql1 =  "SELECT * FROM user WHERE ID_User = '" + user.getID_Account() + "'";
+			    preStmt1 = connectionMySQL(sql1);
+			    rs1 = preStmt1.executeQuery(sql1);
+			    if(rs1.next())
+			    {
+				    user.setReported_Quantity(rs1.getInt("Reported_Quantity"));
+				    if(lock != 2) //all
+				    {
+				    	if(rs1.getInt("Status") != lock)
+					    {
+					    	continue;
+					    }
+
+				    }
+				    user.setStatus(rs1.getInt("Status"));
+				    if(user.getStatus() == 1)
+				    {
+				    	LocalDateTime dateTimeFromDB = rs1.getTimestamp("DateTime_Locked").toLocalDateTime();
+				    	user.setLocked_Ago(getDateAgo(dateTimeFromDB));
+				    }   
+			    }
+				
+			    list.add(user);
+			}
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			
+		}
+		return list;
+	}
+	
+	public void changeLockStatus(int status, String idacc) {
+		try
+		{
+	        String sql = "UPDATE user SET Status = ?, DateTime_locked = ?, Reported_Quantity = 0 WHERE ID_User = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, status);
+	        preStmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+	        preStmt.setString(3, idacc);
+	        preStmt.execute();
+	        if(connect != null) connect.close();
+	        if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String getDateAgo(LocalDateTime dateTimeFromDB) {
 		LocalDateTime now = LocalDateTime.now();
         // Tính khoảng thời gian chênh lệch
@@ -1098,7 +1174,9 @@ public class GrabDAO {
         String display;
         if (duration.toDays() < 7) 
         {
-            if (seconds < 60) {
+        	if (seconds < 5) {
+                display = "now";
+            } else if (seconds < 60) {
                 display = seconds + "s";
             } else if (seconds < 3600) {
                 display = duration.toMinutes() + "m";
@@ -1113,30 +1191,6 @@ public class GrabDAO {
             display = dateTimeFromDB.format(formatter);
         }
         return display;
-	}
-	
-//	Manage User
-	public ArrayList<User> getAllUser() {
-		ArrayList<User> list = new ArrayList<User>();
-		User account = null;
-		try {
-			String sql = "SELECT * FROM account WHERE Role_Account = 1";
-			PreparedStatement preStmt = connectionMySQL(sql);
-			ResultSet rs = preStmt.executeQuery(sql);
-			while(rs.next()) {
-			    account = new User();
-			    account.setID_Account(rs.getString("ID_Account"));
-                account.setDisplay_Name(rs.getString("Display_Name"));
-                account.setAvatar(rs.getBytes("Avatar"));
-			    account.setTotalPost(getUserPost(account.getID_Account(), 1, 0, "DESC").size());
-			    list.add(account);
-			}
-			if(connect != null) connect.close();
-			if(preStmt != null) preStmt.close();
-		} catch (Exception e) {
-			
-		}
-		return list;
 	}
 }
 

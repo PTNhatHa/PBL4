@@ -261,8 +261,12 @@ public class GrabBO {
 		return grabDAO.searchUser(txtsearch);
 	}
 	
-	public ArrayList<User> getAllUser() {
-		return grabDAO.getAllUser();
+	public ArrayList<User> getAllUser(Integer lock, String sort, String search) {
+		return grabDAO.getAllUser(lock, sort, search);
+	}
+	
+	public void changeLockStatus(int status, String idacc) {
+		grabDAO.changeLockStatus(status, idacc);
 	}
 }
 

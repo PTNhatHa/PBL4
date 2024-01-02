@@ -1,5 +1,6 @@
 package model.bean;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class User {
@@ -17,6 +18,10 @@ public class User {
 	private String Career;
 	private String Bio;
 	private int TotalPost;
+	private int Reported_Quantity;
+	private int Status;
+	private LocalDateTime DateTime_Locked;
+	private String Locked_Ago;
 	
 	public String getID_Account() {
 		return ID_Account;
@@ -114,5 +119,33 @@ public class User {
 	}
 	public void setTotalPost(int TotalPost) {
 		this.TotalPost = TotalPost;
+	}
+	
+	public int getReported_Quantity() {
+		return Reported_Quantity;
+	}
+	public void setReported_Quantity(int reported_Quantity) {
+		Reported_Quantity = reported_Quantity;
+	}
+	
+	public int getStatus() {
+		return Status;
+	}
+	public void setStatus(int status) {
+		this.Status = status;
+	}
+	
+	public LocalDateTime getDateTime_Locked() {
+		return DateTime_Locked;
+	}
+	public void setDateTime_Locked(LocalDateTime dateTime_Locked) {
+		this.DateTime_Locked = dateTime_Locked;
+	}
+	
+	public String getLocked_Ago() {
+		return Locked_Ago;
+	}
+	public void setLocked_Ago(String Locked_Ago) {
+		this.Locked_Ago = Locked_Ago;
 	}
 }

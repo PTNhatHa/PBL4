@@ -241,9 +241,7 @@
 								}%>
 			                </div>
 			            </div>
-			            <div class="post-row">
-							<p class="post-censor">Censored</p>
-						</div>
+			            
 		            <% 	int cmts = listpost.get(i).getComment_Quantity();
 			            if(cmts == 0) { %> 
 			            <div class="post-row">
@@ -257,7 +255,7 @@
 			        <%	} %>
 			        </div>
 					<!-- COMMENT -->
-			        <span class="comment" style="z-index: 99; display: none;" id="comment-box<%=listpost.get(i).getID_Post()%>">
+			        <span class="comment" style="z-index: 99; display: none; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;" id="comment-box<%=listpost.get(i).getID_Post()%>">
 			            <span class="show-comment scroll">
 	            	<% 
 						if(commentlist.size() != 0)
@@ -381,7 +379,6 @@
 			            </div>    
 			        </span>
 				    <%}%> 
-					
 			    </div>
 			    
 			    <% 		}
