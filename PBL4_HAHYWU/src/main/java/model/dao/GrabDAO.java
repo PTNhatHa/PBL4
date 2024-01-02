@@ -92,11 +92,13 @@ public class GrabDAO {
 	        insertStmt.execute();
 	        
 	        // Thêm tài khoản mới vào bảng user
-	        String insertSql2 = "INSERT INTO user (ID_User, Career, Bio) VALUES (?, ?, ?)";
+	        String insertSql2 = "INSERT INTO user (ID_User, Career, Bio, Reported_Quantity, Status) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement insertStmt2 = connectionMySQL(insertSql2);
 	        insertStmt2.setString(1, newId);
 	        insertStmt2.setString(2, null);
 	        insertStmt2.setString(3, null);
+	        insertStmt2.setInt(4, 0);
+	        insertStmt2.setInt(5, 0);
 	        insertStmt2.execute();
 	        
 	        if(connect != null) connect.close();
@@ -104,7 +106,7 @@ public class GrabDAO {
 	        if(insertStmt != null) insertStmt.close();
 	        if(insertStmt2 != null) insertStmt2.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -123,7 +125,7 @@ public class GrabDAO {
 			if(connect != null) connect.close();
 			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		if(check == true) {
 			return true;
@@ -147,7 +149,7 @@ public class GrabDAO {
 			if(connect != null) connect.close();
 			if(preStmt != null) preStmt.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		if(check == true) {
 			return true;
@@ -184,6 +186,7 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return account;
 	}
@@ -212,6 +215,7 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return account;
 	}
@@ -250,22 +254,84 @@ public class GrabDAO {
 	        if(connect != null) connect.close();
 	        if(preStmt != null) preStmt.close();
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
 	    return user;
+	}
+	
+	public boolean checkUserStatus(String username) {
+		boolean check = true;
+		try {
+			String iduser = "";
+			String sql = "SELECT * FROM account WHERE Username = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			preStmt.setString(1, username);
+			ResultSet rs = preStmt.executeQuery();
+			if(rs.next()) {
+				iduser = rs.getString("ID_Account");
+			}
+			String sql1 = "SELECT * FROM user WHERE ID_User = ?";
+			preStmt = connectionMySQL(sql1);
+			preStmt.setString(1, iduser);
+			rs = preStmt.executeQuery();
+			if(rs.next()) {
+	        	int status = rs.getInt("Status");
+	        	if(status == 1) {
+	        		check = false;
+	        	}
+	        }
+			if(connect != null) connect.close();
+			if(preStmt != null) preStmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(check == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void reportUser(String idacc) {
+		try
+		{
+			int reportedquantity = 0;
+			String sql = "SELECT * FROM user WHERE ID_User = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+			preStmt.setString(1, idacc);
+			ResultSet rs = preStmt.executeQuery();
+			if(rs.next()) {
+				reportedquantity = rs.getInt("Reported_Quantity");
+	        }
+	        String sql1 = "UPDATE user SET Reported_Quantity = ? WHERE ID_User = ?";
+	        preStmt = connectionMySQL(sql1);
+	        preStmt.setInt(1, reportedquantity + 1);
+	        preStmt.setString(2, idacc);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateUser(User user) {
 		try
 		{
-			java.util.Date utilDate = user.getBirthday();
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			
 	        // Update bang account
 	        String sql1 = "UPDATE account SET Display_Name = ?, Email_Address = ?, Phone_Number = ?, Birthday = ?, Gender = ?, Address = ? WHERE ID_Account = ?";
 	        PreparedStatement preStmt = connectionMySQL(sql1);
 	        preStmt.setString(1, user.getDisplay_Name());
 	        preStmt.setString(2, user.getEmail_Address());
 	        preStmt.setString(3, user.getPhone_Number());
-	        preStmt.setDate(4, sqlDate);
+	        if(user.getBirthday() != null) {
+	        	java.util.Date utilDate = user.getBirthday();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		        preStmt.setDate(4, sqlDate);
+	        }
+	        else {
+	        	preStmt.setDate(4, null);
+	        }
 	        preStmt.setInt(5, user.getGender());
 	        preStmt.setString(6, user.getAddress());
 	        preStmt.setString(7, user.getID_Account());
@@ -401,6 +467,7 @@ public class GrabDAO {
 			    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
 			    		notification.setID_Commentator(rs.getString("ID_Commentator"));
 			    		notification.setName_Commentator(account.getDisplay_Name());
+			    		notification.setAvatar_Commentator(account.getAvatar());
 			    		notification.setID_Post(posts.get(i).getID_Post());
 				    	notification.setName_Post(posts.get(i).getTitle());
 				    	notification.setMessage(rs.getString("Message"));
@@ -545,6 +612,75 @@ public class GrabDAO {
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        preStmt.setInt(1, count);
 	        preStmt.setInt(2, ID_Post);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteComment(int ID_Comment) {
+		try
+		{
+			// Xoa o bang comment_images
+	        String sql = "DELETE FROM comment_images WHERE ID_Comment = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Comment);
+	        preStmt.execute();
+	        // Xoa o bang comment_images
+	        String sql1 = "DELETE FROM comment WHERE ID_Comment = ?";
+	        PreparedStatement preStmt1 = connectionMySQL(sql1);
+	        preStmt1.setInt(1, ID_Comment);
+	        preStmt1.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Comment getCommentByIDComment(int ID_Comment) {
+		Comment comment = new Comment();
+		try
+		{
+			String sql = "SELECT * FROM comment WHERE ID_Comment = ?";
+			PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Comment);
+	        ResultSet rs = preStmt.executeQuery();
+	        if(rs.next())
+		    {
+		    	comment.setID_Comment(rs.getInt("ID_Comment"));
+		    	comment.setID_Post(rs.getInt("ID_Post"));
+	    		Account account = getAccountByIDAccount(rs.getString("ID_Commentator"));
+	    		comment.setID_Commentator(rs.getString("ID_Commentator"));
+	    		comment.setName_Commentator(account.getDisplay_Name());
+	    		comment.setAvatar_Commentator(account.getAvatar());
+	    		comment.setComment_Content(rs.getString("Comment"));
+	    		comment.setDate_Time(rs.getTimestamp("Date_Time").toLocalDateTime());
+	    		sql = "SELECT * FROM comment_images WHERE ID_Comment = ?";
+		        preStmt = connectionMySQL(sql);
+		        preStmt.setInt(1, rs.getInt("ID_Comment"));
+		        ResultSet rs1 = preStmt.executeQuery();
+		        if(rs1.next()) 
+		        { 
+		        	comment.setImage(rs1.getBytes("Image"));
+		        }
+		        comment.setDate_ago(getDateAgo(rs.getTimestamp("Date_Time").toLocalDateTime()));
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return comment;
+	}
+	
+	public void deleteNoti(int ID_Post, int ID_Comment) {
+		try
+		{
+			Comment comment = getCommentByIDComment(ID_Comment);
+			// Xoa o bang notification
+	        String sql = "DELETE FROM notification WHERE ID_Post = ? AND ID_Commentator = ? AND Date_Time = ?";
+	        PreparedStatement preStmt = connectionMySQL(sql);
+	        preStmt.setInt(1, ID_Post);
+	        preStmt.setString(2, comment.getID_Commentator());
+	        preStmt.setTimestamp(3, Timestamp.valueOf(comment.getDate_Time()));
 	        preStmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

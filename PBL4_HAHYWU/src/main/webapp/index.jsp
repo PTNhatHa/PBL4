@@ -202,23 +202,30 @@
         function forgotpw() {
         	var email = document.getElementById("changepw-email").value;
 			var npw = document.getElementById("npw").value;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("alertpchangepw").innerHTML = this.responseText;
-                    if(this.responseText == "Change password successfully!") {
-                    	var a = document.getElementById("sign-in"); 
-                    	var signin = document.createElement("button");
-                    	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
-                    	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
-                    	signin.hidden = true;
-                    	a.appendChild(signin);  // thêm phần tử vào trang web
-                    	signin.click();
-                    }
-                }
-            };
-            xmlhttp.open("GET", "GrabServlet?forgotpw=1&email="+email+"&npw="+npw, true);
-            xmlhttp.send();
+			var cpw = document.getElementById("cpw").value;
+			if(npw == "" || cpw == "") {
+        		document.getElementById("alertpchangepw").innerHTML = "Please complete the information!"
+        	}
+			else {
+				var xmlhttp = new XMLHttpRequest();
+	            xmlhttp.onreadystatechange = function() {
+	                if (this.readyState == 4 && this.status == 200) {
+	                    document.getElementById("alertpchangepw").innerHTML = this.responseText;
+	                    if(this.responseText == "Change password successfully!") {
+	                    	var a = document.getElementById("sign-in"); 
+	                    	var signin = document.createElement("button");
+	                    	signin.dataset.bsToggle = "modal"; // gán giá trị cho data-bs-toggle
+	                    	signin.dataset.bsTarget = "#exampleModalToggle2"; // gán giá trị cho data-bs-target
+	                    	signin.hidden = true;
+	                    	a.appendChild(signin);  // thêm phần tử vào trang web
+	                    	signin.click();
+	                    }
+	                }
+	            };
+	            xmlhttp.open("GET", "GrabServlet?forgotpw=1&email="+email+"&npw="+npw, true);
+	            xmlhttp.send();
+			}
+            
         }
     </Script>
     <title>HAHYWU</title>
@@ -378,7 +385,7 @@
                     <span class="OTPAlert" style="position: absolute; bottom: 108px;">
                         <p id="OTPAlertp" > </p>
                     </span>
-                    <input type="button" id="btSignup" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
+                    <input type="button" id="btSignup" class="Button-or-bl" value="Sign up" style="bottom: 62px;" onclick="signupAccount()">
                 </div>
             </div>
             </div>
@@ -478,7 +485,7 @@
                         <span id="alertchangepw"><p id="alertpchangepw" class="alertchangepw-content"></p></span>
                     </div>
                     <div class="info-field" style="margin: 25px 0 0;">
-                        <button type="button"  id="btSavechangepw" style="position: relative; margin-right: 15px;" onclick="forgotpw()">Save</button>  <!-- THEM SU KIEN -->
+                        <button type="button" class="Button-or-bl"  id="btSavechangepw" style="position: relative; margin-right: 15px;" onclick="forgotpw()">Save</button>  <!-- THEM SU KIEN -->
                         <button type="button" data-bs-dismiss="modal" class="Button-or-bl" style="position: relative; margin-left: 15px;">Cancel</button>
                     </div>
                 </div>

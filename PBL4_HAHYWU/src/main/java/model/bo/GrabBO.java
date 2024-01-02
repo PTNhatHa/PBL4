@@ -33,6 +33,14 @@ public class GrabBO {
 		return grabDAO.checkPassword(username, password);
 	}
 	
+	public boolean checkUserStatus(String username) {
+		return grabDAO.checkUserStatus(username);
+	}
+	
+	public void reportUser(String idacc) {
+		grabDAO.reportUser(idacc);
+	}
+	
 	public Account getAccountBySigninInfo(String username, String password) {
 		return grabDAO.getAccountBySigninInfo(username, password);
 	}
@@ -100,6 +108,14 @@ public class GrabBO {
 	
 	public ArrayList<Comment> getAllCommentByIDPost(int ID_Post) {
 		return grabDAO.getAllCommentByIDPost(ID_Post);
+	}
+	
+	public void deleteComment(int ID_Comment) {
+		grabDAO.deleteComment(ID_Comment);
+	}
+	
+	public void deleteNoti(int ID_Post, int ID_Comment) {
+		grabDAO.deleteNoti(ID_Post, ID_Comment);
 	}
 	
 	/* Admin */

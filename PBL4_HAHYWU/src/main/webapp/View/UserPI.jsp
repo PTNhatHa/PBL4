@@ -35,9 +35,11 @@
 			var cfpassword = document.getElementById("cpw").value;
 			if(npassword != cfpassword) {
 				document.getElementById("warning").innerHTML = "The confirm password does not match!";
+				document.getElementById("btSavenewpw").disabled = true;
 			}
 			else {
 				document.getElementById("warning").innerHTML = "";
+				document.getElementById("btSavenewpw").disabled = false;
 			}
         }
         function checkPW(username) {
@@ -46,6 +48,16 @@
         	xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("warning").innerHTML = this.responseText;
+                    if(this.responseText == "The password is incorrect!") {
+                    	document.getElementById("btSavenewpw").disabled = true;
+                    	document.getElementById("npw").disabled = true;
+                    	document.getElementById("cpw").disabled = true;
+                    }
+                    else {
+                    	document.getElementById("btSavenewpw").disabled = false;
+                    	document.getElementById("npw").disabled = false;
+                    	document.getElementById("cpw").disabled = false;
+                    }
                 }
             };
             xmlhttp.open("GET", "GrabServlet?changepw=1&username="+username+"&password="+password, true);
@@ -105,7 +117,18 @@
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Career</p>
-                                <input class="infotext" type="text" name="career" value="<%= user.getCareer() %>">
+                          <%
+                          	if(user.getCareer() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="career" value="<%= user.getCareer() %>">
+                          <%		
+                          	}
+                          %>
                             </div>
                             <div class="info" style="margin: 0px 5%;">
                                 <p class="p-12">Mail</p>
@@ -113,17 +136,53 @@
                             </div>
                             <div class="info">
                                 <p class="p-12">Phone</p>
-                                <input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>">
+                          <%
+                          	if(user.getPhone_Number() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="number" value="<%= user.getPhone_Number() %>">
+                          <%		
+                          	}
+                          %>      
+                                
                             </div>
                         </div>
                         <div class="info-h1">
                             <div class="info">
                                 <p class="p-12">Address</p>
-                                <input class="infotext" type="text" name="address" value="<%= user.getAddress() %>">
+                          <%
+                          	if(user.getAddress() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="address" value="<%= user.getAddress() %>">
+                          <%		
+                          	}
+                          %>
+                                
                             </div>
                             <div class="info-h2" style="margin-left: 5%;">
                                 <p class="p-12">Bio</p>
-                                <input class="infotext" type="text" name="bio" value="<%= user.getBio() %>">
+                          <%
+                          	if(user.getBio() == null) {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="">
+                          <%		
+                          	}
+                          	else {
+                          %>		
+                          		<input class="infotext" type="text" name="bio" value="<%= user.getBio() %>">
+                          <%		
+                          	}
+                          %>
+                                
                             </div>
                         </div>
                     </div>
@@ -169,7 +228,7 @@
 	                    </div>
 	                    <span class="warning" id="warning"> </span>
 	                    <div class="info-field" style="margin: 20px 0 0;">
-	                        <button type="submit" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
+	                        <button type="submit" id="btSavenewpw" class="Button-or-bl" style="position: relative; margin-right: 15px;" onclick="">Save</button>
 	                        <button type="button" class="Button-or-bl" data-bs-dismiss="modal" style="position: relative; margin-left: 15px;">Cancel</button>
 	                    </div>
 	                </div>

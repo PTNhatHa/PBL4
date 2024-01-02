@@ -93,7 +93,7 @@
 		                %>
 		                				<!-- chua doc -->
 					                    <div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
-					                        <div class="notification-ava"></div>
+					                        <div class="notification-ava" style="background-image: url(img/postfornoti.jpg);"></div>
 					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
 					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
 					                    </div>
@@ -102,7 +102,20 @@
 		                    		else {
 		                %>    			
 		                    			<div class="notification-content unseen" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
-					                        <div class="notification-ava"></div>
+				                <%
+			                    	if(notifications.get(i).getAvatar_Commentator() != null){
+			                    		byte[] avacmtator = notifications.get(i).getAvatar_Commentator();
+			    				    	String avatarcmt = Base64.getEncoder().encodeToString(avacmtator);
+			    				%>
+			    						<div class="notification-ava" style="background-image: url(data:image/png;base64,<%= avatarcmt %>);"></div>
+			    				<%
+			                    	}
+			                    	else {
+								%>
+										<div class="notification-ava" style="background-image: url(img/defaultavatar.jpg);"></div>
+								<%
+			                    	}
+								%> 
 	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> <%=notifications.get(i).getMessage()%> <b><%=notifications.get(i).getName_Post()%></b></p>
 					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
 					                    </div>
@@ -114,7 +127,7 @@
    		                %>
    		                				<!-- da doc -->
    					                    <div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
-   					                        <div class="notification-ava"></div>
+   					                        <div class="notification-ava" style="background-image: url(img/postfornoti.jpg);"></div>
    					                        <p class="notification-text">Your post <b><%=notifications.get(i).getName_Post()%></b> <%=notifications.get(i).getMessage()%></p>
    					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
    					                    </div>
@@ -123,8 +136,21 @@
    		                    		else {
    		                %>    			
    		                    			<div class="notification-content" onclick="location.href='GrabServlet?showdetailpost=1&idpost=<%=idpost%>&status=<%=status%>&idnoti=<%=idnoti%>&idacc=<%= user.getID_Account()%>'">
-   					                        <div class="notification-ava"></div>
-   	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> has commented on your post <b><%=notifications.get(i).getName_Post()%></b></p>
+   					            <%
+			                    	if(notifications.get(i).getAvatar_Commentator() != null){
+			                    		byte[] avacmtator = notifications.get(i).getAvatar_Commentator();
+			    				    	String avatarcmt = Base64.getEncoder().encodeToString(avacmtator);
+			    				%>
+			    						<div class="notification-ava" style="background-image: url(data:image/png;base64,<%= avatarcmt %>);"></div>
+			    				<%
+			                    	}
+			                    	else {
+								%>
+										<div class="notification-ava" style="background-image: url(img/defaultavatar.jpg);"></div>
+								<%
+			                    	}
+								%> 
+   	                        				<p class="notification-text"><b><%=notifications.get(i).getName_Commentator()%></b> <%=notifications.get(i).getMessage()%> <b><%=notifications.get(i).getName_Post()%></b></p>
    					                    	<p class="notification-text"><%= notifications.get(i).getDate_ago() %></p>
    					                    </div>
    		                <%    			
