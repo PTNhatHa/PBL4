@@ -317,7 +317,6 @@ public class GrabDAO {
 	public void updateUser(User user) {
 		try
 		{
-			
 	        // Update bang account
 	        String sql1 = "UPDATE account SET Display_Name = ?, Email_Address = ?, Phone_Number = ?, Birthday = ?, Gender = ?, Address = ? WHERE ID_Account = ?";
 	        PreparedStatement preStmt = connectionMySQL(sql1);
@@ -1037,6 +1036,7 @@ public class GrabDAO {
 	        	post.setlistFields(getFieldOfPost(post.getID_Post()));
 	        	post.setlistImages(getImagesOfPost(post.getID_Post()));
 	        	post.setListComment(getAllCommentByIDPost(post.getID_Post()));
+	        	post.setDate_ago(getDateAgo(post.getDate_Post()));
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1209,7 +1209,7 @@ public class GrabDAO {
         return l;
 	}
 	public int addField(Field field) throws Exception {
-		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "', '" + 0 + "')";
+		String sql = "INSERT INTO field VALUE ('" + field.getID_Field() + "', '" + field.getName_Field() + "')";
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
 		if(connect != null) connect.close();

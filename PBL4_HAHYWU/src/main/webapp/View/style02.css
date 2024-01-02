@@ -353,9 +353,6 @@ frame{
     background-color: transparent;
     pointer-events: none;
 }
-input.date[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
 #subject {
     position: absolute;
     left: 200px;

@@ -35,7 +35,7 @@
            box-sizing: unset;
        }	        
        * {
-	    line-height: normal !important;
+	    line-height: normal;
 	}
     </style>
 </head>

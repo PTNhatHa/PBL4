@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+	<link rel="icon" type="image/png" href="img/favicon-32x32.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
@@ -348,11 +349,59 @@
         <section>
             <div class="pure-g section3">
                 <div class="pure-u-2-24"></div>
-                <div class="pure-u-20-24"></div>
+                <div class="pure-u-20-24">
+                	<div class="pure-g section-content1">
+                        <div class="pure-u-14-24">
+                            <div style="text-align: center;">
+                                <h1 class="welcome to" style="display: inline-block;">ABOUT</h1>
+                                <h1 class="welcome hahywu" style="display: inline-block">US</h1>
+                                <h5 style="font-size: 20px; color: #1B335B; text-align: justify;">We are a group of students from Da Nang University of Science and Technology. We have researched and designed a forum for everyone to improve and share their knowledge in all fields of life. The forum is a project in our curriculum aimed at applying Operating System and Network Programming.</h5>
+                                <h5 style="font-size: 20px; color: #1B335B; text-align: justify;">As it is a school project, there may be some shortcomings when using the website. We hope to receive your understanding. We wish everyone a pleasant experience when using the forum!</h5>
+                            </div>
+                        </div>
+                        <div class="pure-u-1-24"></div>
+                        <div class="pure-u-9-24">
+                            <div style="text-align: center;">
+                                <img style="width: 100%; border-radius: 30px; margin-top: 30px;" src="img/teams.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="pure-u-2-24"></div>
             </div>
         </section>
     </main>
+    <footer class="section-footer">
+        <div class="pure-g">
+            <div class="pure-u-2-24"></div>
+            <div class="pure-u-20-24">
+                <div class="pure-g">
+                    <div class="pure-u-5-24">
+                        <div style="text-align: left;">
+                            <img style="width: 50%; background-color: transparent;" src="img/big_logo.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="pure-u-5-24">
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 25px; color: #F1916D; text-align: center; font-weight: 900;">CONTACTS</h4>
+                            <h5 style="font-size: 18px; color: #1B335B; text-align: justify; margin: 0">hahywucenter1711@gmail.com</h5>  
+                            <h5 style="font-size: 18px; color: #1B335B; text-align: justify; margin: 0">+84 912345678</h5>           
+                        </div>
+                    </div>
+                    <div class="pure-u-2-24"></div>
+                    <div class="pure-u-8-24">
+                        <div style="text-align: right; padding-top: 35px">
+                            <h5 style="font-size: 16px; color: #1B335B; margin: 0">Copyright © 2023 HAHYWU EDUCATION COOP.</h5>  
+                            <h5 style="font-size: 16px; color: #1B335B; margin: 0 0 15px">All rights reserved.</h5>  
+                            <h5 style="font-size: 16px; color: #F1916D; display: inline-block; margin: 0">Design: </h5>  
+                            <h5 style="font-size: 16px; color: #1B335B; display: inline-block; margin: 0">HAHYWU team</h5>       
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-2-24"></div>
+        </div>
+    </footer>
 
     <!-- Sign up -->
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">

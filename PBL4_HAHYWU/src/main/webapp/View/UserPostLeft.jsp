@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.bean.NumberCensor"%>
 <%@page import="model.bean.Post"%>
 <%@page import="java.util.Base64"%>
@@ -9,7 +10,7 @@
 <%@ page language="java" import="model.bean.User" %>
 <% User user = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -331,7 +332,11 @@
                             %> 
                                 
                                 <input type="text" name="" class="user" value="<%= user.getDisplay_Name() %>">
-                                <input id="datepost" type="date" class="date" value="<%= new java.util.Date().toInstant().toString().substring(0, 10) %>">
+                                <%	Date now = new Date();
+								    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+								    String formattedDate = dateFormat.format(now);
+								%>
+								<input id="datepost" type="text" class="date" value="<%= formattedDate %>" readonly>
                                 <div id="subject"></div>
                             </div>
                             

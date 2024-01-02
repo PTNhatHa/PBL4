@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="model.bean.User" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>User PI</title>

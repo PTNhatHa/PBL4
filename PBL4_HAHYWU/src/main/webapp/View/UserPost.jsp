@@ -8,7 +8,7 @@
 <%@ page language="java" import="model.bean.User" %>
 <% User user = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>User PI</title>
@@ -208,7 +208,7 @@
 		}
 	</script>
 </head>
-<body class="viewuser" style="background-color: #89A1C9;">
+<body class="viewuser">
 <% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
 
         <div class="view" style="">

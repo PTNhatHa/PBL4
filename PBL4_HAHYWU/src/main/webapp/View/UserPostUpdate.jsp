@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.bean.Post"%>
 <%@page import="java.util.Base64"%>
 <%@page import="model.bean.Field"%>
@@ -8,7 +9,7 @@
 <%@ page language="java" import="model.bean.User" %>
 <% User user = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -211,7 +212,7 @@
                     %> 
                         
                         <input type="text" name="" class="user" value="<%= p.getName_Author() %>">
-                        <input id="datepost" type="date" class="date" value="<%= new java.util.Date().toInstant().toString().substring(0, 10) %>">
+                        <input id="datepost" type="text" class="date" value="<%= p.getDate_ago() %>">
                         <div id="subject">
                         <% 
                             if(p.getlistFields().size() != 0)

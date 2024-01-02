@@ -56,11 +56,40 @@
             		+ "&idacc=" + document.getElementById("acc").value  + "&sort=" + document.getElementById("mysort").value;
             location = l;
         }
-        function add() {
+        function add() 
+        {
         	var n = document.getElementById("namefield").value;
-            var l = "GrabServlet?Uncensored=1&addField=1&idacc=" + document.getElementById("acc").value + "&newfield=" + n  
-            		+ "&sort=" + document.getElementById("mysort").value;
-            location = l;
+            var form = new FormData();
+            form.append("addField", n);
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        function deletefield(idf) 
+        {
+            var form = new FormData();
+            form.append("deleteField", idf);
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
 	</script>
 </head>
@@ -97,7 +126,7 @@
         </div>
         
             <!-- Manage Field -->
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" data-bs-backdrop="static" style="z-index: 9999;">
+        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" data-bs-backdrop="static" style="z-index: 999999;">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="background-color: white !important;">
                     <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="position: absolute;" onclick="closePopup()">
@@ -128,7 +157,7 @@
                                         <p class="noidung" style="white-space: pre-wrap; min-height: 1em;"><%= listFields1.get(i).getName_Field() %></p>
                                     </td>
                                     <td class="field-admin" style="width: 20%; font-weight: bolder;">
-                                        <a href="GrabServlet?Uncensored=1&deleteID_Field=<%= listFields.get(i).getID_Field() %>&idacc=<%= user.getID_Account() %>"><input type="button" value="Delete"></a>
+                                         <a><input type="button" value="Delete" onclick="deletefield('<%= listFields1.get(i).getID_Field() %>')"></a>
                                     </td>
                                 </tr>
                                 <%} %>

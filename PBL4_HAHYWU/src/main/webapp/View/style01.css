@@ -193,13 +193,19 @@ p.introtext {
 
 /*  */
 .section3 {
-    background-image: linear-gradient(90deg, #A4B4CE, #FFCAB6);
+    background-image: linear-gradient(90deg, #FFCAB6, #A4B4CE, #A4B4CE);
     width: 100%;
     overflow: hidden;
     padding-top: 45px;
     padding-bottom: 45px;
     border-top-left-radius: 60px;
     border-top-right-radius: 60px;
+}
+/* FOOTER */
+.section-footer {
+	background-image: linear-gradient(135deg, white, white, white, #FFCAB6);
+	height: 100%;
+	padding: 24px 0 5px;
 }
 
 .button-head {

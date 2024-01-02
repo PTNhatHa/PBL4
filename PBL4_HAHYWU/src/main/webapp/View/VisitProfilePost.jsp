@@ -8,7 +8,7 @@
 <%@ page language="java" import="model.bean.User" %>
 <% User main = (User)request.getAttribute("user"); %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>User PI</title>
