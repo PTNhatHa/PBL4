@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3333.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -283,7 +284,7 @@
                             <div>
                                 <img src="img/role.png" alt="">
                                 <h3 class="introtitle">Flexible role</h3>
-                                <p class="introtext" >In addition to supporting in answering questions, the system also allows you to answer questions posted by other users. Therefore, <b>you can be both the asker and the “tutor”</b>.</p>
+                                <p class="introtext" >“Additionally, the system supports answering questions and allows you to give an answer comment to questions posted by other users. Therefore, <b>you can both ask and answer questions</b>.</p>
                             </div>
                         </div>
                     </div>
@@ -292,7 +293,7 @@
                             <div>
                                 <img src="img/infinite.png" alt="">
                                 <h3 class="introtitle">No limit</h3>
-                                <p class="introtext" >Especially, when you visit our website, you can use your own knowledge to answer other people’s questions and earn extra income <b>without being limited by age, profession, or field</b> .</p>
+                                <p class="introtext" >When you visit our website, you can gain knowledge and share your own expertise to answer questions <b>without being limited by age, profession, or field</b> .</p>
                             </div>
                         </div>
                     </div>

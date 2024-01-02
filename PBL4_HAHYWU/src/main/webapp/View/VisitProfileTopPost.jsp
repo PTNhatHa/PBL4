@@ -10,14 +10,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2222.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style33.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <title>User Top</title>
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <script>
     function reportUser(idacc) {
+    	document.getElementById("reportid").value = idacc;
+    }
+    function sendreport()
+    {
+        var idacc = document.getElementById("reportid").value;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -58,7 +62,7 @@
 							<%}%> 
 	                </div>
 	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
-	                    <input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')">
+	                    <input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')" data-bs-target="#reportcheck" data-bs-toggle="modal">
 	            </div>
 	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
 	                <div class="menu-top">
@@ -81,6 +85,25 @@
                 </div>
             </div>
             </div>
+        </div>
+        
+        <div class="modal" id="reportcheck" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="reasonform" style="padding-bottom: 10px;">
+                    <div class="reason">
+                        <p style="font-size: 20px; font-weight: bold; color: #1B335B; margin: 10px 0px;">Are you sure to report this user?</p>
+                        <div class="bt">
+	                        <input type="button" class="Button-or-bl" value="Yes" onclick="sendreport()">
+	                        <input type="button" data-bs-dismiss="modal" class="Button-or-bl" value="No">
+	                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div hidden>
+            <input id="reportid" type="text" value="">
         </div>
 </body>
 </html>

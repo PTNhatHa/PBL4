@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <script>
     	document.addEventListener("DOMContentLoaded", function() {
         	document.getElementById("mySelectCensor").value = <%= request.getAttribute("ID_Censor") %>;
@@ -59,11 +59,11 @@
             // Initial resizing in case we need to adjust from the default height on page load
             resizeTextArea();
         }
-        function activate() {
+        function activate1() {
             var choosefile = document.getElementById("choosefile");
             choosefile.click();
         }
-        function setImg() {
+        function setImg1() {
             var closebutton = document.getElementById("close-image-button");
             var fileInput = document.getElementById("choosefile");
             var div = document.getElementById("set-img");
@@ -307,10 +307,10 @@
         </section>
     
     <!-- NEW POST -->
-            <div class="modal fade" id="exampleModalToggle6" aria-hidden="true" aria-labelledby="exampleModalToggleLabel6" tabindex="-1"  style="z-index: 9999;">
-                <div class="modal-dialog modal-dialog-centered">
+            <div class="modal fade" id="exampleModalToggle6" aria-hidden="true" aria-labelledby="exampleModalToggleLabel6" tabindex="-1"  style="z-index: 999999;">
+                <div class="modal-dialog modal-dialog-centered" style="z-index: 999999;">
                     <div class="modal-content">
-                        <div class="post" style="align-items: center; width: 700px; margin-left: -100px; z-index: 9999;">
+                        <div class="post" style="align-items: center; width: 700px; margin-left: -100px; z-index: 99999;">
                             <input class="btn-close" data-bs-dismiss="modal"  id="Button-close" type="button" value="" style="position: absolute; background-image: url(img/Close.png);">
                             <div class="post-head">-NEW POST-</div>
                             <div class="post-row">
@@ -341,9 +341,9 @@
                                     <textarea id="content-text" class="enterable" style="min-height: 50px;" placeholder="What are you wondering?" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"></textarea>
                                     <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"></textarea> 
                                     <div class="more-function" style="height: 25px;">
-                                        <input id="choosefile" type="file" accept="image/*" multiple max="4" onchange="setImg()">
+                                        <input id="choosefile" type="file" accept="image/*" multiple max="4" onchange="setImg1()">
                                         <input type="text" name="numberimg" id="numberimg" value="0" hidden>
-                                        <input type="button" class="choose-more-button" onclick="activate();">
+                                        <input type="button" class="choose-more-button" onclick="activate1();">
                                         <input type="button" class="choose-more-button button-field" onclick="clickfield()">
                                     </div>
                                     <div class="more-function" id="set-img" style="margin-top: 0; margin-bottom: 20px;" onload="checkHeightChange()">

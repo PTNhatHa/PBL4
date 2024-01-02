@@ -520,7 +520,7 @@ public class GrabServlet extends HttpServlet {
 			            Comment comment = new Comment();
 			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
 			            comment.setID_Commentator(idcommentator);
-			            System.out.println(idcommentator);
+
 			            comment.setComment_Content(request.getParameter("cmttype"));
 			        	comment.setDate_Time(now);
 			        	comment.setImage(fileBytes);
@@ -541,7 +541,7 @@ public class GrabServlet extends HttpServlet {
 			            Comment comment = new Comment();
 			            comment.setID_Post(Integer.parseInt(request.getParameter("idpost")));
 			            comment.setID_Commentator(idcommentator);
-			            System.out.println(idcommentator);
+
 			            comment.setComment_Content(request.getParameter("cmttype"));
 			        	comment.setDate_Time(LocalDateTime.now());
 			        	grabBO.addComment(comment);
@@ -643,62 +643,6 @@ public class GrabServlet extends HttpServlet {
 					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
 					request.setAttribute("nbCensor", nbCensor);
 					request.setAttribute("sort", request.getParameter("sort"));
-					destination = "/View/UserPost.jsp";
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-					rd.forward(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else if(request.getParameter("IDPost") != null) //Delete post
-			{
-				try {
-					boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 4);
-					
-					String idacc = request.getParameter("idacc");
-					User user = grabBO.getUserByIDUser(idacc);
-					request.setAttribute("user", user);
-					
-					ArrayList<Field> listFields = grabBO.getAllField();
-					request.setAttribute("listFields", listFields);
-					
-					ArrayList<Notification> notifications = grabBO.showNotication(idacc);
-					for(int i=0; i<notifications.size(); i++)
-					{
-			            LocalDateTime dateTimeFromDB1 = notifications.get(i).getDate_Time();
-			            notifications.get(i).setDate_ago(getDateAgo(dateTimeFromDB1));
-					}
-					Collections.sort(notifications, new Comparator<Notification>() {
-					    @Override
-					    public int compare(Notification o1, Notification o2) {
-					        // Sử dụng Integer.compare và nhân với -1 để sắp xếp theo thứ tự giảm dần
-					        return -Integer.compare(o1.getID_Notification(), o2.getID_Notification());
-					    }
-					});
-					// Ví dụ sử dụng lambda để rút gọn cú pháp (đòi hỏi Java 8 trở lên)
-					Collections.sort(notifications, (o1, o2) -> Integer.valueOf(o2.getID_Notification()).compareTo(o1.getID_Notification()));
-					// Alternately, you can use the sort method on the List directly if on Java 8 or higher
-					notifications.sort((o1, o2) -> Integer.compare(o2.getID_Notification(), o1.getID_Notification()));
-					
-					request.setAttribute("notifications", notifications);
-					int count = grabBO.countUnseenNoti(idacc);
-					request.setAttribute("count", count);
-					
-					ArrayList<Post> listpost = grabBO.getUserPost(request.getParameter("idacc"), 5, 0, request.getParameter("sort"));
-					for(int i=0; i<listpost.size(); i++)
-					{
-			            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
-			            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
-					}
-					request.setAttribute("listpost", listpost);
-					request.setAttribute("ID_Field", 0);
-					request.setAttribute("ID_Censor", 5);
-					
-					NumberCensor nbCensor = grabBO.getNumberCensor(request.getParameter("idacc"));
-					request.setAttribute("nbCensor", nbCensor);
-					request.setAttribute("searchtxt", "");
-					
 					destination = "/View/UserPost.jsp";
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
 					rd.forward(request, response);
@@ -950,6 +894,15 @@ public class GrabServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if(request.getParameter("deleteidpost") != null) //Delete post
+		{
+			try {
+				grabBO.updateCensor(request.getParameter("deleteidpost"), 4);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if(request.getParameter("idupdate") != null) {
 				
 				Post post = new Post();
@@ -1000,7 +953,7 @@ public class GrabServlet extends HttpServlet {
 				}
 				post.setlistImages(listImages);
 				try {
-					grabBO.updatePost(post);
+					grabBO.updatePost(post, Integer.parseInt(request.getParameter("checkimg")));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1741,7 +1694,9 @@ public class GrabServlet extends HttpServlet {
         String display;
         if (duration.toDays() < 7) 
         {
-            if (seconds < 60) {
+        	if (seconds < 5) {
+                display = "now";
+            } else if (seconds < 60) {
                 display = seconds + "s";
             } else if (seconds < 3600) {
                 display = duration.toMinutes() + "m";

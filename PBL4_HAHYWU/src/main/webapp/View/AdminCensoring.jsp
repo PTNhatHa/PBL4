@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <style>
         * {
 		    line-height: normal;
@@ -159,8 +161,14 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
-                            <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+                            <% if(!listpost.get(i).getTitle().equals(""))
+							{%>
+								<p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
+							<%}%>
+                               <% if(!listpost.get(i).getContent().equals(""))
+							{%>
+								<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+							<%}%>
                             <% if(!listpost.get(i).getHastag().equals(""))
                            	{%>
                            		<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
@@ -196,7 +204,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="reasonform">
-                    <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url<%=request.getContextPath() + "/img/Close.png"%>); position: relative; top: 21px; right: -465px;">
+                    <input class="btn-close" data-bs-dismiss="modal" id="Button-close" type="button" value="" style="background-image: url(img/Close2.png); position: relative; top: 21px; right: -465px;">
                     <div class="reason">
                         <p class="p-30">- REASON -</p>
                         <div class="rs">
@@ -217,7 +225,6 @@
                             </div>
                         </div>
                         <div class="bt">
-                        <%  %>
                             <a id="saveReason" href="" onclick="txtReasons()"><input type="submit" class="Button-or-bl" value="Save"></a>
                             <input type="reset" class="Button-or-bl" value="Reset">
                         </div>

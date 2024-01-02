@@ -229,34 +229,37 @@ public class GrabBO {
 		}
 		return false;
 	}
-	public void updatePost(Post p) throws Exception {
+	public void updatePost(Post p, int checkimg) throws Exception {
 		grabDAO.updatePost(p);
 		grabDAO.deleteFieldOfPost(p.getID_Post());
 		if(p.getlistFields() != null)
 		{
 			grabDAO.addPost_Field(p.getID_Post(), p.getlistFields());
 		}
-		grabDAO.deleteImageOfPost(p.getID_Post());
-		if(p.getlistImages() != null)
+		if(checkimg == 0)
 		{
-			ArrayList<Integer> li = grabDAO.findID_Max("post_images", 2);
-			
-			int idi;
-			if(li.size() == 0)
+			grabDAO.deleteImageOfPost(p.getID_Post());
+			if(p.getlistImages() != null)
 			{
-				idi = 1;
-			}
-			else {
-				idi = li.get(0).intValue() + 1;
-			}
-			
-			for(int j=0; j < p.getlistImages().size(); j++)
-			{
-				p.getlistImages().get(j).setID_Image(idi);
-				idi++;
+				ArrayList<Integer> li = grabDAO.findID_Max("post_images", 2);
 				
+				int idi;
+				if(li.size() == 0)
+				{
+					idi = 1;
+				}
+				else {
+					idi = li.get(0).intValue() + 1;
+				}
+				
+				for(int j=0; j < p.getlistImages().size(); j++)
+				{
+					p.getlistImages().get(j).setID_Image(idi);
+					idi++;
+					
+				}
+				grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
 			}
-			grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
 		}
 	}
 	public void deleteImageOfPost(int ID_Post) throws Exception {

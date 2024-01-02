@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1new.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
-    <title>Header</title>
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <script>
 	    function show(id1) {
 	        var x = document.getElementById(id1);
@@ -31,7 +31,7 @@
 <body>
 	<main>
 	<% Account user = (Account)request.getAttribute("admin"); %>
-        <div class="pure-g nav">
+        <div class="pure-g nav" style="z-index: 999999;">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
                 <div class="nav-child">

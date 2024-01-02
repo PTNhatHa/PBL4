@@ -16,9 +16,9 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3333.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
    	<% if(main.getRole_Account() == 0) { %>
     	<jsp:include page="HeaderAdmin.jsp" />
     <%} 
@@ -408,8 +408,8 @@
 			        <% if(main.getRole_Account() == 1) { %>
 				    	<!-- CREATE COMMENT -->
 			        <span class="create-comment" style="z-index: 9; position: relative; display: flex;"> <!--display: none/flex-->
-		            <% 	if(user.getAvatar() != null){
-                		byte[] ava = user.getAvatar();
+		            <% 	if(main.getAvatar() != null){
+                		byte[] ava = main.getAvatar();
 				    	String base64Encoded = Base64.getEncoder().encodeToString(ava);
 					%>
                         <div style="width: 5%; float: left;">
@@ -424,7 +424,7 @@
                           <%	} %>
 			            <div style="width: 85%; position: relative;">
 			                <textarea name="" value="" class="comment-type" id="comment-type<%=listpost.get(i).getID_Post()%>" style="margin-top: 5px;" oninput="textAreaAdjust(this,'butSend<%=listpost.get(i).getID_Post()%>','butImage<%=listpost.get(i).getID_Post()%>')"></textarea>
-			                <input type="button" id="butSend<%=listpost.get(i).getID_Post()%>" class="choose-more-button choose-image" style="background-image: url(img/send.jpg); right: 15px;" onclick="sendComment('<%=listpost.get(i).getID_Post()%>', '<%=listpost.get(i).getID_Author()%>', '<%=user.getID_Account()%>', 'comment-type<%=listpost.get(i).getID_Post()%>', 'choose-comment-image<%=listpost.get(i).getID_Post()%>')"> <!--Su kien onclick-->
+			                <input type="button" id="butSend<%=listpost.get(i).getID_Post()%>" class="choose-more-button choose-image" style="background-image: url(img/send.jpg); right: 15px;" onclick="sendComment('<%=listpost.get(i).getID_Post()%>', '<%=listpost.get(i).getID_Author()%>', '<%=main.getID_Account()%>', 'comment-type<%=listpost.get(i).getID_Post()%>', 'choose-comment-image<%=listpost.get(i).getID_Post()%>')"> <!--Su kien onclick-->
 			                <input type="button" id="butImage<%=listpost.get(i).getID_Post()%>" class="choose-more-button choose-image" style="right: 45px;" onclick="activate('choose-comment-image<%=listpost.get(i).getID_Post()%>');">
 			                <input id="choose-comment-image<%=listpost.get(i).getID_Post()%>" type="file"  accept="image/*" style="width: 100%; display: none;" onchange="setImg('choose-comment-image<%=listpost.get(i).getID_Post()%>', 'close-comment-image<%=listpost.get(i).getID_Post()%>', 'comment-type-image<%=listpost.get(i).getID_Post()%>')">
 			                <span style="width: 100%; height: 100px; display: none;" id="comment-type-image<%=listpost.get(i).getID_Post()%>">

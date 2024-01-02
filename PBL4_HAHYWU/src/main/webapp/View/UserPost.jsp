@@ -16,9 +16,9 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style1.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style22.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3333.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
    	<jsp:include page="HeaderUserPI.jsp" />
    	<jsp:include page="UserTopPost.jsp" />
    	<jsp:include page="UserPostLeft.jsp" />
@@ -45,6 +45,9 @@
 		mark {
 		    background-color: #FFCAB6;
 		    color: #1B335B;
+		}
+		p {
+			margin-bottom: 0px !important;
 		}
 	</style>
 	<script>
@@ -115,22 +118,17 @@
             for (var i = 0; i < images.length; i++) {
                 images[i].remove();
             }
-
-            for (var i = 0; i < fileInput.files.length; i++) {
+            for (var i = 0; i < fileInput.files.length; i++) 
+            {
                 var image = document.createElement("img");
-                if(fileInput.files.length > 1) {
-                    image.style.width = "calc(" + widthdiv + "px / " + fileInput.files.length + ")";
-                    image.style.height = "100%";
-                } else {
-                    image.style.height = "100%";
-                }
+                image.style.height = "100%";
                 image.style.float = "left";
                 image.src = URL.createObjectURL(fileInput.files[i]);
-                image.addEventListener('click', img_tag_handler);
                 div.appendChild(image);
-            }
-            div.style.display = "block";
-            closebutton.style.display = "block";
+                div.style.display = "block";
+                closebutton.style.display = "block";
+                image.addEventListener('click', img_tag_handler);
+            }  
         }
         function removeImg(closecmtimg, cmttypeimg) {
             var images = document.querySelectorAll("#"+cmttypeimg+" img");
@@ -186,11 +184,33 @@
                 console.error('Error:', error);
             });
         }
+		function deletePost(idpost) {
+			alert(idpost);
+			document.getElementById("deleteid").value = idpost;
+        }
+		function senddelete()
+		{
+			var idp = document.getElementById("deleteid").value;
+            var form = new FormData();
+            form.append("deleteidpost", idp);
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+		}
 	</script>
 </head>
 <body class="viewuser" style="background-color: #89A1C9;">
 <% ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
-    <form action="" method="post">
+
         <div class="view" style="">
                 <div class="pure-u-9-24"></div>
                 <div class="pure-u-13-24" style="position: relative;">
@@ -236,7 +256,7 @@
 		                    if(listpost.get(i).getCensor() == 1)
 							{
 					%>
-					<div style="width: 100%; background-color: white; box-shadow: 4px 4px 10px grey; border-radius: 30px;  margin: 15px 0; z-index: 999;">
+					<div style="width: 100%; background-color: white; box-shadow: 4px 4px 10px grey; border-radius: 30px;  margin: 15px 0; z-index: 999; position: relative;">
 			        <!-- POST -->
                     <div class="post" style="width: 100%; margin: 10px 0px; z-index: 9999;">
                         <div class="post-row">
@@ -275,8 +295,15 @@
                         </div>
                         <div class="post-row">
                             <div class="post-content">
-                                <p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
-                                <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+	                            <% if(!listpost.get(i).getTitle().equals(""))
+								{%>
+									<p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
+								<%}%>
+                                <% if(!listpost.get(i).getContent().equals(""))
+								{%>
+									<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+								<%}%>
+                                
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
                                	<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
@@ -292,21 +319,29 @@
     							} %>
                             </div>
                         </div>
-                        <div class="post-row">
-							<p class="post-censor">Censored</p>
-						</div>
+<!--                         <div class="post-row"> -->
+<!-- 							<p class="post-censor">Censored</p> -->
+<!-- 						</div> -->
 		            <% 	int cmts = listpost.get(i).getComment_Quantity();
 			            if(cmts == 0) { %> 
 			            <div class="post-row">
+			            	<p class="post-censor" style="position: static; float: left;">Censored</p>
 			                <input type="button" class="bottom-text" style="position: static; float: right;" value="" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
 			            </div>
 			        <%  }
 			        	else { %> 
 			        	<div class="post-row">
+			        		<p class="post-censor"  style="position: static; float: left;">Censored</p>
 			                <input type="button" class="bottom-text" style="position: static; float: right;" value="<%=cmts%> comments" onclick="openComment('comment-box<%=listpost.get(i).getID_Post()%>')">
 			            </div>
 			        <%	} %>
+			        <span class="click-more" id="click-more<%= listpost.get(i).getID_Post() %>" style="display: none; right: 45px; top: 50px; width: 20%; position: absolute;">
+						<div>
+							<input type="button" class="choice" value="Delete" data-bs-target="#deletecheck" data-bs-toggle="modal" onclick="deletePost('<%= listpost.get(i).getID_Post() %>')">
+						</div>
+					</span> 
 			        </div>
+			        
 					<!-- COMMENT -->
 			        <span class="comment" style="z-index: 99; display: none; margin-top: -35px" id="comment-box<%=listpost.get(i).getID_Post()%>">
 			            <span class="show-comment scroll">
@@ -482,8 +517,14 @@
                         </div>
                         <div class="post-row">
                             <div class="post-content">
-                                <p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
-                                <p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+                                <% if(!listpost.get(i).getTitle().equals(""))
+								{%>
+									<p id="title" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getTitle() %></p>
+								<%}%>
+                                <% if(!listpost.get(i).getContent().equals(""))
+								{%>
+									<p id="content-text" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getContent() %></p>
+								<%}%>
                                 <% if(!listpost.get(i).getHastag().equals(""))
                                	{%>
                                	<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
@@ -513,14 +554,14 @@
 						</div>
                         
 						<span class="click-more" id="click-more<%= listpost.get(i).getID_Post() %>" style="display: none; right: 45px; top: 50px; width: 20%; position: absolute;">
-						<div>
-						<% if(listpost.get(i).getCensor() == 0)
-							{%>
-							<a href="GrabServlet?updatepost=<%= listpost.get(i).getID_Post() %>&idacc=<%= user.getID_Account() %>"><input type="button" class="choice" value="Edit"></a>
-						<% } %>
-							<a href="GrabServlet?userpost=1&IDPost=<%= listpost.get(i).getID_Post() %>&idacc=<%= user.getID_Account() %>"><input type="button" class="choice" value="Delete"></a>
-						</div>
-					</span> 
+							<div>
+							<% if(listpost.get(i).getCensor() == 0)
+								{%>
+								<a href="GrabServlet?updatepost=<%= listpost.get(i).getID_Post() %>&idacc=<%= user.getID_Account() %>"><input type="button" class="choice" value="Edit"></a>
+								<% } %>
+								<input type="button" class="choice" value="Delete" data-bs-target="#deletecheck" data-bs-toggle="modal" onclick="deletePost('<%= listpost.get(i).getID_Post() %>')">
+							</div>
+						</span> 
 					</div> 
 				</div>
                     <% }
@@ -532,7 +573,26 @@
                 <div class="pure-u-2-24"></div>
             </div>
        	</div>
-    </form>
+		<div class="modal" id="deletecheck" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="reasonform" style="padding-bottom: 10px;">
+                    <div class="reason">
+                        <p style="font-size: 20px; font-weight: bold; color: #1B335B; margin: 10px 0px;">Are you sure to delete this post?</p>
+                        <div class="bt">
+	                        <input type="button" class="Button-or-bl" value="Yes" onclick="senddelete()">
+	                        <input type="button" data-bs-dismiss="modal" class="Button-or-bl" value="No">
+	                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div hidden>
+            <input id="deleteid" type="text" value="">
+        </div>
+    <jsp:include page="zoomImage.jsp"></jsp:include>
 </body>
 
 </html>

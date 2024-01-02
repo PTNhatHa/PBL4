@@ -838,7 +838,14 @@ public class GrabDAO {
         return listFields;
 	}
 	public int updateCensor(String ID_Post, int censor) throws Exception {
-		String sql = "UPDATE post SET Censor='" + censor + "' WHERE ID_Post='" + ID_Post + "'";
+		String sql;
+		if(censor == 4)
+		{
+			sql = "UPDATE post SET Censor='" + censor + "' WHERE ID_Post='" + ID_Post + "'";
+		}
+		else {
+			sql = "UPDATE post SET Censor='" + censor + "', Date='" + Timestamp.valueOf(LocalDateTime.now()) + "' WHERE ID_Post='" + ID_Post + "'";
+		}
 		PreparedStatement preStmt = connectionMySQL(sql);
 		int rs = preStmt.executeUpdate();
 		if(connect != null) connect.close();

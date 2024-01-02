@@ -16,31 +16,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style111.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style2.css">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style3.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style01.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style02.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/View/style03.css">
     <jsp:include page="HeaderUser.jsp" />
     <script>
 	    function textAreaAdjust(element) {
-	        // Set a minimum height if desired
-	        const minHeight = 33; // Adjust this value as needed
-	        // Resize function that adjusts the height based on the scrollHeight
+	        const minHeight = 33;
 	        const resizeTextArea = () => {
-	            element.style.height = '1px'; // Temporarily shrink the element to auto height to get the correct scrollHeight
+	            element.style.height = '1px'; 
 	            const newHeight = Math.max(element.scrollHeight, minHeight);
 	            element.style.height = newHeight + 'px';
 	        };
-	        // Event listener for textarea input
 	        element.addEventListener('input', resizeTextArea);
-	        // Event listener for keydown to specifically handle Enter and Backspace keys (optional)
 	        element.addEventListener('keyup', function(event) {
 	        if (event.key === 'Enter' || event.key === 'Backspace') {
-	            // We will wait until the key action has taken effect before resizing
-	            // setTimeout will run after the key action has taken effect
 	            setTimeout(resizeTextArea, 0);
 	        }
 	        });
-	        // Initial resizing in case we need to adjust from the default height on page load
 	        resizeTextArea();
 	    }
         function activate() {
@@ -128,6 +121,7 @@
             var fileInput = document.getElementById("choosefile");
             var numberimg = fileInput.files.length;
             var numberfields = document.getElementById("nbfield").value;
+            var images = document.querySelectorAll("#set-img img").length;
             var form = new FormData();
             form.append("idupdate", idpost);
             form.append("idacc", idacc);
@@ -137,6 +131,14 @@
             form.append("hastag", hastag);
             form.append("numberimg", numberimg);
             form.append("numberfields", numberfields);
+            if(images != fileInput.files.length)
+            {
+                form.append("checkimg", 1);
+            }
+            else
+            {
+                form.append("checkimg", 0);
+            }
             for(var i=1; i <= document.getElementById("nbfield").value; i++)
             {
                 var idf = "idfield" + i;
