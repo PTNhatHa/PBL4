@@ -416,7 +416,7 @@ public class GrabDAO {
 		ArrayList<Post> result = new ArrayList<Post>();
 		try
 		{
-			String sql = "SELECT * FROM post WHERE ID_Author = ? ORDER BY ID_Post DESC";
+			String sql = "SELECT * FROM post WHERE ID_Author = ? ORDER BY Date DESC";
 			PreparedStatement preStmt = connectionMySQL(sql);
 	        preStmt.setString(1, ID_Author);
 	        ResultSet rs = preStmt.executeQuery();
@@ -714,7 +714,7 @@ public class GrabDAO {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
-	        String sql = "SELECT * FROM post WHERE Censor = '" + censor + "' ORDER BY ID_Post " + sort;
+	        String sql = "SELECT * FROM post WHERE Censor = '" + censor + "' ORDER BY Date " + sort;
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        ResultSet rs = preStmt.executeQuery();
 	        while(rs.next()) 
@@ -880,7 +880,7 @@ public class GrabDAO {
 	    Post post = null;
 	    ArrayList<Post> listpost = new ArrayList<Post>();
 	    try {
-	        String sql = "SELECT * FROM post WHERE ID_Author = '" + ID_User + "' ORDER BY ID_Post " + sort;
+	        String sql = "SELECT * FROM post WHERE ID_Author = '" + ID_User + "' ORDER BY Date " + sort;
 	        PreparedStatement preStmt = connectionMySQL(sql);
 	        ResultSet rs = preStmt.executeQuery();
 	        while(rs.next()) 
@@ -952,9 +952,16 @@ public class GrabDAO {
 	}
 	
 	public int newPost(Post p) throws Exception, SQLException {
-		String sql = "INSERT INTO post VALUE ('" + p.getID_Post() + "', '" + p.getID_Author() + "', '" + p.getTitle() + "', '" 
-				+ p.getDate_Post() + "', '" + p.getContent() + "', '" + p.getHastag() + "', '" + p.getComment_Quantity() + "', '" + p.getCensor() + "')";
+		String sql = "INSERT INTO post VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement preStmt = connectionMySQL(sql);
+		preStmt.setInt(1, p.getID_Post());
+		preStmt.setString(2, p.getID_Author());
+		preStmt.setString(3, p.getTitle());
+		preStmt.setTimestamp(4, Timestamp.valueOf(p.getDate_Post()));
+		preStmt.setString(5, p.getContent());
+		preStmt.setString(6, p.getHastag());
+		preStmt.setInt(7, p.getComment_Quantity());
+		preStmt.setInt(8, p.getCensor());
 		int rs = preStmt.executeUpdate();
 		if(connect != null) connect.close();
 		if(preStmt != null) preStmt.close();
@@ -1083,7 +1090,7 @@ public class GrabDAO {
 	    	PreparedStatement preStmt;
 	    	if(!ID_User.equals(""))
 	    	{
-	    		sql = "SELECT * FROM post WHERE ID_Author = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY ID_Post " + sort;
+	    		sql = "SELECT * FROM post WHERE ID_Author = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY Date " + sort;
 	    		preStmt = connectionMySQL(sql);
 	    		preStmt.setString(1, ID_User);
 	    	    preStmt.setString(2, "%" + txtsearch + "%");
@@ -1091,7 +1098,7 @@ public class GrabDAO {
 	    	    preStmt.setString(4, "%" + txtsearch + "%");
 	    	}
 	    	else {
-	    		sql = "SELECT * FROM post WHERE Censor = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY ID_Post " + sort;
+	    		sql = "SELECT * FROM post WHERE Censor = ? AND (Title LIKE ? OR Content LIKE ? OR Hastag LIKE ?) ORDER BY Date " + sort;
 	    		preStmt = connectionMySQL(sql);
 	    		preStmt.setInt(1, censor);
 	    	    preStmt.setString(2, "%" + txtsearch + "%");

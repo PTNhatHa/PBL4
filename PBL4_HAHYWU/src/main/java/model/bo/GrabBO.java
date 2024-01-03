@@ -261,6 +261,34 @@ public class GrabBO {
 				grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
 			}
 		}
+		if(checkimg == 2)
+		{
+			if(p.getlistImages() != null)
+			{
+				ArrayList<Integer> li = grabDAO.findID_Max("post_images", 2);
+				
+				int idi;
+				if(li.size() == 0)
+				{
+					idi = 1;
+				}
+				else {
+					idi = li.get(0).intValue() + 1;
+				}
+				
+				for(int j=0; j < p.getlistImages().size(); j++)
+				{
+					p.getlistImages().get(j).setID_Image(idi);
+					idi++;
+					
+				}
+				grabDAO.addPost_Images(p.getID_Post(), p.getlistImages());
+			}
+		}
+		if(checkimg == 3)
+		{
+			grabDAO.deleteImageOfPost(p.getID_Post());
+		}
 	}
 	public void deleteImageOfPost(int ID_Post) throws Exception {
 		grabDAO.deleteImageOfPost(ID_Post);

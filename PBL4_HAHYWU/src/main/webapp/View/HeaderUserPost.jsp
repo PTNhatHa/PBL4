@@ -32,7 +32,7 @@
         }
     </script>
 </head>
-<body class="scroll">
+<body>
 	<main>
 		<% User user = (User)request.getAttribute("user"); %>
         <div class="pure-g nav" style="z-index: 999999;">

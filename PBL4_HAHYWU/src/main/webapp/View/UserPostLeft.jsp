@@ -38,7 +38,7 @@
             location = l;
         }
         
-        function textAreaAdjust(element) {
+        function textAreaAdjust1(element) {
             // Set a minimum height if desired
             const minHeight = 33; // Adjust this value as needed
             // Resize function that adjusts the height based on the scrollHeight
@@ -88,7 +88,7 @@
                 closebutton.style.display = "none";
             }
         }
-        function adjustscrollbar(element) {
+        function adjustscrollbar1(element) {
             element.scrollIntoView(false);
         }
         function createnewpost() {
@@ -188,7 +188,7 @@
         }
     </style>
 </head>
-<body class="scroll">
+<body>
     
 <%
      	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost");
@@ -342,9 +342,9 @@
                             
                             <div class="post-row">
                                 <div class="post-content">
-                                    <textarea id="title" class="enterable" style="height: 23px; min-height: 23px" placeholder="Title" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"></textarea>
-                                    <textarea id="content-text" class="enterable" style="min-height: 50px;" placeholder="What are you wondering?" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"></textarea>
-                                    <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"></textarea> 
+                                    <textarea id="title" class="enterable" style="height: 23px; min-height: 23px" placeholder="Title" oninput="textAreaAdjust1(this), adjustscrollbar1(this)" onkeyup="textAreaAdjust1(this), adjustscrollbar1(this)"></textarea>
+                                    <textarea id="content-text" class="enterable" style="min-height: 50px;" placeholder="What are you wondering?" oninput="textAreaAdjust1(this), adjustscrollbar1(this)" onkeyup="textAreaAdjust1(this), adjustscrollbar1(this)"></textarea>
+                                    <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" oninput="textAreaAdjust1(this), adjustscrollbar1(this)" onkeyup="textAreaAdjust1(this), adjustscrollbar1(this)"></textarea> 
                                     <div class="more-function" style="height: 25px;">
                                         <input id="choosefile" type="file" accept="image/*" multiple max="4" onchange="setImg1()">
                                         <input type="text" name="numberimg" id="numberimg" value="0" hidden>
@@ -369,7 +369,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="subject-choice post" style="margin-left: -70px;">
-                            <div class="subject-content-set" id="set1" style="overflow: visible; height: 23px;"><p style="width: 100%;">Subject:</p></div>
+                            <div class="subject-content-set" id="set1" style="overflow: visible; height: 23px;"><p style="width: 100%;">Field:</p></div>
                             <div class="subject-content-set" id="set2" style="width: 75%;float: right;">
                                 <!-- loop -->
                                 <% for(int i=0; i<listFields.size(); i++)

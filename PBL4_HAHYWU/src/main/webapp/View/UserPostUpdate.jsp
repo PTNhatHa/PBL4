@@ -46,9 +46,11 @@
             var fileInput = document.getElementById("choosefile");
             var div = document.getElementById("set-img");
             var widthdiv = div.offsetWidth;
-            for (var i = 0; i < fileInput.files.length; i++) {
+            for (var i = 0; i < fileInput.files.length; i++) 
+            {
+            	var a = "myImage" + i;
                 var image = document.createElement("img");
-                image.setAttribute("id", "myImage");
+                image.setAttribute("id", a);
                 image.style.width = "calc(" + widthdiv + "px / " + fileInput.files.length + ")";
                 image.style.height = "100%";
                 image.style.float = "left";
@@ -57,27 +59,7 @@
             }
             closebutton.style.display = "block";
         }
-        function removeImg() {
-            var nbimg = document.getElementById("nbimg").value;
-            if(nbimg != 0)
-            {
-                var form = new FormData();
-                var idpost = document.getElementById("idpost").value;
-                form.append("deletepostimg", idpost);
-                fetch("GrabServlet", {
-                    method: 'POST',
-                    body: form
-                })
-                .then(response => response.text())
-                .then(data => {
-                    console.log(data);
-                    window.location.reload();
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            }
-            
+        function removeImg() {            
             var images = document.querySelectorAll("#set-img img");
             var closebutton = document.getElementById("close-image-button");
             for (var i = 0; i < images.length; i++) {
@@ -132,14 +114,23 @@
             form.append("hastag", hastag);
             form.append("numberimg", numberimg);
             form.append("numberfields", numberfields);
-            if(images != fileInput.files.length)
+            if(images > 0 && fileInput.files.length == 0)
             {
-                form.append("checkimg", 1);
+                form.append("checkimg", 1); // img còn nguyên
+            }
+            else if(images > fileInput.files.length)
+            {
+                form.append("checkimg", 2); // có ảnh mới
+            }
+            else if(images = 0 && fileInput.files.length == 0)
+            {
+                form.append("checkimg", 3); // xóa img
             }
             else
             {
-                form.append("checkimg", 0);
+                form.append("checkimg", 0); // đổi ảnh
             }
+
             for(var i=1; i <= document.getElementById("nbfield").value; i++)
             {
                 var idf = "idfield" + i;
@@ -220,7 +211,7 @@
                                 for (int j=0; j < p.getlistFields().size(); j++)
                                 { 
                         %>
-                                    <div class="subject-content">
+                                    <div id="idfield<%= p.getlistFields().get(j).getID_Field() %>" class="subject-content">
                                     <%= p.getlistFields().get(j).getName_Field() %>
                                     </div>
                                 <% }
@@ -230,9 +221,9 @@
                     
                     <div class="post-row">
                         <div class="post-content">
-                            <textarea id="title" class="enterable" style="height: 23px; min-height: 23px" placeholder="Title" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"><%= p.getTitle() %></textarea>
-                            <textarea id="content-text" class="enterable" style="min-height: 50px;" placeholder="What are you wondering?" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"><%= p.getContent() %></textarea>
-                            <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this);"><%= p.getHastag() %></textarea> 
+                            <textarea id="title" class="enterable" style="height: 23px; min-height: 23px" placeholder="Title" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this)"><%= p.getTitle() %></textarea>
+                            <textarea id="content-text" class="enterable" style="min-height: 50px; resize: vertical;" placeholder="What are you wondering?" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this)"><%= p.getContent() %></textarea>
+                            <textarea id="hastag" class="enterable" style="min-height: 10px;" placeholder="#Hastag" oninput="textAreaAdjust(this)" onkeyup="adjustscrollbar(this)"><%= p.getHastag() %></textarea> 
                             
                             <div class="more-function" style="height: 25px;">
                                 <input id="choosefile" type="file" accept="image/*" multiple max="4" onchange="setImg()">

@@ -46,7 +46,6 @@
 </head>
 <body class="viewadmin" style="background-color: #89A1C9;">
 <%  ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
-    <form action="" method="post">
         <div class="view" style="heigth: 100%; top: 150px;">
             <div class="pure-u-6-24"></div>
             <div class="pure-u-12-24">
@@ -130,14 +129,19 @@
 	                           		<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
 	                           	<%} %>
                                 <% if (lipost.size() != 0)
-                                	{
-	    								for(int k=0; k < lipost.size(); k++)
-	    								{
-	    									%>
-	    										<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
-	    									<%
-	    								}
-    							} %>
+                                {
+                            		double s = 95/lipost.size();
+                                    if(lipost.size() >= 5)
+                                    {
+                                    	s = 95/5;
+                                    }
+                                    for(int k=0; k < lipost.size(); k++)
+                                    {
+                                        %>
+                                            <img id="content-image" style="width: <%=s%>%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh" onclick="img_tag_handler()">
+                                        <%
+                                    }
+                            	} %>
                             </div>
                         </div>
                     </div>
@@ -146,6 +150,6 @@
                 </div>
                 <div class="pure-u-6-24"></div>
             </div>
-    </form>
+    <jsp:include page="zoomImage.jsp"></jsp:include>
 </body>
 </html>

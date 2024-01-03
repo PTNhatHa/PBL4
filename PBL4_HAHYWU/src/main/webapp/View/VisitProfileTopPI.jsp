@@ -57,7 +57,10 @@
 	   						<img src="data:image/png;base64,<%= base64Encoded %>" alt="ava">
 	                    </div>
 	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
-	                    <input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')" data-bs-target="#reportcheck" data-bs-toggle="modal">
+	                    <% if(main.getRole_Account() == 1) { %>
+					    	<input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')" data-bs-target="#reportcheck" data-bs-toggle="modal">
+					    <%}%>
+	                    
 	                </div>
 	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
 	                <div class="menu-top">
@@ -71,7 +74,9 @@
 							<img src="img/defaultavatar.jpg" alt="ava">
 	                    </div>
 	                    <input type="text" class="topcontent" value="<%= user.getDisplay_Name() %>" readonly>
-	                    <input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')" data-bs-target="#reportcheck" data-bs-toggle="modal">
+	                    <% if(main.getRole_Account() == 1) { %>
+					    	<input type="button" class="more exclamation" title="Report this user" onclick="reportUser('<%= user.getID_Account() %>')" data-bs-target="#reportcheck" data-bs-toggle="modal">
+					    <%}%>
 	                </div>
 	                <hr class="straightline" style="background-color: #89A1C9; height: 5px; border-radius: 90px;">
 	                 <div class="menu-top">

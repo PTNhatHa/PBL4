@@ -371,7 +371,7 @@
             </div>
         </section>
     </main>
-    <footer class="section-footer">
+    <footer class="section-footer" style="padding: 24px 0;">
         <div class="pure-g">
             <div class="pure-u-2-24"></div>
             <div class="pure-u-20-24">
@@ -496,7 +496,7 @@
 	                </div>
 	            </div>
 	            <div id="sendotp" class="OTP" hidden>
-	                <div class="line"><hr></div>
+	                <div class="line" style="position: relative; bottom: 0px;"><hr></div>
 	                <p class="p-30">Enter your OTP</p>  
 	                <div class="entermail" id="mail">
 	                    <input style="width: 70%;" type="text" class="inputtext" name="otp" id="otp" placeholder="Enter your OTP">

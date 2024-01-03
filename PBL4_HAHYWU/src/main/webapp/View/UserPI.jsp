@@ -173,12 +173,12 @@
                           <%
                           	if(user.getBio() == null) {
                           %>		
-                          		<input class="infotext" type="text" name="bio" value="">
+                          		<input class="infotext" type="text" name="bio" value="" maxlength="65">
                           <%		
                           	}
                           	else {
                           %>		
-                          		<input class="infotext" type="text" name="bio" value="<%= user.getBio() %>">
+                          		<input class="infotext" type="text" name="bio" value="<%= user.getBio() %>" maxlength="65">
                           <%		
                           	}
                           %>

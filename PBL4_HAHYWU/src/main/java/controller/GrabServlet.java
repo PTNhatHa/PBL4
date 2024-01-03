@@ -1249,61 +1249,30 @@ public class GrabServlet extends HttpServlet {
 				}
 			}
 		}
+		if(request.getParameter("censoredidp") != null)
+		{
+			try {
+				boolean check = grabBO.updateCensor(request.getParameter("censoredidp"), 1);
+				if(check)
+				{
+					Notification noti = new Notification();
+					noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
+					noti.setMessage("has been approved.");
+					LocalDate now = LocalDate.now();
+					Date nowDate = Date.valueOf(now);
+					noti.setDate_Time(LocalDateTime.now());
+					noti.setStatus(0);
+					grabBO.addNotification(noti);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if(request.getParameter("Censoring") != null) {
 			if(request.getParameter("IDPost") != null)
 			{
-				if(request.getParameter("Censoreding") != null)
-				{
-					try {
-						boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 1);
-						if(check)
-						{
-							Notification noti = new Notification();
-							noti.setID_Post(Integer.parseInt(request.getParameter("IDPost")));
-							noti.setMessage("has been approved.");
-							LocalDate now = LocalDate.now();
-							Date nowDate = Date.valueOf(now);
-							noti.setDate_Time(LocalDateTime.now());
-							noti.setStatus(0);
-							grabBO.addNotification(noti);
-							String idacc = request.getParameter("idacc");
-							Account admin = grabBO.getAccountByIDAccount(idacc);
-							request.setAttribute("admin", admin);
-							ArrayList<Field> listFields = grabBO.getAllField();
-							request.setAttribute("listFields", listFields);
-							
-							ArrayList<Post> listpost = new ArrayList<Post>();
-							if(request.getParameter("search").equals(""))
-							{
-								listpost = grabBO.getAllPost(0,Integer.parseInt(request.getParameter("IDField")), request.getParameter("sort"));
-								request.setAttribute("searchtxt", "");
-							}
-							else {
-								listpost = grabBO.searchPost("", 0, Integer.parseInt(request.getParameter("IDField")), request.getParameter("search"), request.getParameter("sort"));
-								String keyword = request.getParameter("search"); // Từ khóa tìm kiếm, bạn có thể nhận từ client
-								searchPost(listpost, keyword);
-								request.setAttribute("searchtxt", request.getParameter("search"));
-							}
-							
-							for(int i=0; i<listpost.size(); i++)
-							{
-					            LocalDateTime dateTimeFromDB = listpost.get(i).getDate_Post();
-					            listpost.get(i).setDate_ago(getDateAgo(dateTimeFromDB));
-							}
-							
-							request.setAttribute("listpost", listpost);
-							request.setAttribute("ID_Field", request.getParameter("IDField"));
-							request.setAttribute("sort", request.getParameter("sort"));
-							destination = "/View/TaskCensoring.jsp";
-							RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
-							rd.forward(request, response);
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				else if (request.getParameter("AllReasons") != null) {
+				if (request.getParameter("AllReasons") != null) {
 					try {
 						boolean check = grabBO.updateCensor(request.getParameter("IDPost"), 2);
 						if(check)

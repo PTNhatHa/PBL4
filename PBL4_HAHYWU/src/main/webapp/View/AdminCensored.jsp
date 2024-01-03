@@ -172,19 +172,25 @@
 	                           		<p id="hastag" contenteditable style="white-space: pre-wrap; min-height: 1em;"><%= listpost.get(i).getHastag() %></p>
 	                           	<%} %>
                                 <% if (lipost.size() != 0)
-                                	{
-	    								for(int k=0; k < lipost.size(); k++)
-	    								{
-	    									%>
-	    										<img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh">
-	    									<%
-	    								}
-    							} %>
+                                {
+                            		double s = 95/lipost.size();
+                                    if(lipost.size() >= 5)
+                                    {
+                                    	s = 95/5;
+                                    }
+                                    for(int k=0; k < lipost.size(); k++)
+                                    {
+                                        %>
+                                            <img id="content-image" style="width: <%=s%>%;" src="data:image/png;base64,<%= lipost.get(k) %>" alt="ảnh" onclick="img_tag_handler()">
+                                        <%
+                                    }
+                            } %>
                             </div>
                         </div>
                         <div class="post-row">
                         <div class="post-content">
                             <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
+                            
                         </div>
                     </div>
                     </div>
@@ -237,5 +243,6 @@
             </div>
             </div>
         </div>
+        <jsp:include page="zoomImage.jsp"></jsp:include>
 </body>
 </html>

@@ -47,6 +47,30 @@
 		}	        
     </style>
     <script>
+    
+        function censored(idp)
+        {
+            document.getElementById("idcensored").value = idp;
+        }
+        function sendsensor()
+        {
+            var idp = document.getElementById("idcensored").value;
+            var form = new FormData();
+            form.append("censoredidp", idp);
+            fetch("GrabServlet", {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    	
         function uncensored(id) {
             document.getElementById("idp").value = id;
         }
@@ -90,7 +114,7 @@
 <body class="viewadmin" style="background-color: #89A1C9;">
 <%  Account acc = (Account) request.getAttribute("admin");
 	ArrayList<Post> listpost = (ArrayList<Post>) request.getAttribute("listpost"); %>
-    <form action="" method="post">
+
         <div class="view" style="heigth: 100%; top: 150px;">
             <div class="pure-u-6-24"></div>
             <div class="pure-u-12-24">
@@ -175,10 +199,15 @@
                            	<%} %>
                             <% if (listimg.size() != 0)
                                 {
+                            		double s = 95/listimg.size();
+                                    if(listimg.size() >= 5)
+                                    {
+                                    	s = 95/5;
+                                    }
                                     for(int k=0; k < listimg.size(); k++)
                                     {
                                         %>
-                                            <img id="content-image" style="width: 100%;" src="data:image/png;base64,<%= listimg.get(k) %>" alt="ảnh">
+                                            <img id="content-image" style="width: <%=s%>%;" src="data:image/png;base64,<%= listimg.get(k) %>" alt="ảnh" onclick="img_tag_handler()">
                                         <%
                                     }
                             } %>
@@ -186,8 +215,8 @@
                     </div>
                     <div class="post-row">
                         <div class="post-content">
-                            <a href="GrabServlet?Censoring=1&IDPost=<%= listpost.get(i).getID_Post() %>&Censoreding=1&idacc=<%= acc.getID_Account() %>&IDField=<%= request.getAttribute("ID_Field") %>&sort=<%= request.getAttribute("sort") %>&search=<%= request.getAttribute("searchtxt") %>">
-                            	<input type="button" name="" class="btCensor" value="Censored">
+                            <a>
+                            	<input type="button" name="" class="btCensor" data-bs-target="#censoredcheck" data-bs-toggle="modal"  value="Censored" onclick="censored('<%= listpost.get(i).getID_Post() %>')">
                             </a>
                             <input type="button" name="" class="btUncensor" value="Uncensored" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" onclick="uncensored(<%= listpost.get(i).getID_Post() %>)">
                         </div>
@@ -241,6 +270,26 @@
             </div>
             </div>
         </div>
-    </form>
+    	
+    	<div class="modal" id="censoredcheck" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="reasonform" style="padding-bottom: 10px;">
+                    <div class="reason">
+                        <p style="font-size: 20px; font-weight: bold; color: #1B335B; margin: 10px 0px;">Are you sure to censor this post?</p>
+                        <div class="bt">
+	                        <input type="button" class="Button-or-bl" value="Yes" onclick="sendsensor()">
+	                        <input type="button" data-bs-dismiss="modal" class="Button-or-bl" value="No">
+	                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div hidden>
+            <input id="idcensored" type="text" value="">
+        </div>
+        <jsp:include page="zoomImage.jsp"></jsp:include>
 </body>
 </html>
