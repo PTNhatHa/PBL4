@@ -80,7 +80,7 @@
             }
             closebutton.style.display = "block";
         }
-        function removeImg() {
+        function removeImg1() {
             var images = document.querySelectorAll("#set-img img");
             var closebutton = document.getElementById("close-image-button");
             for (var i = 0; i < images.length; i++) {
@@ -352,7 +352,7 @@
                                         <input type="button" class="choose-more-button button-field" onclick="clickfield()">
                                     </div>
                                     <div class="more-function" id="set-img" style="margin-top: 0; margin-bottom: 20px;" onload="checkHeightChange()">
-                                        <input type="button" id="close-image-button" class="close-image" style="display: none;" onclick="removeImg()">
+                                        <input type="button" id="close-image-button" class="close-image" style="display: none;" onclick="removeImg1()">
                                     </div>
                                 </div>
                             </div>
